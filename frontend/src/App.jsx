@@ -255,6 +255,8 @@ function App() {
         <Routes>
           {/* General User Routes */}
           <Route path="/" element={<HomePage />} />
+          <Route path="/akher-lal-chini" element={<HomePage />} />
+
           {/*<Route path="/shop" element={<ShopPage />} />*/}
           {/*<Route path="/product/:slug" element={<ProductDetailsPage />} />*/}
           {/*<Route path="/contact-us" element={<ContactUsPage />} />*/}
