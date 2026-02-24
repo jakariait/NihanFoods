@@ -52,12 +52,57 @@ const ProductGallery = ({ images, discount, zoom = true, productName }) => {
   return (
     <div className="flex flex-col items-center">
       <div className="relative w-full md:p-3">
-        {discount > 0 && (
-          <span className="absolute md:top-3 md:left-3 bg-red-400 px-3 py-1 text-white">
-            -{discount}%
-          </span>
-        )}
+        {/*Thumbnail*/}
 
+        {imageUrls.length > 1 && (
+          <div className="flex items-center gap-2 w-full justify-center pb-10">
+            <button
+              onClick={() => changeImage("prev")}
+              className="text-xl hover:text-gray-500 transition-colors duration-150 cursor-pointer"
+              disabled={activeIndex === 0}
+              aria-label="previous"
+            >
+              <IoIosArrowBack />
+            </button>
+
+            <div className="p-2 flex items-center justify-center-safe gap-4 overflow-x-auto w-full md:w-[calc(40rem)] scrollbar-hide">
+              <div className="flex gap-4">
+                {imageUrls.map((imgUrl, index) => (
+                  <div
+                    key={index}
+                    ref={(el) => (thumbnailRefs.current[index] = el)}
+                    className={`cursor-pointer overflow-hidden transition-all duration-200 border-1 shrink-0 md:w-30 md:h-30 w-20 h-20 ${
+                      activeIndex === index
+                        ? "primaryBorderColor scale-105"
+                        : "border-transparent opacity-80"
+                    }`}
+                    onClick={() => setActiveIndex(index)}
+                  >
+                    <ImageComponent
+                      imageName={images[index]}
+                      altName={productName}
+                      className="w-full aspect-square object-cover"
+                      skeletonHeight={"200px"}
+                      width={300}
+                      height={300}
+                      loadingStrategy="eager"
+                      fetchPriority="high"
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <button
+              onClick={() => changeImage("next")}
+              className="text-xl hover:text-gray-500 transition-colors duration-150 cursor-pointer"
+              disabled={activeIndex === imageUrls.length - 1}
+              aria-label="next"
+            >
+              <IoIosArrowForward />
+            </button>
+          </div>
+        )}
         <div className="absolute bottom-1 right-1 md:bottom-4 flex md:right-4 z-10 gap-1 justify-center items-center">
           {imageUrls.length > 1 && (
             <div className="flex items-center gap-1">
@@ -126,56 +171,6 @@ const ProductGallery = ({ images, discount, zoom = true, productName }) => {
           </div>
         )}
       </div>
-
-      {imageUrls.length > 1 && (
-        <div className="flex items-center gap-2 w-full justify-center">
-          <button
-            onClick={() => changeImage("prev")}
-            className="text-xl hover:text-gray-500 transition-colors duration-150 cursor-pointer"
-            disabled={activeIndex === 0}
-            aria-label="previous"
-          >
-            <IoIosArrowBack />
-          </button>
-
-          <div className="p-2 flex items-center justify-center-safe gap-4 overflow-x-auto w-full md:w-[calc(40rem)] scrollbar-hide">
-            <div className="flex gap-4">
-              {imageUrls.map((imgUrl, index) => (
-                <div
-                  key={index}
-                  ref={(el) => (thumbnailRefs.current[index] = el)}
-                  className={`cursor-pointer overflow-hidden transition-all duration-200 border-1 shrink-0 md:w-30 md:h-30 w-20 h-20 ${
-                    activeIndex === index
-                      ? "primaryBorderColor scale-105"
-                      : "border-transparent opacity-80"
-                  }`}
-                  onClick={() => setActiveIndex(index)}
-                >
-                  <ImageComponent
-                    imageName={images[index]}
-                    altName={productName}
-                    className="w-full aspect-square object-cover"
-                    skeletonHeight={"200px"}
-                    width={300}
-                    height={300}
-                    loadingStrategy="eager"
-                    fetchPriority="high"
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <button
-            onClick={() => changeImage("next")}
-            className="text-xl hover:text-gray-500 transition-colors duration-150 cursor-pointer"
-            disabled={activeIndex === imageUrls.length - 1}
-            aria-label="next"
-          >
-            <IoIosArrowForward />
-          </button>
-        </div>
-      )}
     </div>
   );
 };

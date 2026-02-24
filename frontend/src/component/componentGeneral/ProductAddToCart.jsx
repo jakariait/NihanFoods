@@ -4,7 +4,6 @@ import { FiMinus } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import useCartStore from "../../store/useCartStore.js";
-import LiveStatsNotification from "./LiveStatsNotification.jsx";
 
 const ProductAddToCart = ({ product }) => {
   const [quantity, setQuantity] = useState(1);
