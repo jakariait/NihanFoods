@@ -1,6 +1,5 @@
-import { useState, useEffect} from "react";
+import { useState, useEffect } from "react";
 import SingleProductDetails from "./componentGeneral/SingleProductDetails.jsx";
-
 
 const reviews = [
   {
@@ -127,8 +126,6 @@ function StarRating({ count = 5 }) {
 }
 
 export default function App() {
-
-
   return (
     <div
       className="min-h-screen"
@@ -137,9 +134,6 @@ export default function App() {
         background: "#fdf6ec",
       }}
     >
-
-
-
       {/* COUNTDOWN */}
       <section style={{ background: "#1c1007" }} className="py-6 px-4">
         <div className="max-w-2xl mx-auto text-center">
@@ -174,8 +168,6 @@ export default function App() {
           </div>
         </div>
       </section>
-
-
 
       {/* REVIEWS */}
       <section className="py-14 px-4 bg-white">
@@ -212,8 +204,6 @@ export default function App() {
           </div>
         </div>
       </section>
-
-
 
       <SingleProductDetails slug={"akher-lal-chini-445"} />
 

@@ -373,10 +373,10 @@ function App() {
             <Route path="/admin/product-flags" element={<ProductFlagPage />} />
 
             {/* Product Routes */}
-            <Route
-              path="/admin/addnewproduct"
-              element={<AddNewProductPage />}
-            />
+            {/*<Route*/}
+            {/*  path="/admin/addnewproduct"*/}
+            {/*  element={<AddNewProductPage />}*/}
+            {/*/>*/}
             <Route
               path="/admin/viewallproducts"
               element={<ViewAllProductPage />}

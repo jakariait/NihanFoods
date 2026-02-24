@@ -440,14 +440,14 @@ export default function SidebarMenu() {
                 </AccordionSummary>
                 <AccordionDetails>
                   <ul className={"space-y-2 pl-4"}>
-                    <RequirePermission
-                      permission="add_products"
-                      fallback={true}
-                    >
-                      <li>
-                        <Link to="/admin/addnewproduct">Add New Product</Link>
-                      </li>
-                    </RequirePermission>
+                    {/*<RequirePermission*/}
+                    {/*  permission="add_products"*/}
+                    {/*  fallback={true}*/}
+                    {/*>*/}
+                    {/*  <li>*/}
+                    {/*    <Link to="/admin/addnewproduct">Add New Product</Link>*/}
+                    {/*  </li>*/}
+                    {/*</RequirePermission>*/}
 
                     <RequirePermission
                       permission="view_products"

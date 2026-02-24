@@ -268,21 +268,21 @@ const ViewAllProducts = () => {
                         </Link>
                       </div>
                     </RequirePermission>
-                    <RequirePermission
-                      permission="delete_products"
-                      fallback={true}
-                    >
-                      <div
-                        className={
-                          "primaryBgColor py-1 flex justify-center items-center accentTextColor rounded-lg"
-                        }
-                      >
-                        <MdDeleteOutline
-                          onClick={() => handleOpenDialog(product.productId)}
-                          className={"w-5 h-5 cursor-pointer"}
-                        />
-                      </div>
-                    </RequirePermission>
+                    {/*<RequirePermission*/}
+                    {/*  permission="delete_products"*/}
+                    {/*  fallback={true}*/}
+                    {/*>*/}
+                    {/*  <div*/}
+                    {/*    className={*/}
+                    {/*      "primaryBgColor py-1 flex justify-center items-center accentTextColor rounded-lg"*/}
+                    {/*    }*/}
+                    {/*  >*/}
+                    {/*    <MdDeleteOutline*/}
+                    {/*      onClick={() => handleOpenDialog(product.productId)}*/}
+                    {/*      className={"w-5 h-5 cursor-pointer"}*/}
+                    {/*    />*/}
+                    {/*  </div>*/}
+                    {/*</RequirePermission>*/}
                   </div>
                 </TableCell>
               </TableRow>

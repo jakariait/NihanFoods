@@ -130,7 +130,7 @@ const ProductForm = ({ isEdit: isEditMode }) => {
       if (product.category) {
         setSelectedCategory(product.category._id);
         const filteredSubs = subCategories.filter(
-          (sub) => sub.category._id === product.category._id,
+          (sub) => sub.category?._id === product.category._id,
         );
         setFilteredSubCategories(filteredSubs);
 
