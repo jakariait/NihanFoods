@@ -24,7 +24,7 @@ const SinglePageCheckout = ({ product }) => {
   // --- 1. Product & Selection State ---
   const [selectedVariant, setSelectedVariant] = useState(null);
   const [quantity, setQuantity] = useState(1);
-  const MAX_QUANTITY = 10;
+  const MAX_QUANTITY = 3;
 
   // --- 2. Checkout & Order State ---
   const [addressData, setAddressData] = useState({});

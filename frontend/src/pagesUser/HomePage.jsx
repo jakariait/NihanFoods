@@ -3,7 +3,7 @@ import Akherlalchini from "../component/Akherlalchini.jsx";
 
 const HomePage = () => {
   return (
-    <div>
+    <div >
 
       <Akherlalchini />
     </div>

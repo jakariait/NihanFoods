@@ -75,12 +75,12 @@ const ThankYou = () => {
           </p>
         </div>
         <div className={"flex flex-row gap-6 justify-center items-center"}>
-          <Link
-            to="/track-order"
-            className="w-42 inline-block primaryBgColor accentTextColor px-6 py-2 rounded-lg"
-          >
-            Track My Order
-          </Link>
+          {/*<Link*/}
+          {/*  to="/track-order"*/}
+          {/*  className="w-42 inline-block primaryBgColor accentTextColor px-6 py-2 rounded-lg"*/}
+          {/*>*/}
+          {/*  Track My Order*/}
+          {/*</Link>*/}
           <Link
             to="/"
             className="w-42 inline-block primaryBgColor accentTextColor px-6 py-2 rounded-lg"

@@ -255,43 +255,43 @@ function App() {
         <Routes>
           {/* General User Routes */}
           <Route path="/" element={<HomePage />} />
-          <Route path="/shop" element={<ShopPage />} />
-          <Route path="/product/:slug" element={<ProductDetailsPage />} />
-          <Route path="/contact-us" element={<ContactUsPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
-          <Route path="/checkout" element={<CheckoutPage />} />
+          {/*<Route path="/shop" element={<ShopPage />} />*/}
+          {/*<Route path="/product/:slug" element={<ProductDetailsPage />} />*/}
+          {/*<Route path="/contact-us" element={<ContactUsPage />} />*/}
+          {/*<Route path="/login" element={<LoginPage />} />*/}
+          {/*<Route path="/register" element={<RegisterPage />} />*/}
+          {/*<Route path="/checkout" element={<CheckoutPage />} />*/}
           <Route path="/thank-you/:orderId" element={<ThankYouPage />} />
           <Route path="/bkash-callback" element={<BkashCallbackPage />} />
-          <Route path="/about" element={<AboutUsPageUser />} />
-          <Route path="/termofservice" element={<TosPage />} />
-          <Route path="/privacypolicy" element={<PrivacyPolicyPage />} />
-          <Route path="/refundpolicy" element={<RefundPolicyPage />} />
-          <Route path="/shippinpolicy" element={<ShippingPolicyPage />} />
-          <Route path="/faqs" element={<FAQPage />} />
-          <Route path="/track-order" element={<TrackOrderPage />} />
-          <Route path="/blog" element={<BlogsPage />} />
-          <Route path="/blogs/:slug" element={<BlogDetailsPage />} />
-          <Route path="/forgot-password" element={<ForgetPasswordPage />} />
-          <Route path="/reset-password" element={<ResetPasswordPage />} />
+          {/*<Route path="/about" element={<AboutUsPageUser />} />*/}
+          {/*<Route path="/termofservice" element={<TosPage />} />*/}
+          {/*<Route path="/privacypolicy" element={<PrivacyPolicyPage />} />*/}
+          {/*<Route path="/refundpolicy" element={<RefundPolicyPage />} />*/}
+          {/*<Route path="/shippinpolicy" element={<ShippingPolicyPage />} />*/}
+          {/*<Route path="/faqs" element={<FAQPage />} />*/}
+          {/*<Route path="/track-order" element={<TrackOrderPage />} />*/}
+          {/*<Route path="/blog" element={<BlogsPage />} />*/}
+          {/*<Route path="/blogs/:slug" element={<BlogDetailsPage />} />*/}
+          {/*<Route path="/forgot-password" element={<ForgetPasswordPage />} />*/}
+          {/*<Route path="/reset-password" element={<ResetPasswordPage />} />*/}
 
           {/*Admin Login Page*/}
           <Route path="/admin/login" element={<AdminLogin />} />
 
           {/* Protected User Routes */}
-          <Route element={<UserProtectedRoute />}>
-            <Route path="/user/home" element={<UserHomePage />} />
-            <Route path="/user/orders" element={<UserAllOrdersPage />} />
-            <Route
-              path="/user/orders/:orderNo"
-              element={<UserOrderDetailsPage />}
-            />
-            <Route path="/user/manage-profile" element={<UpdateUserPage />} />
-            <Route
-              path="/user/change-password"
-              element={<ChangePasswordPage />}
-            />
-          </Route>
+          {/*<Route element={<UserProtectedRoute />}>*/}
+          {/*  <Route path="/user/home" element={<UserHomePage />} />*/}
+          {/*  <Route path="/user/orders" element={<UserAllOrdersPage />} />*/}
+          {/*  <Route*/}
+          {/*    path="/user/orders/:orderNo"*/}
+          {/*    element={<UserOrderDetailsPage />}*/}
+          {/*  />*/}
+          {/*  <Route path="/user/manage-profile" element={<UpdateUserPage />} />*/}
+          {/*  <Route*/}
+          {/*    path="/user/change-password"*/}
+          {/*    element={<ChangePasswordPage />}*/}
+          {/*  />*/}
+          {/*</Route>*/}
 
           {/* Protected Admin Routes */}
           <Route element={<ProtectedRoute />}>

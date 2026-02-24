@@ -1,12 +1,6 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect} from "react";
 import SingleProductDetails from "./componentGeneral/SingleProductDetails.jsx";
-import bannerImg from "../assets/Package-1.webp";
 
-const products = [
-  { id: "3kg", label: "৩ কেজি", weight: "3KG", price: 900, original: 1050 },
-  { id: "5kg", label: "৫ কেজি", weight: "5KG", price: 1400, original: 1650 },
-  { id: "10kg", label: "১০ কেজি", weight: "10KG", price: 2600, original: 3200 },
-];
 
 const reviews = [
   {
@@ -133,25 +127,7 @@ function StarRating({ count = 5 }) {
 }
 
 export default function App() {
-  const [selectedProduct, setSelectedProduct] = useState(products[0]);
-  const [qty, setQty] = useState(1);
-  const [form, setForm] = useState({
-    name: "",
-    phone: "",
-    address: "",
-    email: "",
-  });
-  const [submitted, setSubmitted] = useState(false);
-  const orderRef = useRef(null);
 
-  const scrollToOrder = () =>
-    orderRef.current?.scrollIntoView({ behavior: "smooth" });
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!form.name || !form.phone || !form.address) return;
-    setSubmitted(true);
-  };
 
   return (
     <div
@@ -161,7 +137,6 @@ export default function App() {
         background: "#fdf6ec",
       }}
     >
-      <img src={bannerImg} alt="Nihan Foods" className={"max-w-5xl mx-auto"} />
 
 
 
@@ -239,6 +214,9 @@ export default function App() {
       </section>
 
 
+
+      <SingleProductDetails slug={"akher-lal-chini-445"} />
+
       {/* FOOTER */}
       <footer
         style={{ background: "#1c1007" }}
@@ -251,29 +229,22 @@ export default function App() {
         </p>
         <div className="flex gap-4 justify-center">
           <a
-            href="#"
+            href="https://www.facebook.com/Nihansuperfood/"
             className="bg-amber-800 text-amber-200 px-4 py-2 rounded-lg text-sm hover:bg-amber-700 transition"
           >
             Facebook
           </a>
           <a
-            href="#"
+            href="https://www.youtube.com/@NihanSuperFood"
             className="bg-amber-800 text-amber-200 px-4 py-2 rounded-lg text-sm hover:bg-amber-700 transition"
           >
             YouTube
           </a>
-          <a
-            href="#"
-            className="bg-amber-800 text-amber-200 px-4 py-2 rounded-lg text-sm hover:bg-amber-700 transition"
-          >
-            Contact Us
-          </a>
         </div>
         <p className="text-amber-800 text-xs mt-6">
-          © 2025 আখের লাল চিনি। সর্বস্বত্ব সংরক্ষিত।
+          © 2026 আখের লাল চিনি। সর্বস্বত্ব সংরক্ষিত।
         </p>
       </footer>
-      <SingleProductDetails slug={"genuine-leather-long-wallet-434"} />
     </div>
   );
 }

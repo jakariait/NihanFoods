@@ -5,6 +5,8 @@ import GeneralInfoStore from "../../store/GeneralInfoStore.js";
 import ProductGallery from "./ProductGallery.jsx";
 import SinglePageCheckout from "./SinglePageCheckout.jsx";
 import CircularProgress from "@mui/material/CircularProgress";
+import ImageComponent from "./ImageComponent.jsx";
+import SugarLanding from "./SugarLanding.jsx";
 
 const ProductDetails = ({ slug }) => {
   const hasPushedRef = useRef(false);
@@ -116,6 +118,14 @@ const ProductDetails = ({ slug }) => {
 
           <div className="gap-8">
             <div className="relative">
+
+              {/*Thumbnail Image*/}
+              <div className={"max-w-3xl mx-auto"}>
+                <ImageComponent imageName={product?.thumbnailImage}  />
+              </div>
+
+              <SugarLanding />
+
               <ProductGallery
                 images={product.images}
                 discount={discountPercentage}
