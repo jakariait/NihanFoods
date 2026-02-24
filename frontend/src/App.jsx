@@ -14,7 +14,7 @@ import useChildCategoryStore from "./store/useChildCategoryStore.js";
 import useProductStore from "./store/useProductStore.js";
 import useAuthUserStore from "./store/AuthUserStore.js";
 import ProtectedRoute from "./component/componentAdmin/ProtectedRoute.jsx";
-import UserProtectedRoute from "./component/componentGeneral/UserProtectedRoute.jsx";
+// import UserProtectedRoute from "./component/componentGeneral/UserProtectedRoute.jsx";
 import ScrollToTop from "./component/componentGeneral/ScrollToTop.jsx";
 import MetaProvider from "./component/componentGeneral/MetaProvider.jsx";
 import ScrollToTopButton from "./component/componentGeneral/ScrollToTopButton.jsx";
@@ -35,7 +35,7 @@ const ColorUpdaterPage = lazy(
 const SocialLinkUpdaterPage = lazy(
   () => import("./pagesAdmin/SocialLinkUpdaterPage.jsx"),
 );
-const ContactUsPage = lazy(() => import("./pagesUser/ContactUsPage.jsx"));
+// const ContactUsPage = lazy(() => import("./pagesUser/ContactUsPage.jsx"));
 const ContactRequestPage = lazy(
   () => import("./pagesAdmin/ContactRequestPage.jsx"),
 );
@@ -80,24 +80,24 @@ const EditProductSizePage = lazy(
   () => import("./pagesAdmin/EditProductSizePage.jsx"),
 );
 const ProductFlagPage = lazy(() => import("./pagesAdmin/ProductFlagPage.jsx"));
-const ShopPage = lazy(() => import("./pagesUser/ShopPage.jsx"));
+// const ShopPage = lazy(() => import("./pagesUser/ShopPage.jsx"));
 const AddNewProductPage = lazy(
   () => import("./pagesAdmin/AddNewProductPage.jsx"),
 );
-const ProductDetailsPage = lazy(
-  () => import("./pagesUser/ProductDetailsPage.jsx"),
-);
+// const ProductDetailsPage = lazy(
+//   () => import("./pagesUser/ProductDetailsPage.jsx"),
+// );
 const ViewAllProductPage = lazy(
   () => import("./pagesAdmin/ViewAllProductPage.jsx"),
 );
 const EditProductPage = lazy(() => import("./pagesAdmin/EditProductPage.jsx"));
-const LoginPage = lazy(() => import("./pagesUser/LoginPage.jsx"));
-const RegisterPage = lazy(() => import("./pagesUser/RegisterPage.jsx"));
+// const LoginPage = lazy(() => import("./pagesUser/LoginPage.jsx"));
+// const RegisterPage = lazy(() => import("./pagesUser/RegisterPage.jsx"));
 const CustomerListPage = lazy(
   () => import("./pagesAdmin/CustomerListPage.jsx"),
 );
-const UserHomePage = lazy(() => import("./pagesUser/UserHomePage.jsx"));
-const CheckoutPage = lazy(() => import("./pagesUser/CheckoutPage.jsx"));
+// const UserHomePage = lazy(() => import("./pagesUser/UserHomePage.jsx"));
+// const CheckoutPage = lazy(() => import("./pagesUser/CheckoutPage.jsx"));
 const DeliveryChargePage = lazy(
   () => import("./pagesAdmin/DeliveryChargePage.jsx"),
 );
@@ -129,16 +129,16 @@ const BkashCallbackPage = lazy(
 const CouponPage = lazy(() => import("./pagesAdmin/CouponPage.jsx"));
 const AboutUsPage = lazy(() => import("./pagesAdmin/AboutUsPage.jsx"));
 const TermsPage = lazy(() => import("./pagesAdmin/TermsPage.jsx"));
-const AboutUsPageUser = lazy(() => import("./pagesUser/AboutUsPageUser.jsx"));
-const TosPage = lazy(() => import("./pagesUser/TosPage.jsx"));
-const PrivacyPolicyPage = lazy(
-  () => import("./pagesUser/PrivacyPolicyPage.jsx"),
-);
-const RefundPolicyPage = lazy(() => import("./pagesUser/RefundPolicyPage.jsx"));
-const ShippingPolicyPage = lazy(
-  () => import("./pagesUser/ShippingPolicyPage.jsx"),
-);
-const FAQPage = lazy(() => import("./pagesUser/FAQPage.jsx"));
+// const AboutUsPageUser = lazy(() => import("./pagesUser/AboutUsPageUser.jsx"));
+// const TosPage = lazy(() => import("./pagesUser/TosPage.jsx"));
+// const PrivacyPolicyPage = lazy(
+//   () => import("./pagesUser/PrivacyPolicyPage.jsx"),
+// );
+// const RefundPolicyPage = lazy(() => import("./pagesUser/RefundPolicyPage.jsx"));
+// const ShippingPolicyPage = lazy(
+//   () => import("./pagesUser/ShippingPolicyPage.jsx"),
+// );
+// const FAQPage = lazy(() => import("./pagesUser/FAQPage.jsx"));
 const AdminFAQSPage = lazy(() => import("./pagesAdmin/AdminFAQSPage.jsx"));
 const MarqueeAdminPage = lazy(
   () => import("./pagesAdmin/MarqueeAdminPage.jsx"),
@@ -149,34 +149,34 @@ const SteadFastConfigPag = lazy(
   () => import("./pagesAdmin/SteadFastConfigPag.jsx"),
 );
 const DashboardPage = lazy(() => import("./pagesAdmin/DashboardPage.jsx"));
-const UserAllOrdersPage = lazy(
-  () => import("./pagesUser/UserAllOrdersPage.jsx"),
-);
-const UserOrderDetailsPage = lazy(
-  () => import("./pagesUser/UserOrderDetailsPage.jsx"),
-);
-const UpdateUserPage = lazy(() => import("./pagesUser/UpdateUserPage.jsx"));
-const ChangePasswordPage = lazy(
-  () => import("./pagesUser/ChangePasswordPage.jsx"),
-);
+// const UserAllOrdersPage = lazy(
+//   () => import("./pagesUser/UserAllOrdersPage.jsx"),
+// );
+// const UserOrderDetailsPage = lazy(
+//   () => import("./pagesUser/UserOrderDetailsPage.jsx"),
+// );
+// const UpdateUserPage = lazy(() => import("./pagesUser/UpdateUserPage.jsx"));
+// const ChangePasswordPage = lazy(
+//   () => import("./pagesUser/ChangePasswordPage.jsx"),
+// );
 const AbandonedCartPage = lazy(
   () => import("./pagesAdmin/AbandonedCartPage.jsx"),
 );
-const TrackOrderPage = lazy(() => import("./pagesUser/TrackOrderPage.jsx"));
+// const TrackOrderPage = lazy(() => import("./pagesUser/TrackOrderPage.jsx"));
 const AdminListPage = lazy(() => import("./pagesAdmin/AdminListPage.jsx"));
 const CreateAdminPage = lazy(() => import("./pagesAdmin/CreateAdminPage.jsx"));
 const EditAdminPage = lazy(() => import("./pagesAdmin/EditAdminPage.jsx"));
 const CreateBlogPage = lazy(() => import("./pagesAdmin/CreateBlogPage.jsx"));
 const BlogsListPage = lazy(() => import("./pagesAdmin/BlogsListPage.jsx"));
 const EditBlogPage = lazy(() => import("./pagesAdmin/EditBlogPage.jsx"));
-const BlogsPage = lazy(() => import("./pagesUser/BlogsPage.jsx"));
-const BlogDetailsPage = lazy(() => import("./pagesUser/BlogDetailsPage.jsx"));
-const ForgetPasswordPage = lazy(
-  () => import("./pagesUser/ForgetPasswordPage.jsx"),
-);
-const ResetPasswordPage = lazy(
-  () => import("./pagesUser/ResetPasswordPage.jsx"),
-);
+// const BlogsPage = lazy(() => import("./pagesUser/BlogsPage.jsx"));
+// const BlogDetailsPage = lazy(() => import("./pagesUser/BlogDetailsPage.jsx"));
+// const ForgetPasswordPage = lazy(
+//   () => import("./pagesUser/ForgetPasswordPage.jsx"),
+// );
+// const ResetPasswordPage = lazy(
+//   () => import("./pagesUser/ResetPasswordPage.jsx"),
+// );
 const PathaoConfigPage = lazy(
   () => import("./pagesAdmin/PathaoConfigPage.jsx"),
 );
