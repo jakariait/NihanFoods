@@ -231,7 +231,7 @@ const SinglePageCheckout = ({ product }) => {
       >
         {/* LEFT COLUMN */}
         <div className="space-y-6">
-          <div className="bg-white p-4">
+          <div className="bg-green-100 rounded-2xl p-4">
             <h2 className="text-xl font-bold mb-4">পণ্য নির্বাচন করুন</h2>
             <div className="flex flex-col gap-4">
               {product.variants?.map((variant) => {
@@ -294,7 +294,7 @@ const SinglePageCheckout = ({ product }) => {
             </div>
           </div>
 
-          <div className="bg-white p-6 rounded-xl ">
+          <div className="bg-green-100 p-6 rounded-xl ">
             <h2 className="text-xl font-bold mb-4">আপনার ঠিকানা দিন</h2>
             <AddressForm onAddressChange={setAddressData} user={user} />
           </div>
@@ -302,7 +302,7 @@ const SinglePageCheckout = ({ product }) => {
 
         {/* RIGHT COLUMN */}
         <div className="space-y-6">
-          <div className="bg-gray-50 p-6 rounded-2xl  sticky top-6">
+          <div className="bg-green-100  p-6 rounded-2xl  sticky top-6">
             <h2 className="text-xl font-bold border-b pb-4 mb-4">
               অর্ডার সামারি
             </h2>

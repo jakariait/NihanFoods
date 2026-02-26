@@ -42,7 +42,7 @@ const AddressForm = ({ user, onAddressChange }) => {
 
   return (
     <div className="flex flex-col gap-4">
-      <h1 className="border-l-4 primaryBorderColor primaryTextColor pl-2 text-lg font-semibold">
+      <h1 className="border-l-4 primaryBorderColor primaryTextColor pl-2 text-lg font-semibold ">
         Address
       </h1>
 
