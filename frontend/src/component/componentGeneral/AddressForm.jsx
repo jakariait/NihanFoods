@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import PhoneInput from "react-phone-number-input";
 
 const AddressForm = ({ user, onAddressChange }) => {
   const [formData, setFormData] = useState({
