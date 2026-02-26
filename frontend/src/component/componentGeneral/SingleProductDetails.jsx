@@ -8,10 +8,10 @@ import CircularProgress from "@mui/material/CircularProgress";
 import HeroSection from "../HeroSection.jsx";
 import ProblemSection from "../ProblemSection.jsx";
 import SolutionSection from "../SolutionSection.jsx";
-import WhyDifferentSection from "../WhyDifferentSection.jsx";
 import BenefitsCTASection from "../BenefitsCTASection.jsx";
 import SectionBackground from "../SectionBackground.jsx";
 import Footer from "../Footer.jsx";
+import ProductCarousel from "./ProductCarousel.jsx";
 
 const ProductDetails = ({ slug }) => {
   const hasPushedRef = useRef(false);
@@ -125,10 +125,8 @@ const ProductDetails = ({ slug }) => {
             <HeroSection product={product} />
             <ProblemSection />
             <SolutionSection />
-            {/*<WhyDifferentSection />*/}
 
             <SectionBackground>
-
               <div className={"max-w-4xl mx-auto"}>
                 <ProductGallery
                   images={product.images}
@@ -137,7 +135,7 @@ const ProductDetails = ({ slug }) => {
                 />
               </div>
               <BenefitsCTASection />
-
+              <ProductCarousel/>
               <SinglePageCheckout product={product} />
               <Footer />
             </SectionBackground>

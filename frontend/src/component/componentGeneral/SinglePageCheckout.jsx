@@ -224,7 +224,7 @@ const SinglePageCheckout = ({ product }) => {
   if (vatPercentage === null || freeDelivery === null) return null;
 
   return (
-    <div className="max-w-6xl mx-auto p-4 font-sans text-gray-900">
+    <div className="max-w-6xl mx-auto p-4 pt-20 font-sans text-gray-900">
       <form
         onSubmit={handleOrderSubmit}
         className="grid grid-cols-1 lg:grid-cols-2 gap-8"
@@ -369,7 +369,7 @@ const SinglePageCheckout = ({ product }) => {
             <button
               type="submit"
               disabled={isProcessingOrder}
-              className={`w-full bg-red-700 text-white font-bold py-4 rounded-xl mt-8 text-xl shadow-lg transition-all active:scale-95 ${isProcessingOrder ? "opacity-50" : ""}`}
+              className={`w-full cursor-pointer bg-red-700 text-white font-bold py-4 rounded-xl mt-8 text-xl shadow-lg transition-all active:scale-95 ${isProcessingOrder ? "opacity-50" : ""}`}
             >
               {isProcessingOrder
                 ? "প্রসেসিং হচ্ছে..."
