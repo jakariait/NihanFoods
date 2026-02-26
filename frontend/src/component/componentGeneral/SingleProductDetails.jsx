@@ -1,12 +1,17 @@
-import React, { useEffect, useRef, useState, lazy, Suspense } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import useProductStore from "../../store/useProductStore.js";
 import GeneralInfoStore from "../../store/GeneralInfoStore.js";
 import ProductGallery from "./ProductGallery.jsx";
 import SinglePageCheckout from "./SinglePageCheckout.jsx";
 import CircularProgress from "@mui/material/CircularProgress";
-import ImageComponent from "./ImageComponent.jsx";
-import SugarLanding from "./SugarLanding.jsx";
+import HeroSection from "../HeroSection.jsx";
+import ProblemSection from "../ProblemSection.jsx";
+import SolutionSection from "../SolutionSection.jsx";
+import WhyDifferentSection from "../WhyDifferentSection.jsx";
+import BenefitsCTASection from "../BenefitsCTASection.jsx";
+import SectionBackground from "../SectionBackground.jsx";
+import Footer from "../Footer.jsx";
 
 const ProductDetails = ({ slug }) => {
   const hasPushedRef = useRef(false);
@@ -95,7 +100,7 @@ const ProductDetails = ({ slug }) => {
   }
 
   return (
-    <div className="xl:container xl:mx-auto p-3">
+    <div className="">
       {error && (
         <div className="text-red-500 flex items-center justify-center pt-40">
           Error: {error}
@@ -116,25 +121,27 @@ const ProductDetails = ({ slug }) => {
           <meta property="og:image" content={product?.thumbnailImage} />
           <meta property="og:url" content={window.location.href} />
 
-          <div className="gap-8">
-            <div className="relative">
+          <div>
+              <HeroSection product={product} />
+              <ProblemSection />
+              <SolutionSection />
+              <WhyDifferentSection />
 
-              {/*Thumbnail Image*/}
-              <div className={"max-w-3xl mx-auto"}>
-                <ImageComponent imageName={product?.thumbnailImage}  />
+            <BenefitsCTASection />
+            <SectionBackground >
+              <div className={"max-w-4xl mx-auto"}>
+                <ProductGallery
+                  images={product.images}
+                  discount={discountPercentage}
+                  productName={product.name}
+                />
               </div>
+              <SinglePageCheckout product={product} />
+              <Footer/>
+            </SectionBackground>
 
-              <SugarLanding />
 
-              <ProductGallery
-                images={product.images}
-                discount={discountPercentage}
-                productName={product.name}
-              />
             </div>
-
-            <SinglePageCheckout product={product} />
-          </div>
         </div>
       )}
     </div>
