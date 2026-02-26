@@ -5,8 +5,6 @@ import ImageComponent from "./componentGeneral/ImageComponent.jsx";
 export default function Footer() {
   const { GeneralInfoList } = GeneralInfoStore();
 
-  console.log(GeneralInfoList);
-
   return (
     <SectionBackground style={{ padding: "60px 0 40px" }}>
       <style>{`
@@ -24,8 +22,11 @@ export default function Footer() {
 
       <div style={{ textAlign: "center", padding: "0 28px" }}>
         {/* Logo / brand mark */}
-        <div style={{ fontSize: "44px", marginBottom: "10px" }}>
-          <ImageComponent imageName={GeneralInfoList.PrimaryLogo} />
+        <div className={"flex items-center justify-center"}>
+          <ImageComponent
+            imageName={GeneralInfoList.PrimaryLogo}
+            className={"w-30"}
+          />
         </div>
 
         <p
