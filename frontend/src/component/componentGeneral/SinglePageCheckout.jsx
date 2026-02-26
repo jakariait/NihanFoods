@@ -101,6 +101,27 @@ const SinglePageCheckout = ({ product }) => {
     freeDelivery > 1 && subTotal >= freeDelivery ? 0 : selectedShipping.value;
 
 
+
+
+
+
+  // VAT
+  const vatAmount = vatPercentage
+    ? (amountAfterDiscounts * vatPercentage) / 100
+    : 0;
+
+  // Final Total
+  const grandTotal = amountAfterDiscounts + vatAmount + actualShippingCost;
+
+  // --- 4. Handlers ---
+  const handleQuantityChange = (type, e) => {
+    e.stopPropagation();
+    if (type === "increase" && quantity < MAX_QUANTITY)
+      setQuantity((q) => q + 1);
+    else if (type === "decrease" && quantity > 1) setQuantity((q) => q - 1);
+  };
+
+
   // Data Layer for Initiat Checkout
   useEffect(() => {
     if (!product || !selectedVariant) return;
@@ -128,23 +149,6 @@ const SinglePageCheckout = ({ product }) => {
     });
   }, [product, selectedVariant, quantity, grandTotal]);
 
-
-
-  // VAT
-  const vatAmount = vatPercentage
-    ? (amountAfterDiscounts * vatPercentage) / 100
-    : 0;
-
-  // Final Total
-  const grandTotal = amountAfterDiscounts + vatAmount + actualShippingCost;
-
-  // --- 4. Handlers ---
-  const handleQuantityChange = (type, e) => {
-    e.stopPropagation();
-    if (type === "increase" && quantity < MAX_QUANTITY)
-      setQuantity((q) => q + 1);
-    else if (type === "decrease" && quantity > 1) setQuantity((q) => q - 1);
-  };
 
   const handleOrderSubmit = async (e) => {
     e.preventDefault();
