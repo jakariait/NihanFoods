@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import { FiMinus } from "react-icons/fi";
 import { FaPlus } from "react-icons/fa6";
@@ -99,6 +99,36 @@ const SinglePageCheckout = ({ product }) => {
   // Shipping
   const actualShippingCost =
     freeDelivery > 1 && subTotal >= freeDelivery ? 0 : selectedShipping.value;
+
+
+  // Data Layer for Initiat Checkout
+  useEffect(() => {
+    if (!product || !selectedVariant) return;
+
+    window.dataLayer = window.dataLayer || [];
+
+    window.dataLayer.push({
+      event: "begin_checkout",
+      ecommerce: {
+        currency: "BDT",
+        value: grandTotal,
+        items: [
+          {
+            item_name: product.name,
+            item_id: product._id || product.productId,
+            price:
+              selectedVariant.discount > 0
+                ? selectedVariant.discount
+                : selectedVariant.price,
+            quantity: quantity,
+            item_variant: selectedVariant.size?.name || "Default",
+          },
+        ],
+      },
+    });
+  }, [product, selectedVariant, quantity, grandTotal]);
+
+
 
   // VAT
   const vatAmount = vatPercentage
