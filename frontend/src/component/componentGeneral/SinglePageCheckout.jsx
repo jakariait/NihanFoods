@@ -100,11 +100,6 @@ const SinglePageCheckout = ({ product }) => {
   const actualShippingCost =
     freeDelivery > 1 && subTotal >= freeDelivery ? 0 : selectedShipping.value;
 
-
-
-
-
-
   // VAT
   const vatAmount = vatPercentage
     ? (amountAfterDiscounts * vatPercentage) / 100
@@ -120,7 +115,6 @@ const SinglePageCheckout = ({ product }) => {
       setQuantity((q) => q + 1);
     else if (type === "decrease" && quantity > 1) setQuantity((q) => q - 1);
   };
-
 
   // Data Layer for Initiat Checkout
   useEffect(() => {
@@ -148,7 +142,6 @@ const SinglePageCheckout = ({ product }) => {
       },
     });
   }, [product, selectedVariant, quantity, grandTotal]);
-
 
   const handleOrderSubmit = async (e) => {
     e.preventDefault();
