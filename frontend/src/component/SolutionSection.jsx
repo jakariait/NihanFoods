@@ -83,7 +83,7 @@ export default function SolutionSection() {
         fontFamily: "'Noto Serif Bengali', 'Hind Siliguri', Georgia, serif",
         position: "relative",
         overflow: "hidden",
-        padding: "100px 0 80px",
+        padding: "30px 0 30px",
         background:
           "linear-gradient(145deg, #052e16 0%, #064e3b 35%, #065f46 60%, #047857 100%)",
       }}
@@ -366,7 +366,7 @@ export default function SolutionSection() {
                 padding: "8px 20px",
                 borderRadius: "100px",
                 fontSize: "13px",
-                color: "#6ee7b7",
+                color: "white",
                 letterSpacing: "0.06em",
               }}
             >
@@ -380,7 +380,7 @@ export default function SolutionSection() {
                   animation: "dotPulse 2s infinite",
                 }}
               />
-              সমাধান — নিহান সুপার ফুডস
+              নিহান সুপার ফুডস
             </span>
           </div>
         </AnimCard>
@@ -481,7 +481,7 @@ export default function SolutionSection() {
               <p
                 style={{
                   fontSize: "13px",
-                  color: "rgba(167,243,208,0.5)",
+                  color: "white",
                   letterSpacing: "0.08em",
                   margin: "0 0 14px",
                 }}
@@ -491,7 +491,7 @@ export default function SolutionSection() {
               <p
                 style={{
                   fontSize: "clamp(14px,1.6vw,16px)",
-                  color: "rgba(255,255,255,0.8)",
+                  color: "white",
                   lineHeight: 1.85,
                   margin: "0 0 14px",
                 }}
@@ -502,7 +502,7 @@ export default function SolutionSection() {
               <p
                 style={{
                   fontSize: "clamp(13px,1.5vw,15px)",
-                  color: "rgba(255,255,255,0.65)",
+                  color: "white",
                   lineHeight: 1.85,
                   margin: 0,
                 }}
@@ -585,7 +585,7 @@ export default function SolutionSection() {
           <p
             style={{
               fontSize: "13px",
-              color: "rgba(167,243,208,0.5)",
+              color: "white",
               letterSpacing: "0.08em",
               marginBottom: "16px",
             }}
@@ -728,25 +728,7 @@ export default function SolutionSection() {
               >
                 <span className="gold-shimmer">ফিরে যান আজই</span>
               </p>
-              <button
-                className="cta-primary"
-                style={{
-                  background:
-                    "linear-gradient(135deg, #d97706 0%, #b45309 100%)",
-                  color: "#fff",
-                  border: "none",
-                  borderRadius: "14px",
-                  padding: "17px 48px",
-                  fontSize: "clamp(15px,1.9vw,18px)",
-                  fontFamily: "inherit",
-                  fontWeight: 700,
-                  cursor: "pointer",
-                  boxShadow: "0 10px 35px rgba(180,83,9,0.4)",
-                  letterSpacing: "0.02em",
-                }}
-              >
-                এখনই অর্ডার করুন →
-              </button>
+
               <div
                 style={{
                   width: "64px",

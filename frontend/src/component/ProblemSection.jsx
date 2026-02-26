@@ -95,7 +95,7 @@ export default function ProblemSection() {
         fontFamily: "'Noto Serif Bengali', 'Hind Siliguri', Georgia, serif",
         position: "relative",
         overflow: "hidden",
-        padding: "100px 0 80px",
+        padding: "30px 0 30px",
         background:
           "linear-gradient(145deg, #052e16 0%, #064e3b 35%, #065f46 60%, #047857 100%)",
       }}
@@ -391,7 +391,7 @@ export default function ProblemSection() {
                 padding: "8px 20px",
                 borderRadius: "100px",
                 fontSize: "13px",
-                color: "#fca5a5",
+                color: "white",
                 letterSpacing: "0.06em",
               }}
             >
@@ -405,7 +405,7 @@ export default function ProblemSection() {
                   animation: "dotPulse 2s infinite",
                 }}
               />
-              সমস্যা — আপনি কি জানেন?
+              আপনি কি জানেন?
             </span>
           </div>
         </AnimCard>
@@ -469,104 +469,104 @@ export default function ProblemSection() {
         </AnimCard>
 
         {/* Process flow — same pill/card treatment as hero feature pills */}
-        <AnimCard delay={300}>
-          <div
-            style={{
-              display: "inline-flex",
-              flexWrap: "wrap",
-              alignItems: "center",
-              gap: "8px",
-              background: "rgba(5,46,22,0.5)",
-              backdropFilter: "blur(16px)",
-              border: "1px solid rgba(52,211,153,0.14)",
-              borderRadius: "18px",
-              padding: "20px 28px",
-              marginBottom: "52px",
-            }}
-          >
-            <p
-              style={{
-                width: "100%",
-                fontSize: "12px",
-                color: "white",
-                letterSpacing: "0.08em",
-                margin: "0 0 12px 0",
-              }}
-            >
-              সাদা চিনির প্রসেসিং ধাপ
-            </p>
-            <div
-              style={{
-                display: "flex",
-                flexWrap: "wrap",
-                alignItems: "center",
-                gap: "8px",
-              }}
-            >
-              {processSteps.map((s, i) =>
-                s.arrow ? (
-                  <span
-                    key={i}
-                    style={{
-                      color: "red",
-                      fontWeight: 700,
-                      fontSize: "18px",
-                    }}
-                  >
-                    →
-                  </span>
-                ) : (
-                  <span
-                    key={i}
-                    style={{
-                      padding: "8px 16px",
-                      borderRadius: "10px",
-                      fontSize: "clamp(12px,1.3vw,14px)",
-                      fontWeight: 600,
-                      background: s.good
-                        ? "rgba(16,185,129,0.15)"
-                        : "rgba(239,68,68,0.1)",
-                      border: `1px solid ${s.good ? "rgba(52,211,153,0.3)" : "rgba(239,68,68,0.25)"}`,
-                      color: s.good ? "#6ee7b7" : "#fca5a5",
-                    }}
-                  >
-                    {s.label}
-                  </span>
-                ),
-              )}
-            </div>
-            <div
-              style={{
-                width: "100%",
-                display: "flex",
-                flexWrap: "wrap",
-                gap: "8px",
-                marginTop: "14px",
-              }}
-            >
-              {chemBadges.map((b, i) => (
-                <span
-                  key={i}
-                  className="chem-badge"
-                  style={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: "6px",
-                    padding: "7px 16px",
-                    borderRadius: "100px",
-                    fontSize: "12px",
-                    background: "rgba(239,68,68,0.07)",
-                    border: "1px solid rgba(239,68,68,0.2)",
-                    color: "white",
-                    letterSpacing: "0.02em",
-                  }}
-                >
-                  ✗ {b}
-                </span>
-              ))}
-            </div>
-          </div>
-        </AnimCard>
+        {/*<AnimCard delay={300}>*/}
+        {/*  <div*/}
+        {/*    style={{*/}
+        {/*      display: "inline-flex",*/}
+        {/*      flexWrap: "wrap",*/}
+        {/*      alignItems: "center",*/}
+        {/*      gap: "8px",*/}
+        {/*      background: "rgba(5,46,22,0.5)",*/}
+        {/*      backdropFilter: "blur(16px)",*/}
+        {/*      border: "1px solid rgba(52,211,153,0.14)",*/}
+        {/*      borderRadius: "18px",*/}
+        {/*      padding: "20px 28px",*/}
+        {/*      marginBottom: "52px",*/}
+        {/*    }}*/}
+        {/*  >*/}
+        {/*    <p*/}
+        {/*      style={{*/}
+        {/*        width: "100%",*/}
+        {/*        fontSize: "12px",*/}
+        {/*        color: "white",*/}
+        {/*        letterSpacing: "0.08em",*/}
+        {/*        margin: "0 0 12px 0",*/}
+        {/*      }}*/}
+        {/*    >*/}
+        {/*      সাদা চিনির প্রসেসিং ধাপ*/}
+        {/*    </p>*/}
+        {/*    <div*/}
+        {/*      style={{*/}
+        {/*        display: "flex",*/}
+        {/*        flexWrap: "wrap",*/}
+        {/*        alignItems: "center",*/}
+        {/*        gap: "8px",*/}
+        {/*      }}*/}
+        {/*    >*/}
+        {/*      {processSteps.map((s, i) =>*/}
+        {/*        s.arrow ? (*/}
+        {/*          <span*/}
+        {/*            key={i}*/}
+        {/*            style={{*/}
+        {/*              color: "red",*/}
+        {/*              fontWeight: 700,*/}
+        {/*              fontSize: "18px",*/}
+        {/*            }}*/}
+        {/*          >*/}
+        {/*            →*/}
+        {/*          </span>*/}
+        {/*        ) : (*/}
+        {/*          <span*/}
+        {/*            key={i}*/}
+        {/*            style={{*/}
+        {/*              padding: "8px 16px",*/}
+        {/*              borderRadius: "10px",*/}
+        {/*              fontSize: "clamp(12px,1.3vw,14px)",*/}
+        {/*              fontWeight: 600,*/}
+        {/*              background: s.good*/}
+        {/*                ? "rgba(16,185,129,0.15)"*/}
+        {/*                : "rgba(239,68,68,0.1)",*/}
+        {/*              border: `1px solid ${s.good ? "rgba(52,211,153,0.3)" : "rgba(239,68,68,0.25)"}`,*/}
+        {/*              color: s.good ? "#6ee7b7" : "#fca5a5",*/}
+        {/*            }}*/}
+        {/*          >*/}
+        {/*            {s.label}*/}
+        {/*          </span>*/}
+        {/*        ),*/}
+        {/*      )}*/}
+        {/*    </div>*/}
+        {/*    <div*/}
+        {/*      style={{*/}
+        {/*        width: "100%",*/}
+        {/*        display: "flex",*/}
+        {/*        flexWrap: "wrap",*/}
+        {/*        gap: "8px",*/}
+        {/*        marginTop: "14px",*/}
+        {/*      }}*/}
+        {/*    >*/}
+        {/*      {chemBadges.map((b, i) => (*/}
+        {/*        <span*/}
+        {/*          key={i}*/}
+        {/*          className="chem-badge"*/}
+        {/*          style={{*/}
+        {/*            display: "inline-flex",*/}
+        {/*            alignItems: "center",*/}
+        {/*            gap: "6px",*/}
+        {/*            padding: "7px 16px",*/}
+        {/*            borderRadius: "100px",*/}
+        {/*            fontSize: "12px",*/}
+        {/*            background: "rgba(239,68,68,0.07)",*/}
+        {/*            border: "1px solid rgba(239,68,68,0.2)",*/}
+        {/*            color: "white",*/}
+        {/*            letterSpacing: "0.02em",*/}
+        {/*          }}*/}
+        {/*        >*/}
+        {/*          ✗ {b}*/}
+        {/*        </span>*/}
+        {/*      ))}*/}
+        {/*    </div>*/}
+        {/*  </div>*/}
+        {/*</AnimCard>*/}
 
         {/* Pain point cards — same glassmorphism card style */}
         <div

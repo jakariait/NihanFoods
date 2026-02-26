@@ -122,13 +122,13 @@ const ProductDetails = ({ slug }) => {
           <meta property="og:url" content={window.location.href} />
 
           <div>
-              <HeroSection product={product} />
-              <ProblemSection />
-              <SolutionSection />
-              <WhyDifferentSection />
+            <HeroSection product={product} />
+            <ProblemSection />
+            <SolutionSection />
+            {/*<WhyDifferentSection />*/}
 
-            <BenefitsCTASection />
-            <SectionBackground >
+            <SectionBackground>
+
               <div className={"max-w-4xl mx-auto"}>
                 <ProductGallery
                   images={product.images}
@@ -136,12 +136,12 @@ const ProductDetails = ({ slug }) => {
                   productName={product.name}
                 />
               </div>
+              <BenefitsCTASection />
+
               <SinglePageCheckout product={product} />
-              <Footer/>
+              <Footer />
             </SectionBackground>
-
-
-            </div>
+          </div>
         </div>
       )}
     </div>

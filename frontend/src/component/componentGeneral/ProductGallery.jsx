@@ -58,7 +58,7 @@ const ProductGallery = ({ images, discount, zoom = true, productName }) => {
           <div className="flex items-center gap-2 w-full justify-center pb-10">
             <button
               onClick={() => changeImage("prev")}
-              className="text-xl hover:text-gray-500 transition-colors duration-150 cursor-pointer"
+              className="text-xl hover:text-gray-500 transition-colors duration-150 cursor-pointer text-white"
               disabled={activeIndex === 0}
               aria-label="previous"
             >
@@ -95,7 +95,7 @@ const ProductGallery = ({ images, discount, zoom = true, productName }) => {
 
             <button
               onClick={() => changeImage("next")}
-              className="text-xl hover:text-gray-500 transition-colors duration-150 cursor-pointer"
+              className="text-xl hover:text-gray-500 transition-colors duration-150 cursor-pointer text-white"
               disabled={activeIndex === imageUrls.length - 1}
               aria-label="next"
             >
