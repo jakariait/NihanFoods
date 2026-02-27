@@ -411,7 +411,8 @@ export default function HeroSection({ product }) {
             alignItems: "center",
           }}
         >
-          <button
+          <a
+            href={"#checkout"}
             className="cta-primary"
             style={{
               background: "linear-gradient(135deg, #d97706 0%, #b45309 100%)",
@@ -428,7 +429,7 @@ export default function HeroSection({ product }) {
             }}
           >
             এখনই অর্ডার করুন →
-          </button>
+          </a>
         </div>
 
         {/* Trust Stats */}

@@ -1,5 +1,6 @@
 const User = require("../models/UserModel"); // Import the User model
 const orderService = require("../services/orderService");
+const sendTelegramMessage = require("../utility/telegramSms");
 
 const createOrder = async (req, res) => {
   try {
@@ -37,6 +38,32 @@ const createOrder = async (req, res) => {
       await user.save();
     }
 
+    // Populate product details to get product names
+    await order.populate("items.productId", "name");
+
+    // Send Telegram message
+    const productList = order.items
+      .map(
+        (item) =>
+          `- ${item.productId.name} (Qty: ${item.quantity}, Price: ${item.price})`,
+      )
+      .join("\n");
+
+    const message = `
+      New Order Received!
+      -------------------
+      Order No: ${order.orderNo}
+      Total Amount: ${order.totalAmount}
+      Customer Name: ${order.shippingInfo.fullName}
+      Phone: ${order.shippingInfo.mobileNo}
+      Address: ${order.shippingInfo.address}
+
+      Products:
+      ${productList}
+    `;
+
+    await sendTelegramMessage(message);
+
     res.status(201).json({
       success: true,
       message: "Order created successfully",
@@ -50,7 +77,6 @@ const createOrder = async (req, res) => {
     });
   }
 };
-
 
 const getAllOrders = async (req, res) => {
   try {
@@ -66,7 +92,14 @@ const getAllOrders = async (req, res) => {
     const limitNum = usePagination ? parseInt(limit) : null;
 
     const { totalOrders, orders, totalPages, currentPage } =
-      await orderService.getAllOrders(filter, pageNum, limitNum, search, startDate, endDate);
+      await orderService.getAllOrders(
+        filter,
+        pageNum,
+        limitNum,
+        search,
+        startDate,
+        endDate,
+      );
 
     res.status(200).json({
       success: true,
@@ -79,7 +112,6 @@ const getAllOrders = async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 };
-
 
 // Get order by ID
 const getOrderById = async (req, res) => {
@@ -185,17 +217,21 @@ const getOrdersForUser = async (req, res) => {
   }
 };
 
-
-
 const trackOrderByOrderNoAndPhone = async (req, res) => {
   try {
     const { orderNo, phone } = req.body;
 
     if (!orderNo || !phone) {
-      return res.status(400).json({ success: false, message: "Order number and phone are required" });
+      return res.status(400).json({
+        success: false,
+        message: "Order number and phone are required",
+      });
     }
 
-    const order = await orderService.trackOrderByOrderNoAndPhone(orderNo, phone);
+    const order = await orderService.trackOrderByOrderNoAndPhone(
+      orderNo,
+      phone,
+    );
 
     return res.status(200).json({ success: true, order });
   } catch (error) {
@@ -211,8 +247,6 @@ const trackOrderByOrderNoAndPhone = async (req, res) => {
   }
 };
 
-
-
 // Exporting the controller functions
 module.exports = {
   createOrder,
@@ -222,5 +256,5 @@ module.exports = {
   deleteOrder,
   getOrderByOrderNo,
   getOrdersForUser,
-  trackOrderByOrderNoAndPhone
+  trackOrderByOrderNoAndPhone,
 };

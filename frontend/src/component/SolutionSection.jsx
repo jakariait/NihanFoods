@@ -21,9 +21,9 @@ const benefits = [
     icon: "☕",
     title: "সমৃদ্ধ স্বাদ",
     desc: "চা, পিঠা বা মিষ্টিতে আলাদা গভীর স্বাদ দেয়।",
-    accent: "rgba(202,138,4,0.15)",
-    border: "rgba(251,191,36,0.25)",
-    iconBg: "rgba(202,138,4,0.18)",
+    accent: "rgba(16,185,129,0.15)",
+    border: "rgba(52,211,153,0.25)",
+    iconBg: "rgba(16,185,129,0.18)",
   },
   {
     icon: "🏺",
@@ -449,7 +449,7 @@ export default function SolutionSection() {
               }}
             >
               কোনো ব্লিচিং নয়।{" "}
-              <span style={{ color: "rgba(255,255,255,0.6)", fontWeight: 400 }}>
+              <span className={"text-red-500"} style={{ fontWeight: 400 }}>
                 কোনো কৃত্রিম প্রসেস নয়।
               </span>{" "}
               শুধু আখের রসের আসল স্বাদ।
@@ -584,7 +584,7 @@ export default function SolutionSection() {
         <AnimCard delay={350}>
           <p
             style={{
-              fontSize: "13px",
+              fontSize: "30px",
               color: "white",
               letterSpacing: "0.08em",
               marginBottom: "16px",
