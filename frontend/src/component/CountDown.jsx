@@ -1,78 +1,10 @@
-// import React, { useState, useEffect } from 'react';
-// import axios from 'axios';
-//
-// const CountDown = () => {
-//   const [freeDeliveryEndTime, setFreeDeliveryEndTime] = useState(null);
-//   const [remainingTime, setRemainingTime] = useState({
-//     days: 0,
-//     hours: 0,
-//     minutes: 0,
-//     seconds: 0,
-//   });
-//
-//   useEffect(() => {
-//     const fetchFreeDeliveryTime = async () => {
-//       try {
-//         const response = await axios.get('/api/getFreeDeliveryAmount');
-//         if (response.data.success && response.data.data.freeDeliveryEndTime) {
-//           setFreeDeliveryEndTime(new Date(response.data.data.freeDeliveryEndTime));
-//         }
-//       } catch (error) {
-//         console.error('Error fetching free delivery time:', error);
-//       }
-//     };
-//
-//     fetchFreeDeliveryTime();
-//   }, []);
-//
-//   useEffect(() => {
-//     if (!freeDeliveryEndTime) return;
-//
-//     const interval = setInterval(() => {
-//       const now = new Date().getTime();
-//       const distance = freeDeliveryEndTime.getTime() - now;
-//
-//       if (distance < 0) {
-//         clearInterval(interval);
-//         setRemainingTime({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-//         return;
-//       }
-//
-//       const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-//       const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-//       const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-//       const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-//
-//       setRemainingTime({ days, hours, minutes, seconds });
-//     }, 1000);
-//
-//     return () => clearInterval(interval);
-//   }, [freeDeliveryEndTime]);
-//
-//   if (!freeDeliveryEndTime || (remainingTime.days === 0 && remainingTime.hours === 0 && remainingTime.minutes === 0 && remainingTime.seconds === 0)) {
-//     return null; // Don't render if no end time or countdown finished
-//   }
-//
-//   return (
-//     <div className="countdown-container">
-//       <p>Free Delivery Ends In:</p>
-//       <div className="countdown-timer">
-//         {remainingTime.days > 0 && <span>{remainingTime.days}d </span>}
-//         <span>{remainingTime.hours}h </span>
-//         <span>{remainingTime.minutes}m </span>
-//         <span>{remainingTime.seconds}s</span>
-//       </div>
-//     </div>
-//   );
-// };
-//
-// export default CountDown;
-
 
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const CountDown = () => {
+  const apiUrl = import.meta.env.VITE_API_URL;
+
   const [freeDeliveryEndTime, setFreeDeliveryEndTime] = useState(null);
   const [remainingTime, setRemainingTime] = useState({
     days: 0, hours: 0, minutes: 0, seconds: 0,
@@ -81,7 +13,8 @@ const CountDown = () => {
   useEffect(() => {
     const fetchFreeDeliveryTime = async () => {
       try {
-        const response = await axios.get('/api/getFreeDeliveryAmount');
+        const response = await axios.get(`${apiUrl}/getFreeDeliveryAmount`);
+
         if (response.data.success && response.data.data.freeDeliveryEndTime) {
           setFreeDeliveryEndTime(new Date(response.data.data.freeDeliveryEndTime));
         }
