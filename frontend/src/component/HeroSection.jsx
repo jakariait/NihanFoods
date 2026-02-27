@@ -275,7 +275,7 @@ export default function HeroSection({ product }) {
           width: "100%",
           maxWidth: "1180px",
           margin: "0 auto",
-          padding: "80px 28px",
+          padding: "28px",
         }}
       >
         {/* Origin badge */}

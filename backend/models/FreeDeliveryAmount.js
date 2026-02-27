@@ -7,6 +7,10 @@ const freeDeliveryAmountSchema = new mongoose.Schema(
       required: true,
       default: 0,
     },
+    freeDeliveryEndTime: {
+      type: Date,
+      default: null,
+    },
   },
   { timestamps: true, versionKey: false },
 );

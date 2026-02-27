@@ -12,6 +12,7 @@ import BenefitsCTASection from "../BenefitsCTASection.jsx";
 import SectionBackground from "../SectionBackground.jsx";
 import Footer from "../Footer.jsx";
 import ProductCarousel from "./ProductCarousel.jsx";
+import CountDown from "../CountDown.jsx";
 
 const ProductDetails = ({ slug }) => {
   const hasPushedRef = useRef(false);
@@ -136,6 +137,7 @@ const ProductDetails = ({ slug }) => {
               </div>
               <BenefitsCTASection />
               <ProductCarousel/>
+              <CountDown />
               <SinglePageCheckout product={product} />
               <Footer />
             </SectionBackground>

@@ -18,7 +18,7 @@ const getFreeDeliveryAmount = async (req, res) => {
 
 const updateFreeDeliveryAmount = async (req, res) => {
   try {
-    const { value } = req.body;
+    const { value, freeDeliveryEndTime } = req.body;
     if (typeof value !== "number" || value < 0) {
       return res.status(400).json({
         success: false,
@@ -26,7 +26,7 @@ const updateFreeDeliveryAmount = async (req, res) => {
       });
     }
 
-    const result = await freeDeliveryService.updateAmount(value);
+    const result = await freeDeliveryService.updateAmount(value, freeDeliveryEndTime);
     res.status(200).json({
       success: true,
       message: "Free delivery amount updated successfully.",

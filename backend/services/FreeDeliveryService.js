@@ -12,13 +12,14 @@ const getAmount = async () => {
   }
 };
 
-const updateAmount = async (newValue) => {
+const updateAmount = async (newValue, newFreeDeliveryEndTime) => {
   try {
     let doc = await FreeDeliveryAmount.findOne();
     if (!doc) {
-      doc = await FreeDeliveryAmount.create({ value: newValue });
+      doc = await FreeDeliveryAmount.create({ value: newValue, freeDeliveryEndTime: newFreeDeliveryEndTime });
     } else {
       doc.value = newValue;
+      doc.freeDeliveryEndTime = newFreeDeliveryEndTime;
       await doc.save();
     }
     return doc;

@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import useAuthAdminStore from "../../store/AuthAdminStore";
+import dayjs from "dayjs";
 
 const UpdateFreeDeliveryAmount = () => {
   const [amount, setAmount] = useState("");
   const [currentValue, setCurrentValue] = useState(null);
+  const [deliveryEndTime, setDeliveryEndTime] = useState("");
+  const [currentDeliveryEndTime, setCurrentDeliveryEndTime] = useState(null);
   const [loading, setLoading] = useState(false);
   const [fetching, setFetching] = useState(true);
   const [snackbar, setSnackbar] = useState({
@@ -22,6 +25,15 @@ const UpdateFreeDeliveryAmount = () => {
           headers: { Authorization: `Bearer ${token}` },
         });
         setCurrentValue(res.data?.data?.value ?? 0);
+        const fetchedEndTime = res.data?.data?.freeDeliveryEndTime;
+        if (fetchedEndTime) {
+          // Format for datetime-local input
+          setDeliveryEndTime(dayjs(fetchedEndTime).format("YYYY-MM-DDTHH:mm"));
+          setCurrentDeliveryEndTime(new Date(fetchedEndTime));
+        } else {
+          setDeliveryEndTime("");
+          setCurrentDeliveryEndTime(null);
+        }
       } catch (err) {
         console.error("Failed to fetch current value", err);
       } finally {
@@ -33,19 +45,30 @@ const UpdateFreeDeliveryAmount = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!amount.trim()) return alert("Please enter a valid amount");
+    if (!amount.trim() && !deliveryEndTime) {
+      alert("Please enter a valid amount or set a timer.");
+      return;
+    }
+
     try {
       setLoading(true);
+      const payload = {
+        value: amount.trim() ? Number(amount) : currentValue,
+        freeDeliveryEndTime: deliveryEndTime ? dayjs(deliveryEndTime).toISOString() : null,
+      };
+
       await axios.patch(
         `${apiUrl}/updateFreeDeliveryAmount`,
-        { value: Number(amount) },
+        payload,
         { headers: { Authorization: `Bearer ${token}` } },
       );
-      setCurrentValue(Number(amount));
+      
+      setCurrentValue(amount.trim() ? Number(amount) : currentValue);
+      setCurrentDeliveryEndTime(deliveryEndTime ? new Date(deliveryEndTime) : null);
       setAmount("");
       setSnackbar({
         open: true,
-        message: "Free delivery amount updated successfully",
+        message: "Free delivery settings updated successfully",
         type: "success",
       });
     } catch (err) {
@@ -61,11 +84,15 @@ const UpdateFreeDeliveryAmount = () => {
     }
   };
 
+  const clearTimer = () => {
+    setDeliveryEndTime("");
+  };
+
   return (
     <>
       <div className=" bg-white shadow-md rounded-xl p-4">
         <h1 className="border-l-4 primaryBorderColor primaryTextColor mb-4 pl-2 text-lg font-semibold">
-          Free Delivery Amount Settings
+          Free Delivery Settings
         </h1>
         <form onSubmit={handleSubmit} className="space-y-5">
           <p className="text-sm text-gray-700">
@@ -83,15 +110,40 @@ const UpdateFreeDeliveryAmount = () => {
               placeholder="e.g. 5000"
               className=" px-4 py-2 border border-gray-300 rounded-md focus:outline-none "
             />
+          </div>
+
+          <div className="flex flex-col space-y-4">
+            <label htmlFor="delivery-end-time" className="text-sm font-medium text-gray-700">
+              Set Free Delivery End Time:
+            </label>
+            <input
+              type="datetime-local"
+              id="delivery-end-time"
+              value={deliveryEndTime}
+              onChange={(e) => setDeliveryEndTime(e.target.value)}
+              className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none"
+            />
+            {currentDeliveryEndTime && (
+              <p className="text-sm text-gray-700">
+                Currently set to: {dayjs(currentDeliveryEndTime).format("MMMM D, YYYY h:mm A")}
+              </p>
+            )}
             <button
-              type="submit"
-              disabled={loading}
-              className={`px-6 py-2 cursor-pointer rounded-md primaryBgColor accentTextColor`}
+              type="button"
+              onClick={clearTimer}
+              className={`px-6 py-2 cursor-pointer rounded-md bg-red-500 text-white`}
             >
-              {loading ? "Updating..." : "Update Amount"}
+              Clear Timer
             </button>
           </div>
 
+          <button
+            type="submit"
+            disabled={loading}
+            className={`px-6 py-2 cursor-pointer rounded-md primaryBgColor accentTextColor`}
+          >
+            {loading ? "Updating..." : "Update Settings"}
+          </button>
         </form>
       </div>
       {snackbar.open && (
