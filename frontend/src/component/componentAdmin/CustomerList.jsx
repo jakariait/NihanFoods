@@ -56,7 +56,7 @@ const CustomerList = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      setCustomers(res.data.users);
+      setCustomers(res.data.users || []);
     } catch (err) {
       setSnackbar({
         open: true,
