@@ -1,6 +1,7 @@
 const User = require("../models/UserModel"); // Import the User model
 const orderService = require("../services/orderService");
-const sendTelegramMessage = require("../utility/telegramSms");
+const sendEmailMessage = require("../utility/sendEmail");
+const generateOrderEmailHTML = require("../utility/orderEmailTemplate");
 
 const createOrder = async (req, res) => {
   try {
@@ -10,10 +11,12 @@ const createOrder = async (req, res) => {
 
     if (userId) {
       user = await User.findById(userId);
+
       if (!user) {
-        return res
-          .status(404)
-          .json({ success: false, message: "User not found" });
+        return res.status(404).json({
+          success: false,
+          message: "User not found",
+        });
       }
 
       const rewardPointsUsedNumber = Number(rewardPointsUsed);
@@ -22,55 +25,58 @@ const createOrder = async (req, res) => {
       if (rewardPointsUsedNumber > userRewardPoints) {
         return res.status(400).json({
           success: false,
-          message: "You cannot use more reward points than you have available.",
+          message:
+            "You cannot use more reward points than you have available.",
         });
       }
     }
 
-    // Proceed with creating the order (pass userId only if available)
+    // ✅ Create order first
     const order = await orderService.createOrder(
       { ...orderData, rewardPointsUsed },
-      userId || null,
+      userId || null
     );
 
+    // ✅ Update reward points
     if (user && rewardPointsUsed > 0) {
       user.rewardPoints -= Number(rewardPointsUsed);
       await user.save();
     }
 
-    // Populate product details to get product names
+    // ✅ Populate products
     await order.populate("items.productId", "name");
 
-    // Send Telegram message
-    const productList = order.items
-      .map(
-        (item) =>
-          `- ${item.productId.name} (Qty: ${item.quantity}, Price: ${item.price})`,
-      )
-      .join("\n");
-
-    const message = `
-      New Order Received!
-      -------------------
-      Order No: ${order.orderNo}
-      Total Amount: ${order.totalAmount}
-      Customer Name: ${order.shippingInfo.fullName}
-      Phone: ${order.shippingInfo.mobileNo}
-      Address: ${order.shippingInfo.address}
-
-      Products:
-      ${productList}
-    `;
-
-    await sendTelegramMessage(message);
-
+    // ✅ Respond to client immediately
     res.status(201).json({
       success: true,
       message: "Order created successfully",
       order,
     });
+
+    // ===============================
+    // 🔥 Background Email (Non-blocking)
+    // ===============================
+    process.nextTick(async () => {
+      try {
+        const emailHTML = generateOrderEmailHTML(order);
+
+        await sendEmailMessage(
+          emailHTML,
+          "New Order Received",
+          true
+        );
+
+      } catch (err) {
+        console.error(
+          "Email failed (non-blocking):",
+          err.message
+        );
+      }
+    });
+
   } catch (error) {
     console.error("Order Creation Error:", error);
+
     res.status(500).json({
       success: false,
       message: "Error creating order: " + error.message,
