@@ -43,8 +43,11 @@ const createOrder = async (req, res) => {
       await user.save();
     }
 
-    // ✅ Populate products
-    await order.populate("items.productId", "name");
+    // ✅ Populate products and shipping method
+    await order.populate([
+      { path: "items.productId", select: "name" },
+      { path: "shippingId", select: "name" },
+    ]);
 
     // ✅ Respond to client immediately
     res.status(201).json({

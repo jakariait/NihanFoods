@@ -13,7 +13,7 @@ const generateOrderEmailHTML = (order) => {
             ৳${item.price}
           </td>
         </tr>
-      `
+      `,
     )
     .join("");
 
@@ -31,7 +31,7 @@ const generateOrderEmailHTML = (order) => {
 
     <!-- Header -->
     <div style="background:#16a34a;color:#fff;padding:20px;text-align:center;">
-      <h2 style="margin:0;">🛒 New Order Received</h2>
+      <h2 style="margin:0;">New Order Received</h2>
       <p style="margin:5px 0 0;font-size:14px;">
         Order No: <strong>${order.orderNo}</strong>
       </p>
@@ -68,8 +68,18 @@ const generateOrderEmailHTML = (order) => {
         </tbody>
       </table>
 
+      <!-- Breakdown -->
+      <div style="margin-top:20px; text-align:right; font-size:14px; color:#555;">
+        <p style="margin:5px 0;">Subtotal: <strong>৳${order.subtotalAmount}</strong></p>
+        ${order.promoDiscount > 0 ? `<p style="margin:5px 0;">Promo Discount: <strong style="color:#dc2626;">-৳${order.promoDiscount}</strong></p>` : ""}
+        ${order.specialDiscount > 0 ? `<p style="margin:5px 0;">Special Discount: <strong style="color:#dc2626;">-৳${order.specialDiscount}</strong></p>` : ""}
+        ${order.rewardPointsUsed > 0 ? `<p style="margin:5px 0;">Reward Points Used: <strong style="color:#dc2626;">-৳${order.rewardPointsUsed}</strong></p>` : ""}
+        ${order.vat > 0 ? `<p style="margin:5px 0;">VAT: <strong>৳${order.vat}</strong></p>` : ""}
+        <p style="margin:5px 0;">Shipping Charge (${order.shippingId?.name || (order.deliveryMethod || "Delivery").replace(/_/g, " ")}): <strong>৳${order.deliveryCharge}</strong></p>
+      </div>
+
       <!-- Total -->
-      <div style="margin-top:20px;text-align:right;font-size:16px;">
+      <div style="margin-top:10px;text-align:right;font-size:16px; border-top:1px solid #eee; padding-top:10px;">
         <strong>Total Amount:</strong>
         <span style="color:#16a34a;font-size:18px;">
           ৳${order.totalAmount}
