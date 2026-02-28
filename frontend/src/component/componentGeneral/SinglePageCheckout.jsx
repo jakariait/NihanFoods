@@ -224,7 +224,10 @@ const SinglePageCheckout = ({ product }) => {
   if (vatPercentage === null || freeDelivery === null) return null;
 
   return (
-    <div id={"checkout"} className="max-w-6xl mx-auto p-4 pt-20 font-sans text-gray-900">
+    <div
+      id={"checkout"}
+      className="max-w-6xl mx-auto p-4 pt-20 font-sans text-gray-900"
+    >
       <form
         onSubmit={handleOrderSubmit}
         className="grid grid-cols-1 lg:grid-cols-2 gap-8"
@@ -395,18 +398,19 @@ const SinglePageCheckout = ({ product }) => {
         addressData={addressData}
         cart={[
           {
-            productId: product._id,
+            productId: product._id || product.productId,
             name: product.name,
             quantity,
             originalPrice: selectedVariant?.price,
             discountPrice: selectedVariant?.discount,
-            variantId: selectedVariant?.size?.name,
+            variantId: selectedVariant?._id || "Default",
           },
         ]}
         totalAmount={grandTotal}
         user={user}
         apiUrl={apiUrl}
         orderPlaced={orderPlaced}
+        isCheckoutPage={true}
       />
     </div>
   );

@@ -2,16 +2,29 @@ import React, { useEffect, useCallback, useRef } from "react";
 import { useLocation } from "react-router-dom";
 
 const AbandonedCartTracker = ({
-                                addressData,
-                                cart,
-                                totalAmount,
-                                user,
-                                apiUrl,
-                                orderPlaced,
-                              }) => {
+  addressData,
+  cart,
+  totalAmount,
+  user,
+  apiUrl,
+  orderPlaced,
+  isCheckoutPage = null,
+}) => {
   const location = useLocation();
   const latestProps = useRef();
-  latestProps.current = { addressData, cart, totalAmount, user, apiUrl, orderPlaced };
+  latestProps.current = {
+    addressData,
+    cart,
+    totalAmount,
+    user,
+    apiUrl,
+    orderPlaced,
+  };
+
+  const effectiveIsCheckout =
+    isCheckoutPage !== null
+      ? isCheckoutPage
+      : location.pathname.includes("/checkout");
 
   useEffect(() => {
     if (latestProps.current.orderPlaced) {
@@ -36,7 +49,8 @@ const AbandonedCartTracker = ({
   }, []);
 
   const getPayload = useCallback(() => {
-    const { addressData, cart, totalAmount, user, orderPlaced } = latestProps.current;
+    const { addressData, cart, totalAmount, user, orderPlaced } =
+      latestProps.current;
     return {
       userId: user?._id || undefined,
       fullName: addressData?.fullName || undefined,
@@ -83,7 +97,7 @@ const AbandonedCartTracker = ({
 
   // Handles SPA navigation away from checkout
   useEffect(() => {
-    if (location.pathname.includes("/checkout")) {
+    if (effectiveIsCheckout) {
       // If a timer was set by a previous checkout page, cancel it.
       if (window.abandonedCartTimer) {
         clearTimeout(window.abandonedCartTimer);
@@ -104,12 +118,20 @@ const AbandonedCartTracker = ({
         }, 100);
       }
     };
-  }, [location.pathname, isOrderPlaced, sendAbandonedCart]);
+  }, [
+    location.pathname,
+    isOrderPlaced,
+    sendAbandonedCart,
+    effectiveIsCheckout,
+  ]);
 
   // Handles closing tab or navigating to a different site
   useEffect(() => {
     const handlePotentialUnload = (event) => {
-      if (event.type === 'visibilitychange' && document.visibilityState !== 'hidden') {
+      if (
+        event.type === "visibilitychange" &&
+        document.visibilityState !== "hidden"
+      ) {
         return;
       }
 
