@@ -189,10 +189,10 @@ const ProductCarousel = () => {
                         className="w-full h-full object-cover"
                         skeletonHeight={400}
                         altName={
-                          GeneralInfoList?.CompanyEmail || "Product Image"
+                          GeneralInfoList?.CompanyName || "Product Image"
                         }
-                        width={1200}
-                        height={400}
+                        width={1000}
+                        height={1000}
                         loadingStrategy="eager"
                         fetchPriority="high"
                       />
