@@ -65,7 +65,7 @@ const createOrder = async (req, res) => {
 
         await sendEmailMessage(
           emailHTML,
-          "New Order Received",
+          `New Order Received #${order.orderNo} `,
           true
         );
 

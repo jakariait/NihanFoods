@@ -45,9 +45,9 @@ const generateOrderEmailHTML = (order) => {
         Customer Details
       </h3>
 
-      <p><strong>Name:</strong> ${order.shippingInfo.fullName}</p>
-      <p><strong>Phone:</strong> ${order.shippingInfo.mobileNo}</p>
-      <p><strong>Address:</strong> ${order.shippingInfo.address}</p>
+      <p>${order.shippingInfo.fullName}</p>
+      <p>${order.shippingInfo.mobileNo}</p>
+      <p>${order.shippingInfo.address}</p>
 
       <!-- Order Info -->
       <h3 style="margin:20px 0 10px;border-bottom:2px solid #eee;padding-bottom:5px;">
