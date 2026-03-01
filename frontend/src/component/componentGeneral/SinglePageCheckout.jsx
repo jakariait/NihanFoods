@@ -282,12 +282,35 @@ const SinglePageCheckout = ({ product }) => {
                           <FaPlus />
                         </button>
                       </div>
+                      {/*<div className="text-xl font-bold">*/}
+                      {/*  ৳ {variant?.price}*/}
+                      {/*  {formatPrice(*/}
+                      {/*    variant.discount > 0*/}
+                      {/*      ? variant.discount*/}
+                      {/*      : variant.price,*/}
+                      {/*  )}*/}
+                      {/*</div>*/}
                       <div className="text-xl font-bold">
-                        ৳{" "}
-                        {formatPrice(
-                          variant.discount > 0
-                            ? variant.discount
-                            : variant.price,
+                        {variant.discount > 0 ? (
+                          <>
+                            {/* Discounted Price */}
+                            <span className="text-red-600">
+                              ৳ {formatPrice(variant.discount)}
+                            </span>
+
+                            {/* Original Price (strikethrough) */}
+                            <span className="text-gray-400 line-through text-sm font-normal ml-2">
+                              ৳ {formatPrice(variant.price)}
+                            </span>
+
+                            {/* Saved Amount */}
+                            <span className="text-green-600 text-sm font-medium ml-2">
+                              Save ৳{" "}
+                              {formatPrice(variant.price - variant.discount)}
+                            </span>
+                          </>
+                        ) : (
+                          <span>৳ {formatPrice(variant.price)}</span>
                         )}
                       </div>
                     </div>
