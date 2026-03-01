@@ -1,5 +1,5 @@
 import React from "react";
-import ImageComponent from "./componentGeneral/ImageComponent.jsx";
+import ImageComponent from "./componentGeneral/ImageComponentWithCompression.jsx";
 
 export default function HeroSection({ product }) {
   const features = [
@@ -488,7 +488,16 @@ export default function HeroSection({ product }) {
         </div>
         {/*Thumbnail Image*/}
         <div className={"max-w-3xl mx-auto pt-10"}>
-          <ImageComponent imageName={product?.thumbnailImage} />
+          <ImageComponent
+            imageName={product?.thumbnailImage}
+            altName={product?.name}
+            className="w-full aspect-square object-cover"
+            skeletonHeight={"400px"}
+            width={1000}
+            height={1000}
+            loadingStrategy="eager"
+            fetchPriority="high"
+          />
         </div>
       </div>
 

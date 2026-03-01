@@ -1,6 +1,6 @@
 import SectionBackground from "./SectionBackground";
 import GeneralInfoStore from "../store/GeneralInfoStore.js";
-import ImageComponent from "./componentGeneral/ImageComponent.jsx";
+import ImageComponentWithCompression from "./componentGeneral/ImageComponentWithCompression.jsx";
 
 export default function Footer() {
   const { GeneralInfoList } = GeneralInfoStore();
@@ -23,9 +23,14 @@ export default function Footer() {
       <div style={{ textAlign: "center", padding: "0 28px" }}>
         {/* Logo / brand mark */}
         <div className={"flex items-center justify-center"}>
-          <ImageComponent
+          <ImageComponentWithCompression
             imageName={GeneralInfoList.PrimaryLogo}
-            className={"w-30"}
+            width={100}
+            height={100}
+            altName={GeneralInfoList?.CompanyName}
+            skeletonHeight={20}
+            loadingStrategy="eager"
+            fetchPriority="high"
           />
         </div>
 
