@@ -71,233 +71,67 @@ const CountDown = () => {
   ];
 
   return (
-    <>
-      <style>{`
-        @keyframes cd-pulseGlow { 0%,100%{opacity:0.5;transform:scale(1)} 50%{opacity:0.85;transform:scale(1.05)} }
-        @keyframes cd-deliveryBounce { 0%,100%{transform:translateX(0)} 50%{transform:translateX(5px)} }
-        @keyframes cd-dotPulse { 0%,100%{opacity:1;box-shadow:0 0 6px #34d399} 50%{opacity:0.4;box-shadow:0 0 14px #34d399} }
-        @keyframes cd-flipIn { 0%{transform:translateY(-8px);opacity:0} 100%{transform:translateY(0);opacity:1} }
-        @keyframes shimmerGold { 0%{background-position:200% center} 100%{background-position:-200% center} }
+    <div className="relative overflow-hidden bg-gradient-to-b from-green-900 via-emerald-900 to-emerald-800 py-7 px-4 md:px-5 font-serif">
+      {/* Ambient glow top */}
+      <div className="absolute -top-3/5 right-[-10%] w-[300px] h-[300px] rounded-full bg-emerald-500/20 pointer-events-none z-0 animate-pulse" />
 
-        .cd-unit-box {
-          transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-        .cd-unit-box:hover {
-          transform: translateY(-3px);
-          box-shadow: 0 12px 32px rgba(0,0,0,0.3) !important;
-        }
-        .cd-number {
-          animation: cd-flipIn 0.35s ease;
-        }
-        .cd-delivery-icon {
-          animation: cd-deliveryBounce 2s ease-in-out infinite;
-          display: inline-block;
-        }
-        .cd-gold-shimmer {
-          background: linear-gradient(90deg,#ca8a04,#fbbf24,#fde68a,#fbbf24,#ca8a04);
-          background-size: 200% auto;
-          -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-          animation: shimmerGold 2.5s linear infinite;
-        }
-      `}</style>
-
+      {/* Ambient glow bottom */}
       <div
-        style={{
-          position: "relative",
-          overflow: "hidden",
-          background:
-            "linear-gradient(145deg, #052e16 0%, #064e3b 60%, #065f46 100%)",
-          padding: "28px 20px",
-          fontFamily: "'Noto Serif Bengali', 'Hind Siliguri', Georgia, serif",
-        }}
-      >
-        {/* Ambient glow */}
-        <div
-          style={{
-            position: "absolute",
-            top: "-60%",
-            right: "-10%",
-            width: "300px",
-            height: "300px",
-            background:
-              "radial-gradient(circle, rgba(16,185,129,0.18) 0%, transparent 65%)",
-            borderRadius: "50%",
-            animation: "cd-pulseGlow 5s ease-in-out infinite",
-            pointerEvents: "none",
-            zIndex: 0,
-          }}
-        />
-        <div
-          style={{
-            position: "absolute",
-            bottom: "-60%",
-            left: "-5%",
-            width: "260px",
-            height: "260px",
-            background:
-              "radial-gradient(circle, rgba(5,150,105,0.2) 0%, transparent 65%)",
-            borderRadius: "50%",
-            animation: "cd-pulseGlow 6s ease-in-out infinite 1.5s",
-            pointerEvents: "none",
-            zIndex: 0,
-          }}
-        />
+        className="absolute -bottom-3/5 left-[-5%] w-[260px] h-[260px] rounded-full bg-emerald-600/25 pointer-events-none z-0 animate-pulse"
+        style={{ animationDelay: "1.5s", animationDuration: "6s" }}
+      />
 
-        {/* Vertical line accent */}
-        <div
-          style={{
-            position: "absolute",
-            top: 0,
-            right: "30%",
-            width: "1px",
-            height: "100%",
-            background:
-              "linear-gradient(to bottom, transparent, rgba(52,211,153,0.1), transparent)",
-            pointerEvents: "none",
-            zIndex: 0,
-          }}
-        />
+      {/* Vertical line accent */}
+      <div className="absolute top-0 right-[30%] w-px h-full bg-gradient-to-b from-transparent via-emerald-500/10 to-transparent pointer-events-none z-0" />
 
-        <div style={{ position: "relative", zIndex: 1, textAlign: "center" }}>
-          {/* Badge */}
-          <div style={{ marginBottom: "14px" }}>
-            <span
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "8px",
-                background: "rgba(16,185,129,0.12)",
-                border: "1px solid rgba(52,211,153,0.25)",
-                backdropFilter: "blur(8px)",
-                padding: "6px 16px",
-                borderRadius: "100px",
-                fontSize: "12px",
-                color: "#6ee7b7",
-                letterSpacing: "0.06em",
-              }}
-            >
-              <span
-                style={{
-                  width: "6px",
-                  height: "6px",
-                  borderRadius: "50%",
-                  background: "#34d399",
-                  display: "inline-block",
-                  animation: "cd-dotPulse 2s infinite",
-                }}
-              />
-              <span className="cd-delivery-icon">🚚</span>
-              &nbsp;অফার শেষ হওয়ার আগেই অর্ডার করুন
-            </span>
-          </div>
-
-          {/* Title */}
-          <p
-            style={{
-              fontSize: "clamp(13px,1.6vw,16px)",
-              fontWeight: 700,
-              margin: "0 0 18px",
-            }}
-          >
-            <span className="cd-gold-shimmer">
-              ফ্রি ডেলিভারি অফার শেষ হচ্ছে
-            </span>
-          </p>
-
-          {/* Countdown boxes */}
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              gap: "8px",
-              flexWrap: "wrap",
-            }}
-          >
-            {units.map((u, i) => (
-              <React.Fragment key={u.label}>
-                <div
-                  className="cd-unit-box"
-                  style={{
-                    background: "rgba(5,46,22,0.6)",
-                    backdropFilter: "blur(12px)",
-                    border: "1px solid rgba(52,211,153,0.2)",
-                    borderRadius: "14px",
-                    padding: "14px 18px",
-                    minWidth: "64px",
-                    textAlign: "center",
-                    boxShadow: "0 4px 20px rgba(0,0,0,0.25)",
-                  }}
-                >
-                  <div
-                    className="cd-number"
-                    key={u.value}
-                    style={{
-                      fontSize: "clamp(24px,3.5vw,36px)",
-                      fontWeight: 900,
-                      color: "red",
-                      lineHeight: 1,
-                    }}
-                  >
-                    {String(u.value).padStart(2, "0")}
-                  </div>
-                  <div
-                    style={{
-                      fontSize: "11px",
-                      color: "rgba(167,243,208,0.6)",
-                      marginTop: "5px",
-                      letterSpacing: "0.04em",
-                    }}
-                  >
-                    {u.label}
-                  </div>
-                </div>
-
-                {/* Separator dots (not after last) */}
-                {i < units.length - 1 && (
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      gap: "5px",
-                      marginTop: "-8px",
-                    }}
-                  >
-                    <div
-                      style={{
-                        width: "5px",
-                        height: "5px",
-                        borderRadius: "50%",
-                        background: "rgba(52,211,153,0.5)",
-                      }}
-                    />
-                    <div
-                      style={{
-                        width: "5px",
-                        height: "5px",
-                        borderRadius: "50%",
-                        background: "rgba(52,211,153,0.5)",
-                      }}
-                    />
-                  </div>
-                )}
-              </React.Fragment>
-            ))}
-          </div>
-
-          {/* Bottom divider */}
-          <div
-            style={{
-              width: "48px",
-              height: "2px",
-              borderRadius: "100px",
-              margin: "16px auto 0",
-              background: "linear-gradient(90deg, #34d399, #fbbf24)",
-            }}
-          />
+      <div className="relative z-10 text-center">
+        {/* Badge */}
+        <div className="mb-3.5">
+          <span className="inline-flex items-center gap-2 bg-emerald-500/15 border border-emerald-500/30 backdrop-blur-sm px-4 py-1.5 rounded-full text-xs text-emerald-300 tracking-widest">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+            <span className="animate-bounce inline-block">🚚</span>
+            <span>অফার শেষ হওয়ার আগেই অর্ডার করুন</span>
+          </span>
         </div>
+
+        {/* Title */}
+        <p className="text-sm md:text-base font-bold mb-4">
+          <span className="bg-gradient-to-r from-amber-600 via-amber-400 via-amber-200 to-amber-600 bg-[length:200%_auto] bg-clip-text text-transparent animate-[shimmer_2.5s_linear_infinite]">
+            ফ্রি ডেলিভারি অফার শেষ হচ্ছে
+          </span>
+        </p>
+
+        {/* Countdown boxes */}
+        <div className="flex justify-center items-center gap-1 md:gap-2 flex-nowrap overflow-x-auto pb-1">
+          {units.map((u, i) => (
+            <React.Fragment key={u.label}>
+              <div className="bg-green-950/60 backdrop-blur-xl border border-emerald-500/20 rounded-3xl py-3 px-4 md:py-3.5 md:px-5 min-w-[52px] md:min-w-[64px] text-center shadow-lg transition-transform hover:-translate-y-1 hover:shadow-xl">
+                <div
+                  className="text-xl md:text-2xl lg:text-4xl font-black text-red-500 leading-none animate-[flipIn_0.35s_ease]"
+                  key={u.value}
+                >
+                  {String(u.value).padStart(2, "0")}
+                </div>
+                <div className="text-[11px] text-emerald-200/60 mt-1.5 tracking-wide">
+                  {u.label}
+                </div>
+              </div>
+
+              {/* Separator dots */}
+              {i < units.length - 1 && (
+                <div className="flex flex-col gap-1 -mt-2 flex-shrink-0">
+                  <div className="w-1 h-1 rounded-full bg-emerald-500/50" />
+                  <div className="w-1 h-1 rounded-full bg-emerald-500/50" />
+                </div>
+              )}
+            </React.Fragment>
+          ))}
+        </div>
+
+        {/* Bottom divider */}
+        <div className="w-12 h-0.5 rounded-full mx-auto mt-4 bg-gradient-to-r from-emerald-400 to-amber-400" />
       </div>
-    </>
+    </div>
   );
 };
 

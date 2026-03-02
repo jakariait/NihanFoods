@@ -9,6 +9,10 @@ const ProductGallery = ({ images, discount, zoom = true, productName }) => {
   const [isZoomed, setIsZoomed] = useState(false);
   const containerRef = useRef(null);
 
+  const validImages = Array.isArray(images) && images.length > 0;
+  const displayImages = validImages ? images : [];
+  const currentIndex = validImages && activeIndex >= images.length ? 0 : activeIndex;
+
   const changeImage = (direction) => {
     setActiveIndex((prevIndex) => {
       if (direction === "next") {
@@ -19,7 +23,7 @@ const ProductGallery = ({ images, discount, zoom = true, productName }) => {
     });
   };
 
-  if (!images || images.length === 0) {
+  if (!validImages) {
     return <div className="w-full aspect-square bg-gray-100 animate-pulse" />;
   }
 
