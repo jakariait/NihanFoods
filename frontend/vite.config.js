@@ -47,11 +47,8 @@ export default defineConfig(async () => {
               return "vendor-user";
             }
             if (id.includes("node_modules")) {
-              if (id.includes("react")) {
+              if (id.includes("react") || id.includes("@mui") || id.includes("@emotion")) {
                 return "vendor-react";
-              }
-              if (id.includes("@mui") || id.includes("@emotion")) {
-                return "vendor-ui";
               }
               if (id.includes("axios") || id.includes("lodash")) {
                 return "vendor-utils";

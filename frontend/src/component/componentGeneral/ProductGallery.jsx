@@ -1,13 +1,30 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { BsArrowsFullscreen } from "react-icons/bs";
 import { FaTimes } from "react-icons/fa";
-import ImageComponentWithCompression from "./ImageComponentWithCompression.jsx";
 
 const ProductGallery = ({ images, discount, zoom = true, productName }) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isZoomed, setIsZoomed] = useState(false);
+  const [loadedImages, setLoadedImages] = useState({});
   const containerRef = useRef(null);
+
+  const getImageUrl = useCallback((imageName) => {
+    const apiUrl = import.meta.env.VITE_API_URL;
+    return `${apiUrl.replace("/api", "")}/uploads/${imageName}`;
+  }, []);
+
+  useEffect(() => {
+    if (images?.length > 0) {
+      images.forEach((imageName) => {
+        const img = new window.Image();
+        img.src = getImageUrl(imageName);
+        img.onload = () => {
+          setLoadedImages(prev => ({ ...prev, [imageName]: true }));
+        };
+      });
+    }
+  }, [images, getImageUrl]);
 
   const changeImage = (direction) => {
     setActiveIndex((prevIndex) => {
@@ -23,23 +40,23 @@ const ProductGallery = ({ images, discount, zoom = true, productName }) => {
     return <div className="w-full aspect-square bg-gray-100 animate-pulse" />;
   }
 
+  const currentImageUrl = getImageUrl(images[activeIndex]);
+
   return (
     <>
       <div className="flex flex-col items-center w-full">
-        <div ref={containerRef} className="relative w-full ">
-          <div className="relative w-full" style={{ paddingBottom: "100%" }}>
-            <div className="absolute inset-0 ">
-              <ImageComponentWithCompression
-                imageName={images[activeIndex]}
-                altName={productName}
-                className="w-full h-full object-cover"
-                skeletonHeight="100%"
-                width={800}
-                height={800}
-                loadingStrategy="eager"
-                fetchPriority="high"
-              />
+        <div ref={containerRef} className="relative w-full max-w-[700px]">
+          <div className="relative w-full" style={{ paddingBottom: '100%' }}>
+            <div className="absolute inset-0 bg-gray-100">
+              {loadedImages[images[activeIndex]] && (
+                <img
+                  src={currentImageUrl}
+                  alt={productName || 'Product'}
+                  className="w-full h-full object-cover"
+                />
+              )}
             </div>
+
 
             {images.length > 1 && (
               <div className="absolute bottom-2 right-2 bg-white px-2 py-1 text-xs z-10">
@@ -79,13 +96,10 @@ const ProductGallery = ({ images, discount, zoom = true, productName }) => {
                     }`}
                     onClick={() => setActiveIndex(idx)}
                   >
-                    <ImageComponentWithCompression
-                      imageName={img}
-                      altName={`${productName} thumbnail ${idx + 1}`}
+                    <img
+                      src={getImageUrl(img)}
+                      alt={`${productName} thumbnail ${idx + 1}`}
                       className="w-full h-full object-cover"
-                      skeletonHeight="80px"
-                      width={200}
-                      height={200}
                     />
                   </button>
                 ))}
@@ -104,7 +118,7 @@ const ProductGallery = ({ images, discount, zoom = true, productName }) => {
       </div>
 
       {isZoomed && (
-        <div
+        <div 
           className="fixed inset-0 z-[9999] bg-black/90 flex items-center justify-center"
           onClick={() => setIsZoomed(false)}
         >
@@ -114,7 +128,7 @@ const ProductGallery = ({ images, discount, zoom = true, productName }) => {
           >
             <FaTimes />
           </button>
-
+          
           {images.length > 1 && (
             <>
               <button
@@ -139,13 +153,12 @@ const ProductGallery = ({ images, discount, zoom = true, productName }) => {
               </button>
             </>
           )}
-
-          <ImageComponentWithCompression
-            imageName={images[activeIndex]}
-            altName={productName}
+          
+          <img
+            src={currentImageUrl}
+            alt={productName || 'Product'}
             className="max-w-[90vw] max-h-[90vh] object-contain"
-            width={1200}
-            height={1200}
+            onClick={(e) => e.stopPropagation()}
           />
         </div>
       )}
