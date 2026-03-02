@@ -541,8 +541,8 @@ export default function SolutionSection() {
               <div
                 className="benefit-card"
                 style={{
-                  padding: "22px",
-                  borderRadius: "18px",
+                  padding: "16px",
+                  borderRadius: "14px",
                   height: "100%",
                   background: b.accent,
                   border: `1px solid ${b.border}`,
@@ -552,21 +552,21 @@ export default function SolutionSection() {
                 <div
                   style={{
                     display: "flex",
-                    alignItems: "flex-start",
-                    gap: "14px",
+                    alignItems: "center",
+                    gap: "12px",
                   }}
                 >
                   <div
                     style={{
-                      width: "48px",
-                      height: "48px",
-                      borderRadius: "12px",
+                      width: "40px",
+                      height: "40px",
+                      borderRadius: "10px",
                       flexShrink: 0,
                       background: b.iconBg,
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
-                      fontSize: "22px",
+                      fontSize: "20px",
                     }}
                   >
                     {b.icon}
@@ -576,9 +576,9 @@ export default function SolutionSection() {
                       style={{
                         color: "#fff",
                         fontWeight: 700,
-                        fontSize: "clamp(14px,1.5vw,16px)",
-                        lineHeight: 1.4,
-                        margin: "0 0 8px",
+                        fontSize: "14px",
+                        lineHeight: 1.3,
+                        margin: "0 0 4px",
                       }}
                     >
                       {b.title}
@@ -586,8 +586,8 @@ export default function SolutionSection() {
                     <p
                       style={{
                         color: "rgba(255,255,255,0.65)",
-                        fontSize: "clamp(12px,1.3vw,14px)",
-                        lineHeight: 1.75,
+                        fontSize: "12px",
+                        lineHeight: 1.4,
                         margin: 0,
                       }}
                     >

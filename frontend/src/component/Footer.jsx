@@ -24,7 +24,7 @@ export default function Footer() {
         {/* Logo / brand mark */}
         <div className={"flex items-center justify-center"}>
           <ImageComponentWithCompression
-            imageName={GeneralInfoList.PrimaryLogo}
+            imageName={GeneralInfoList?.PrimaryLogo}
             width={100}
             height={100}
             altName={GeneralInfoList?.CompanyName}

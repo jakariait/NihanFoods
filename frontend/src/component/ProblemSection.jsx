@@ -569,18 +569,11 @@ export default function ProblemSection() {
         {/*</AnimCard>*/}
 
         {/* Pain point cards — same glassmorphism card style */}
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fill, minmax(280px,1fr))",
-            gap: "16px",
-            marginBottom: "56px",
-          }}
-        >
+        <div className={"grid grid-cols-2 md:grid-cols-3 gap-3"}>
           {painPoints.map((p, i) => (
             <AnimCard key={i} delay={400 + i * 100}>
               <div
-                className="pain-card"
+                className="pain-card "
                 style={{
                   padding: "22px",
                   borderRadius: "18px",
@@ -590,13 +583,7 @@ export default function ProblemSection() {
                   backdropFilter: "blur(10px)",
                 }}
               >
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "flex-start",
-                    gap: "14px",
-                  }}
-                >
+                <div className={"space-y-2"}>
                   <div
                     style={{
                       width: "48px",
@@ -644,6 +631,7 @@ export default function ProblemSection() {
         {/* Closing question — same stat-card container style */}
         <AnimCard delay={1000}>
           <div
+            className={"mt-10"}
             style={{
               background: "rgba(5,46,22,0.5)",
               backdropFilter: "blur(16px)",

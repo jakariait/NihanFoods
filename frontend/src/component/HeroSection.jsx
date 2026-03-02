@@ -2,10 +2,7 @@ import React from "react";
 import ImageComponent from "./componentGeneral/ImageComponentWithCompression.jsx";
 
 export default function HeroSection({ product }) {
-  const features = [
-    { text: "কোনো কেমিক্যাল নেই" },
-    { text: "নিজস্ব আখ ক্ষেত থেকে" },
-  ];
+  const features = [{ text: "কেমিক্যাল বিহীন" }, { text: "নিজস্ব আখ ক্ষেত" }];
 
   return (
     <section
@@ -323,10 +320,8 @@ export default function HeroSection({ product }) {
             }}
           >
             আপনার পরিবার কি এখনও <br />
-            <span className={"text-red-600"}>
-              কেমিক্যালযুক্ত সাদা চিনি
-            </span>{" "}
-            <span style={{ color: "rgba(255,255,255,0.75)" }}>খাচ্ছে?</span>
+              <span className={"text-red-600"}>কেমিক্যালযুক্ত সাদা চিনি</span>{" "}
+              <span style={{ color: "rgba(255,255,255,0.75)" }}>খাচ্ছে?</span>
           </h1>
         </div>
 
@@ -364,16 +359,15 @@ export default function HeroSection({ product }) {
           <p
             style={{
               fontSize: "clamp(14px,1.6vw,17px)",
-              color: "rgba(167,243,208,0.75)",
+              color: "white",
               margin: 0,
               lineHeight: 1.65,
             }}
           >
-            সরাসরি উৎপাদকের থেকে — প্রকৃতির বিশুদ্ধ মিষ্টতা আপনার ঘরে
+            ফুলবাড়িয়ার ঐতিহ্যবাহী পদ্ধতিতে তৈরি — কোনো ব্লিচিং নেই, কোনো
+            কেমিক্যাল নেই। শুধু আখের রসের আসল মিষ্টতা, সরাসরি আপনার ঘরে।
           </p>
         </div>
-
-
 
         {/* Feature Pills */}
         <div className="anim-4 grid grid-cols-2 gap-3 mb-11 md:max-w-3xl ">
@@ -389,21 +383,8 @@ export default function HeroSection({ product }) {
         px-4 py-3
       "
             >
-              {/* Icon */}
-              <span className="text-lg sm:text-xl">{f.icon}</span>
-
               {/* Text */}
-              <span
-                className="
-        text-emerald-100
-        text-xs sm:text-sm
-        font-semibold
-        whitespace-nowrap
-
-      "
-              >
-                {f.text}
-              </span>
+              <span className={"font-bold  text-white"}>{f.text}</span>
             </div>
           ))}
         </div>
