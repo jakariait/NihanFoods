@@ -28,7 +28,7 @@ const ProductGallery = ({ images, discount, zoom = true, productName }) => {
       <div className="flex flex-col items-center w-full">
         <div ref={containerRef} className="relative w-full">
           <div className="relative w-full" style={{ paddingBottom: "100%" }}>
-            <div className="absolute inset-0 flex items-center justify-center bg-gray-50">
+            <div className="absolute inset-0 flex items-center justify-center ">
               <ImageComponentWithCompression
                 imageName={images[activeIndex]}
                 altName={productName}
