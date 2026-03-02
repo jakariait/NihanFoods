@@ -236,45 +236,55 @@ const SinglePageCheckout = ({ product }) => {
         <div className="space-y-6">
           <div className="bg-green-100 rounded-2xl p-4">
             <h2 className="text-xl font-bold mb-4">পণ্য নির্বাচন করুন</h2>
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-3 sm:gap-4">
               {product.variants?.map((variant) => {
                 const isSelected =
                   selectedVariant?.size?.name === variant.size.name;
+
                 return (
                   <div
                     key={variant.size.name}
                     onClick={() => setSelectedVariant(variant)}
-                    className={`relative border-2 rounded-xl p-4 cursor-pointer transition-all ${isSelected ? "border-red-600 bg-red-50" : "border-gray-200"}`}
+                    className={`relative border-2 rounded-xl p-3 sm:p-4 cursor-pointer transition-all
+        ${isSelected ? "border-red-600 bg-red-50" : "border-gray-200"}`}
                   >
-                    <div className="flex items-center gap-3 mb-3">
+                    {/* Header */}
+                    <div className="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-3">
                       <div
-                        className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${isSelected ? "border-red-600" : "border-gray-300"}`}
+                        className={`w-4 h-4 sm:w-5 sm:h-5 rounded-full border-2 flex items-center justify-center
+            ${isSelected ? "border-red-600" : "border-gray-300"}`}
                       >
                         {isSelected && (
-                          <div className="w-2.5 h-2.5 rounded-full bg-red-600" />
+                          <div className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-red-600" />
                         )}
                       </div>
-                      <span className="font-bold">
+
+                      <span className="font-bold text-sm sm:text-base">
                         {product.name} - {variant.size.name}
                       </span>
                     </div>
-                    <div className="flex justify-between items-center pl-8">
-                      <div className="flex items-center border rounded bg-white">
+
+                    {/* Content */}
+                    <div className="flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-center sm:pl-8">
+                      {/* Quantity */}
+                      <div className="flex items-center border rounded bg-white w-fit">
                         <button
                           type="button"
-                          className="px-3 py-1 border-r"
+                          className="px-2 sm:px-3 py-1 border-r"
                           onClick={(e) =>
                             isSelected && handleQuantityChange("decrease", e)
                           }
                         >
                           <FiMinus />
                         </button>
-                        <span className="px-4 font-bold">
+
+                        <span className="px-3 sm:px-4 font-bold text-sm sm:text-base">
                           {isSelected ? quantity : 1}
                         </span>
+
                         <button
                           type="button"
-                          className="px-3 py-1 border-l"
+                          className="px-2 sm:px-3 py-1 border-l"
                           onClick={(e) =>
                             isSelected && handleQuantityChange("increase", e)
                           }
@@ -282,29 +292,23 @@ const SinglePageCheckout = ({ product }) => {
                           <FaPlus />
                         </button>
                       </div>
-                      {/*<div className="text-xl font-bold">*/}
-                      {/*  ৳ {variant?.price}*/}
-                      {/*  {formatPrice(*/}
-                      {/*    variant.discount > 0*/}
-                      {/*      ? variant.discount*/}
-                      {/*      : variant.price,*/}
-                      {/*  )}*/}
-                      {/*</div>*/}
-                      <div className="text-xl font-bold">
+
+                      {/* Price */}
+                      <div className="text-right text-base sm:text-xl font-bold">
                         {variant.discount > 0 ? (
                           <>
-                            {/* Discounted Price */}
+                            {/* Discounted */}
                             <span className="text-red-600">
                               ৳ {formatPrice(variant.discount)}
                             </span>
 
-                            {/* Original Price (strikethrough) */}
-                            <span className="text-gray-400 line-through text-sm font-normal ml-2">
+                            {/* Original */}
+                            <span className="text-gray-400 line-through text-xs sm:text-sm font-normal ml-2">
                               ৳ {formatPrice(variant.price)}
                             </span>
 
-                            {/* Saved Amount */}
-                            <span className="text-green-600 text-sm font-medium ml-2">
+                            {/* Saved */}
+                            <span className="block sm:inline text-green-600 text-xs sm:text-sm font-medium sm:ml-2">
                               Save ৳{" "}
                               {formatPrice(variant.price - variant.discount)}
                             </span>
