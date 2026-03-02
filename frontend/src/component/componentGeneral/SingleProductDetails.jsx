@@ -110,17 +110,6 @@ const ProductDetails = ({ slug }) => {
 
       {product && (
         <div>
-          {/*Seo Meta Data*/}
-          <title>{`${product?.name || product?.metaTitle} | ${GeneralInfoList?.CompanyName}`}</title>
-          <meta name="description" content={product?.metaDescription} />
-          <meta name="keywords" content={product.metaKeywords.join(", ")} />
-          <meta
-            property="og:title"
-            content={`${product?.name || product?.metaTitle} | ${GeneralInfoList?.CompanyName}`}
-          />
-          <meta property="og:description" content={product?.metaDescription} />
-          <meta property="og:image" content={product?.thumbnailImage} />
-          <meta property="og:url" content={window.location.href} />
 
           <div>
             <HeroSection product={product} />
