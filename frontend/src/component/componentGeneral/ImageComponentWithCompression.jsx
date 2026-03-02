@@ -3,21 +3,20 @@ import Skeleton from "react-loading-skeleton";
 import useIsMobile from "../../utils/useIsMobile.js";
 
 const ImageComponentWithCompression = ({
-                                         imageName,
-                                         className = "",
-                                         altName,
-                                         skeletonHeight,
-                                         width,
-                                         height,
-                                         loadingStrategy = "lazy",
-                                         fetchPriority = "auto",
-                                       }) => {
+  imageName,
+  className = "",
+  altName,
+  skeletonHeight,
+  width,
+  height,
+  loadingStrategy = "lazy",
+  fetchPriority = "auto",
+}) => {
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
 
   const isMobile = useIsMobile();
 
-  if (!imageName) return null;
 
   const apiUrl = import.meta.env.VITE_API_URL;
   const baseUrl = `${apiUrl.replace("/api", "")}/uploads/${imageName}`;
@@ -42,6 +41,9 @@ const ImageComponentWithCompression = ({
   const imageUrl = params.toString()
     ? `${baseUrl}?${params.toString()}`
     : baseUrl;
+
+  if (!imageName) return null;
+
 
   return (
     <div className="relative overflow-hidden">
