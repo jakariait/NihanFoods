@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { useEffect, lazy, Suspense } from "react";
+import { useEffect } from "react";
 import useColorStore from "./store/ColorStore.js";
 import GeneralInfoStore from "./store/GeneralInfoStore.js";
 import CarouselStore from "./store/CarouselStore.js";
@@ -17,130 +17,40 @@ import ScrollToTop from "./component/componentGeneral/ScrollToTop.jsx";
 import MetaProvider from "./component/componentGeneral/MetaProvider.jsx";
 import ScrollToTopButton from "./component/componentGeneral/ScrollToTopButton.jsx";
 import { setFaviconFromApi } from "./utils/setFavicon.js";
-import Loading from "./component/skeleton/Loading.jsx";
-
-const GeneralInfoPage = lazy(() => import("./pagesAdmin/GeneralInfoPage.jsx"));
-const HomePage = lazy(() => import("./pagesUser/HomePage.jsx"));
-const SubscribedUsersPage = lazy(
-  () => import("./pagesAdmin/SubscribedUsersPage.jsx"),
-);
-const SliderBannerPage = lazy(
-  () => import("./pagesAdmin/SliderBannerPage.jsx"),
-);
-const ColorUpdaterPage = lazy(
-  () => import("./pagesAdmin/ColorUpdaterPage.jsx"),
-);
-const SocialLinkUpdaterPage = lazy(
-  () => import("./pagesAdmin/SocialLinkUpdaterPage.jsx"),
-);
-
-const ContactRequestPage = lazy(
-  () => import("./pagesAdmin/ContactRequestPage.jsx"),
-);
-const AdminLogin = lazy(
-  () => import("./component/componentAdmin/AdminLogin.jsx"),
-);
-const NotFoundPage = lazy(() => import("./pagesUser/NotFoundPage.jsx"));
-const AddNewCategoryPage = lazy(
-  () => import("./pagesAdmin/AddNewCategoryPage.jsx"),
-);
-const CategoryListPage = lazy(
-  () => import("./pagesAdmin/CategoryListPage.jsx"),
-);
-const EditCategoryPage = lazy(
-  () => import("./pagesAdmin/EditCategoryPage.jsx"),
-);
-const AddNewSubCategoryPage = lazy(
-  () => import("./pagesAdmin/AddNewSubCategoryPage.jsx"),
-);
-const SubCategoryListPage = lazy(
-  () => import("./pagesAdmin/SubCategoryListPage.jsx"),
-);
-const EditSubCategoryPage = lazy(
-  () => import("./pagesAdmin/EditSubCategoryPage.jsx"),
-);
-const ChildCategoryListPage = lazy(
-  () => import("./pagesAdmin/ChildCategoryListPage.jsx"),
-);
-const AddNewChildCategoryPage = lazy(
-  () => import("./pagesAdmin/AddNewChildCategoryPage.jsx"),
-);
-const EditChildCategoryPage = lazy(
-  () => import("./pagesAdmin/EditChildCategoryPage.jsx"),
-);
-const AddNewProductSizePage = lazy(
-  () => import("./pagesAdmin/AddNewProductSizePage.jsx"),
-);
-const ProductSizeListPage = lazy(
-  () => import("./pagesAdmin/ProductSizeListPage.jsx"),
-);
-const EditProductSizePage = lazy(
-  () => import("./pagesAdmin/EditProductSizePage.jsx"),
-);
-const ProductFlagPage = lazy(() => import("./pagesAdmin/ProductFlagPage.jsx"));
-
-const ViewAllProductPage = lazy(
-  () => import("./pagesAdmin/ViewAllProductPage.jsx"),
-);
-const EditProductPage = lazy(() => import("./pagesAdmin/EditProductPage.jsx"));
-
-const DeliveryChargePage = lazy(
-  () => import("./pagesAdmin/DeliveryChargePage.jsx"),
-);
-const ConfigSetupPage = lazy(() => import("./pagesAdmin/ConfigSetupPage.jsx"));
-const ThankYouPage = lazy(() => import("./pagesUser/ThankYouPage.jsx"));
-const AllOrdersPage = lazy(() => import("./pagesAdmin/AllOrdersPage.jsx"));
-const PendingOrdersPage = lazy(
-  () => import("./pagesAdmin/PendingOrdersPage.jsx"),
-);
-const ApprovedOrdersPage = lazy(
-  () => import("./pagesAdmin/ApprovedOrdersPage.jsx"),
-);
-const InTransitOrdersPage = lazy(
-  () => import("./pagesAdmin/InTransitOrdersPage.jsx"),
-);
-const DeliveredOrdersPage = lazy(
-  () => import("./pagesAdmin/DeliveredOrdersPage.jsx"),
-);
-const ReturnedOrdersPage = lazy(
-  () => import("./pagesAdmin/ReturnedOrdersPage.jsx"),
-);
-const CancelledOrdersPage = lazy(
-  () => import("./pagesAdmin/CancelledOrdersPage.jsx"),
-);
-const ViewOrderPage = lazy(() => import("./pagesAdmin/ViewOrderPage.jsx"));
-const BkashCallbackPage = lazy(
-  () => import("./pagesUser/BkashCallbackPage.jsx"),
-);
-const CouponPage = lazy(() => import("./pagesAdmin/CouponPage.jsx"));
-const AboutUsPage = lazy(() => import("./pagesAdmin/AboutUsPage.jsx"));
-const TermsPage = lazy(() => import("./pagesAdmin/TermsPage.jsx"));
-
-const AdminFAQSPage = lazy(() => import("./pagesAdmin/AdminFAQSPage.jsx"));
-const MarqueeAdminPage = lazy(
-  () => import("./pagesAdmin/MarqueeAdminPage.jsx"),
-);
-const AdminMetaPage = lazy(() => import("./pagesAdmin/AdminMetaPage.jsx"));
-const BKashConfigPage = lazy(() => import("./pagesAdmin/BKashConfigPage.jsx"));
-const SteadFastConfigPag = lazy(
-  () => import("./pagesAdmin/SteadFastConfigPag.jsx"),
-);
-const DashboardPage = lazy(() => import("./pagesAdmin/DashboardPage.jsx"));
-
-const AbandonedCartPage = lazy(
-  () => import("./pagesAdmin/AbandonedCartPage.jsx"),
-);
-// const TrackOrderPage = lazy(() => import("./pagesUser/TrackOrderPage.jsx"));
-const AdminListPage = lazy(() => import("./pagesAdmin/AdminListPage.jsx"));
-const CreateAdminPage = lazy(() => import("./pagesAdmin/CreateAdminPage.jsx"));
-const EditAdminPage = lazy(() => import("./pagesAdmin/EditAdminPage.jsx"));
-const CreateBlogPage = lazy(() => import("./pagesAdmin/CreateBlogPage.jsx"));
-const BlogsListPage = lazy(() => import("./pagesAdmin/BlogsListPage.jsx"));
-const EditBlogPage = lazy(() => import("./pagesAdmin/EditBlogPage.jsx"));
-
-const PathaoConfigPage = lazy(
-  () => import("./pagesAdmin/PathaoConfigPage.jsx"),
-);
+import GeneralInfoPage from "./pagesAdmin/GeneralInfoPage.jsx";
+import HomePage from "./pagesUser/HomePage.jsx";
+import SliderBannerPage from "./pagesAdmin/SliderBannerPage.jsx";
+import AdminLogin from "./component/componentAdmin/AdminLogin.jsx";
+import NotFoundPage from "./pagesUser/NotFoundPage.jsx";
+import AddNewCategoryPage from "./pagesAdmin/AddNewCategoryPage.jsx";
+import CategoryListPage from "./pagesAdmin/CategoryListPage.jsx";
+import EditCategoryPage from "./pagesAdmin/EditCategoryPage.jsx";
+import AddNewProductSizePage from "./pagesAdmin/AddNewProductSizePage.jsx";
+import ProductSizeListPage from "./pagesAdmin/ProductSizeListPage.jsx";
+import EditProductSizePage from "./pagesAdmin/EditProductSizePage.jsx";
+import ViewAllProductPage from "./pagesAdmin/ViewAllProductPage.jsx";
+import EditProductPage from "./pagesAdmin/EditProductPage.jsx";
+import DeliveryChargePage from "./pagesAdmin/DeliveryChargePage.jsx";
+import ConfigSetupPage from "./pagesAdmin/ConfigSetupPage.jsx";
+import ThankYouPage from "./pagesUser/ThankYouPage.jsx";
+import AllOrdersPage from "./pagesAdmin/AllOrdersPage.jsx";
+import PendingOrdersPage from "./pagesAdmin/PendingOrdersPage.jsx";
+import ApprovedOrdersPage from "./pagesAdmin/ApprovedOrdersPage.jsx";
+import InTransitOrdersPage from "./pagesAdmin/InTransitOrdersPage.jsx";
+import DeliveredOrdersPage from "./pagesAdmin/DeliveredOrdersPage.jsx";
+import ReturnedOrdersPage from "./pagesAdmin/ReturnedOrdersPage.jsx";
+import CancelledOrdersPage from "./pagesAdmin/CancelledOrdersPage.jsx";
+import ViewOrderPage from "./pagesAdmin/ViewOrderPage.jsx";
+import CouponPage from "./pagesAdmin/CouponPage.jsx";
+import AdminMetaPage from "./pagesAdmin/AdminMetaPage.jsx";
+import BKashConfigPage from "./pagesAdmin/BKashConfigPage.jsx";
+import SteadFastConfigPag from "./pagesAdmin/SteadFastConfigPag.jsx";
+import DashboardPage from "./pagesAdmin/DashboardPage.jsx";
+import AbandonedCartPage from "./pagesAdmin/AbandonedCartPage.jsx";
+import AdminListPage from "./pagesAdmin/AdminListPage.jsx";
+import CreateAdminPage from "./pagesAdmin/CreateAdminPage.jsx";
+import EditAdminPage from "./pagesAdmin/EditAdminPage.jsx";
+import PathaoConfigPage from "./pagesAdmin/PathaoConfigPage.jsx";
 
 function App() {
   const { GeneralInfoListRequest, GeneralInfoList } = GeneralInfoStore();
@@ -212,180 +122,119 @@ function App() {
       <MetaProvider />
       <ScrollToTop />
       <ScrollToTopButton />
-      <Suspense fallback={<Loading />}>
-        <Routes>
-          {/* General User Routes */}
-          <Route path="/" element={<HomePage />} />
-          <Route path="/akher-lal-chini" element={<HomePage />} />
-          <Route path="/thank-you/:orderId" element={<ThankYouPage />} />
-          <Route path="/bkash-callback" element={<BkashCallbackPage />} />
+      <Routes>
+        {/* General User Routes */}
+        <Route path="/" element={<HomePage />} />
+        <Route path="/akher-lal-chini" element={<HomePage />} />
+        <Route path="/thank-you/:orderId" element={<ThankYouPage />} />
 
-          {/*Admin Login Page*/}
-          <Route path="/admin/login" element={<AdminLogin />} />
+        {/*Admin Login Page*/}
+        <Route path="/admin/login" element={<AdminLogin />} />
 
-          {/* Protected Admin Routes */}
-          <Route element={<ProtectedRoute />}>
-            <Route path="/admin/general-info" element={<GeneralInfoPage />} />
-            <Route
-              path="/admin/subscribed-users"
-              element={<SubscribedUsersPage />}
-            />
-            <Route path="/admin/color-updater" element={<ColorUpdaterPage />} />
-            <Route
-              path="/admin/social-link-updater"
-              element={<SocialLinkUpdaterPage />}
-            />
-            <Route
-              path="/admin/sliders-banners"
-              element={<SliderBannerPage />}
-            />
-            <Route
-              path="/admin/contact-request"
-              element={<ContactRequestPage />}
-            />
+        {/* Protected Admin Routes */}
+        <Route element={<ProtectedRoute />}>
+          <Route path="/admin/general-info" element={<GeneralInfoPage />} />
 
-            {/* Category Routes */}
-            <Route
-              path="/admin/addnewcategory"
-              element={<AddNewCategoryPage />}
-            />
-            <Route path="/admin/categorylist" element={<CategoryListPage />} />
-            <Route
-              path="/admin/edit-category/:id"
-              element={<EditCategoryPage />}
-            />
+          <Route path="/admin/sliders-banners" element={<SliderBannerPage />} />
 
-            {/* SubCategory Routes */}
-            <Route
-              path="/admin/addnewsubcategory"
-              element={<AddNewSubCategoryPage />}
-            />
-            <Route
-              path="/admin/edit-subcategory/:id"
-              element={<EditSubCategoryPage />}
-            />
-            <Route
-              path="/admin/subcategorylist"
-              element={<SubCategoryListPage />}
-            />
+          {/* Category Routes */}
+          <Route
+            path="/admin/addnewcategory"
+            element={<AddNewCategoryPage />}
+          />
+          <Route path="/admin/categorylist" element={<CategoryListPage />} />
+          <Route
+            path="/admin/edit-category/:id"
+            element={<EditCategoryPage />}
+          />
 
-            {/* Child Category Routes */}
-            <Route
-              path="/admin/childcategorylist"
-              element={<ChildCategoryListPage />}
-            />
-            <Route
-              path="/admin/addnewchildcategory"
-              element={<AddNewChildCategoryPage />}
-            />
-            <Route
-              path="/admin/edit-child-category/:id"
-              element={<EditChildCategoryPage />}
-            />
+          {/* Product Size Routes */}
+          <Route
+            path="/admin/add-product-size"
+            element={<AddNewProductSizePage />}
+          />
+          <Route
+            path="/admin/product-sizes"
+            element={<ProductSizeListPage />}
+          />
+          <Route
+            path="/admin/edit-product-size/:id"
+            element={<EditProductSizePage />}
+          />
 
-            {/* Product Size Routes */}
-            <Route
-              path="/admin/add-product-size"
-              element={<AddNewProductSizePage />}
-            />
-            <Route
-              path="/admin/product-sizes"
-              element={<ProductSizeListPage />}
-            />
-            <Route
-              path="/admin/edit-product-size/:id"
-              element={<EditProductSizePage />}
-            />
+          {/* Product Routes */}
+          {/*<Route*/}
+          {/*  path="/admin/addnewproduct"*/}
+          {/*  element={<AddNewProductPage />}*/}
+          {/*/>*/}
+          <Route
+            path="/admin/viewallproducts"
+            element={<ViewAllProductPage />}
+          />
+          <Route
+            path="/admin/edit-product/:slug"
+            element={<EditProductPage />}
+          />
 
-            {/* Product Flag Routes */}
-            <Route path="/admin/product-flags" element={<ProductFlagPage />} />
+          {/*Delivery Charges Routes*/}
+          <Route
+            path="/admin/deliverycharge"
+            element={<DeliveryChargePage />}
+          />
 
-            {/* Product Routes */}
-            {/*<Route*/}
-            {/*  path="/admin/addnewproduct"*/}
-            {/*  element={<AddNewProductPage />}*/}
-            {/*/>*/}
-            <Route
-              path="/admin/viewallproducts"
-              element={<ViewAllProductPage />}
-            />
-            <Route
-              path="/admin/edit-product/:slug"
-              element={<EditProductPage />}
-            />
+          <Route path="/admin/configsetup" element={<ConfigSetupPage />} />
 
-            {/*Delivery Charges Routes*/}
-            <Route
-              path="/admin/deliverycharge"
-              element={<DeliveryChargePage />}
-            />
+          {/*Orders Routes*/}
+          <Route path="/admin/allorders" element={<AllOrdersPage />} />
+          <Route path="/admin/pendingorders" element={<PendingOrdersPage />} />
+          <Route
+            path="/admin/approvedorders"
+            element={<ApprovedOrdersPage />}
+          />
+          <Route
+            path="/admin/intransitorders"
+            element={<InTransitOrdersPage />}
+          />
 
-            <Route path="/admin/configsetup" element={<ConfigSetupPage />} />
+          <Route
+            path="/admin/deliveredorders"
+            element={<DeliveredOrdersPage />}
+          />
+          <Route
+            path="/admin/returnedorders"
+            element={<ReturnedOrdersPage />}
+          />
+          <Route
+            path="/admin/cancelledorders"
+            element={<CancelledOrdersPage />}
+          />
 
-            {/*Orders Routes*/}
-            <Route path="/admin/allorders" element={<AllOrdersPage />} />
-            <Route
-              path="/admin/pendingorders"
-              element={<PendingOrdersPage />}
-            />
-            <Route
-              path="/admin/approvedorders"
-              element={<ApprovedOrdersPage />}
-            />
-            <Route
-              path="/admin/intransitorders"
-              element={<InTransitOrdersPage />}
-            />
+          <Route path="/admin/orders/:orderId" element={<ViewOrderPage />} />
 
-            <Route
-              path="/admin/deliveredorders"
-              element={<DeliveredOrdersPage />}
-            />
-            <Route
-              path="/admin/returnedorders"
-              element={<ReturnedOrdersPage />}
-            />
-            <Route
-              path="/admin/cancelledorders"
-              element={<CancelledOrdersPage />}
-            />
+          <Route path="/admin/coupon" element={<CouponPage />} />
+          <Route path="/admin/homepage-seo" element={<AdminMetaPage />} />
+          <Route path="/admin/bkash-config" element={<BKashConfigPage />} />
+          <Route
+            path="/admin/steadfast-config"
+            element={<SteadFastConfigPag />}
+          />
 
-            <Route path="/admin/orders/:orderId" element={<ViewOrderPage />} />
+          <Route path="/admin/pathao-config" element={<PathaoConfigPage />} />
 
-            <Route path="/admin/coupon" element={<CouponPage />} />
-            <Route path="/admin/about-us" element={<AboutUsPage />} />
-            <Route path="/admin/terms-policies" element={<TermsPage />} />
-            <Route path="/admin/faqs" element={<AdminFAQSPage />} />
-            <Route path="/admin/scroll-text" element={<MarqueeAdminPage />} />
-            <Route path="/admin/homepage-seo" element={<AdminMetaPage />} />
-            <Route path="/admin/bkash-config" element={<BKashConfigPage />} />
-            <Route
-              path="/admin/steadfast-config"
-              element={<SteadFastConfigPag />}
-            />
+          <Route path="/admin/dashboard" element={<DashboardPage />} />
+          <Route path="/admin/adminlist" element={<AdminListPage />} />
+          <Route path="/admin/createadmin" element={<CreateAdminPage />} />
+          <Route path="/admin/edit/:id" element={<EditAdminPage />} />
 
-            <Route path="/admin/pathao-config" element={<PathaoConfigPage />} />
+          <Route
+            path="/admin/incomplete-order"
+            element={<AbandonedCartPage />}
+          />
+        </Route>
 
-            <Route path="/admin/dashboard" element={<DashboardPage />} />
-            <Route path="/admin/adminlist" element={<AdminListPage />} />
-            <Route path="/admin/createadmin" element={<CreateAdminPage />} />
-            <Route path="/admin/edit/:id" element={<EditAdminPage />} />
-
-            <Route
-              path="/admin/incomplete-order"
-              element={<AbandonedCartPage />}
-            />
-            <Route path="/admin/create-blog" element={<CreateBlogPage />} />
-
-            <Route path="/admin/blogs" element={<BlogsListPage />} />
-
-            <Route path="/admin/blogs/:id" element={<EditBlogPage />} />
-          </Route>
-
-          {/* Not Found */}
-          <Route path="*" element={<NotFoundPage />} />
-        </Routes>
-      </Suspense>
+        {/* Not Found */}
+        <Route path="*" element={<NotFoundPage />} />
+      </Routes>
     </Router>
   );
 }

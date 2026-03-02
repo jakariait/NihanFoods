@@ -7,18 +7,14 @@ import useFlagStore from "../../store/useFlagStore.js";
 import useProductSizeStore from "../../store/useProductSizeStore.js";
 import AuthAdminStore from "../../store/AuthAdminStore.js";
 import useProductStore from "../../store/useProductStore.js";
-const Editor = lazy(() =>
-  import("primereact/editor").then((module) => ({ default: module.Editor })),
-);
+
 import {
   Box,
   MenuItem,
   Select,
   Typography,
   Chip,
-  Input,
-  ListItemText,
-  Checkbox,
+
   FormHelperText,
   FormControl,
   TextField,
@@ -534,43 +530,7 @@ const ProductForm = ({ isEdit: isEditMode }) => {
               required
               margin="normal"
             />
-            <TextField
-              label="Short Description"
-              fullWidth
-              value={shortDesc}
-              onChange={(e) => setShortDesc(e.target.value)}
-              margin="normal"
-              multiline
-              rows={3}
-            />
-            <h1 className={"py-3 pl-1"}>Long Description</h1>
-            <Suspense fallback={<Skeleton height={260} />}>
-              <Editor
-                value={longDesc}
-                onTextChange={(e) => setLongDesc(e.htmlValue)}
-                style={{ height: "260px" }}
-              />
-            </Suspense>
-            <div>
-              <h1 className={"py-3 pl-1"}>Size Chart</h1>
-              <Suspense fallback={<Skeleton height={260} />}>
-                <Editor
-                  value={sizeChart}
-                  onTextChange={(e) => setSizeChart(e.htmlValue)}
-                  style={{ height: "260px" }}
-                />
-              </Suspense>
-            </div>
-            <div>
-              <h1 className={"py-3 pl-1"}>Shipping and Return</h1>
-              <Suspense fallback={<Skeleton height={260} />}>
-                <Editor
-                  value={shippingReturn}
-                  onTextChange={(e) => setShippingReturn(e.htmlValue)}
-                  style={{ height: "260px" }}
-                />
-              </Suspense>
-            </div>
+
             <Box mb={2}>
               <Box
                 display="flex"
@@ -752,22 +712,6 @@ const ProductForm = ({ isEdit: isEditMode }) => {
             )}
 
             <TextField
-              label="Reward Points"
-              type="number"
-              fullWidth
-              value={rewardPoints}
-              onChange={handleRewardPointsChange}
-              margin="normal"
-            />
-            <TextField
-              label="Purchase Price"
-              type="number"
-              fullWidth
-              value={purchasePrice}
-              onChange={handlePurchasePriceChange}
-              margin="normal"
-            />
-            <TextField
               label="Product Code"
               fullWidth
               value={productCode}
@@ -797,90 +741,6 @@ const ProductForm = ({ isEdit: isEditMode }) => {
                 <FormHelperText>{errors.category}</FormHelperText>
               )}
             </FormControl>
-
-            <FormControl
-              fullWidth
-              error={Boolean(errors.subCategory)}
-              margin="normal"
-              disabled={!selectedCategory}
-            >
-              <InputLabel>Select Sub Category</InputLabel>
-              <Select
-                value={selectedSubCategory}
-                onChange={handleSubCategoryChange}
-                label="Select Sub Category"
-              >
-                {filteredSubCategories.length > 0 ? (
-                  filteredSubCategories.map((sub) => (
-                    <MenuItem key={sub._id} value={sub._id}>
-                      {sub.name}
-                    </MenuItem>
-                  ))
-                ) : (
-                  <MenuItem disabled>No subcategories available</MenuItem>
-                )}
-              </Select>
-            </FormControl>
-
-            <FormControl
-              fullWidth
-              error={Boolean(errors.childCategory)}
-              margin="normal"
-              disabled={!selectedSubCategory}
-            >
-              <InputLabel>Select Child Category</InputLabel>
-              <Select
-                value={selectedChildCategory}
-                onChange={handleChildCategoryChange}
-                label="Select Child Category"
-              >
-                {filteredChildCategories.length > 0 ? (
-                  filteredChildCategories.map((child) => (
-                    <MenuItem key={child._id} value={child._id}>
-                      {child.name}
-                    </MenuItem>
-                  ))
-                ) : (
-                  <MenuItem disabled>No child categories available</MenuItem>
-                )}
-              </Select>
-            </FormControl>
-
-            <Box mb={2}>
-              <Typography>Select Flags</Typography>
-              <Select
-                multiple
-                fullWidth
-                value={selectedFlags}
-                onChange={handleFlagChange}
-                input={<Input />}
-                renderValue={(selected) => (
-                  <div>
-                    {" "}
-                    {selected.map((flagId) => {
-                      const flag = flags.find((f) => f._id === flagId);
-                      return flag ? (
-                        <Chip
-                          key={flag._id}
-                          label={flag.name}
-                          style={{ margin: 2 }}
-                        />
-                      ) : null;
-                    })}{" "}
-                  </div>
-                )}
-              >
-                {flags.map((flag) => (
-                  <MenuItem key={flag._id} value={flag._id}>
-                    {" "}
-                    <Checkbox
-                      checked={selectedFlags.indexOf(flag._id) > -1}
-                    />{" "}
-                    <ListItemText primary={flag.name} />{" "}
-                  </MenuItem>
-                ))}
-              </Select>
-            </Box>
           </div>
         </div>
 

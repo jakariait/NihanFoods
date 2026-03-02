@@ -80,7 +80,7 @@ const SinglePageCheckout = ({ product }) => {
     fetchConfig();
   }, [apiUrl]);
 
-  // --- 3. Calculations (Mirrored from Checkout.jsx) ---
+  // --- 3. Calculations () ---
   const formatPrice = (price) =>
     isNaN(price) ? price : price.toLocaleString();
 
