@@ -26,13 +26,13 @@ const ProductGallery = ({ images, discount, zoom = true, productName }) => {
   return (
     <>
       <div className="flex flex-col items-center w-full">
-        <div ref={containerRef} className="relative w-full ">
+        <div ref={containerRef} className="relative w-full">
           <div className="relative w-full" style={{ paddingBottom: "100%" }}>
-            <div className="absolute inset-0 ">
+            <div className="absolute inset-0 flex items-center justify-center bg-gray-50">
               <ImageComponentWithCompression
                 imageName={images[activeIndex]}
                 altName={productName}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-contain"
                 skeletonHeight="100%"
                 width={800}
                 height={800}
@@ -62,20 +62,20 @@ const ProductGallery = ({ images, discount, zoom = true, productName }) => {
             <div className="flex items-center justify-between mt-3 px-2">
               <button
                 onClick={() => changeImage("prev")}
-                className="w-8 h-8 flex items-center justify-center bg-gray-100 hover:bg-gray-200 rounded-full transition-colors"
+                className="w-8 h-8 flex items-center justify-center bg-gray-100 hover:bg-gray-200 rounded-full transition-colors disabled:opacity-30"
                 disabled={activeIndex === 0}
               >
                 <IoIosArrowBack />
               </button>
 
-              <div className="flex gap-3 overflow-x-auto max-w-[calc(100%-80px)] py-1">
+              <div className="flex gap-2 overflow-x-auto max-w-[calc(100%-80px)] py-1 scrollbar-thin">
                 {images.map((img, idx) => (
                   <button
                     key={idx}
-                    className={`shrink-0 w-16 h-16 md:w-20 md:h-20 border-2 transition-all ${
+                    className={`shrink-0 w-14 h-14 md:w-16 md:h-16 border-2 rounded-md transition-all overflow-hidden ${
                       activeIndex === idx
-                        ? 'border-orange-500'
-                        : 'border-transparent opacity-60 hover:opacity-100'
+                        ? 'border-orange-500 opacity-100'
+                        : 'border-gray-200 opacity-60 hover:opacity-100'
                     }`}
                     onClick={() => setActiveIndex(idx)}
                   >
@@ -83,7 +83,7 @@ const ProductGallery = ({ images, discount, zoom = true, productName }) => {
                       imageName={img}
                       altName={`${productName} thumbnail ${idx + 1}`}
                       className="w-full h-full object-cover"
-                      skeletonHeight="80px"
+                      skeletonHeight="100%"
                       width={200}
                       height={200}
                     />
@@ -93,7 +93,7 @@ const ProductGallery = ({ images, discount, zoom = true, productName }) => {
 
               <button
                 onClick={() => changeImage("next")}
-                className="w-8 h-8 flex items-center justify-center bg-gray-100 hover:bg-gray-200 rounded-full transition-colors"
+                className="w-8 h-8 flex items-center justify-center bg-gray-100 hover:bg-gray-200 rounded-full transition-colors disabled:opacity-30"
                 disabled={activeIndex === images.length - 1}
               >
                 <IoIosArrowForward />
