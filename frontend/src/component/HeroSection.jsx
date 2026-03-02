@@ -3,16 +3,15 @@ import ImageComponent from "./componentGeneral/ImageComponentWithCompression.jsx
 
 export default function HeroSection({ product }) {
   const features = [
-    { icon: "🌿", text: "১০০% প্রাকৃতিক" },
-    { icon: "🚫", text: "কোনো ব্লিচিং বা কেমিক্যাল নেই" },
-    { icon: "🌾", text: "নিজস্ব আখ ক্ষেত থেকে" },
+    { text: "কোনো কেমিক্যাল নেই" },
+    { text: "নিজস্ব আখ ক্ষেত থেকে" },
   ];
 
   return (
     <section
+      className={"-pb-10 "}
       style={{
         fontFamily: "'Noto Serif Bengali', 'Hind Siliguri', Georgia, serif",
-        minHeight: "100vh",
         position: "relative",
         display: "flex",
         alignItems: "center",
@@ -331,6 +330,20 @@ export default function HeroSection({ product }) {
           </h1>
         </div>
 
+        {/*Thumbnail Image*/}
+        <div className={"max-w-3xl mx-auto pb-5"}>
+          <ImageComponent
+            imageName={product?.thumbnailImage}
+            altName={product?.name}
+            className="w-full aspect-square object-cover"
+            skeletonHeight={"400px"}
+            width={1000}
+            height={1000}
+            loadingStrategy="eager"
+            fetchPriority="high"
+          />
+        </div>
+
         {/* Subheading */}
         <div
           className="anim-3"
@@ -360,39 +373,34 @@ export default function HeroSection({ product }) {
           </p>
         </div>
 
+
+
         {/* Feature Pills */}
-        <div
-          className="anim-4"
-          style={{
-            display: "flex",
-            flexWrap: "wrap",
-            gap: "12px",
-            marginBottom: "44px",
-          }}
-        >
+        <div className="anim-4 grid grid-cols-2 gap-3 mb-11 md:max-w-3xl ">
           {features.map((f, i) => (
             <div
               key={i}
-              className="feature-pill"
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "10px",
-                background: "rgba(5,150,105,0.14)",
-                border: "1px solid rgba(52,211,153,0.22)",
-                backdropFilter: "blur(10px)",
-                borderRadius: "12px",
-                padding: "13px 22px",
-              }}
+              className="
+        flex items-center gap-2
+        bg-emerald-500/15
+        border border-emerald-300/20
+        backdrop-blur-md
+        rounded-xl
+        px-4 py-3
+      "
             >
-              <span style={{ fontSize: "20px" }}>{f.icon}</span>
+              {/* Icon */}
+              <span className="text-lg sm:text-xl">{f.icon}</span>
+
+              {/* Text */}
               <span
-                style={{
-                  color: "#d1fae5",
-                  fontSize: "clamp(13px,1.5vw,15px)",
-                  fontWeight: 600,
-                  whiteSpace: "nowrap",
-                }}
+                className="
+        text-emerald-100
+        text-xs sm:text-sm
+        font-semibold
+        whitespace-nowrap
+
+      "
               >
                 {f.text}
               </span>
@@ -413,7 +421,7 @@ export default function HeroSection({ product }) {
         >
           <a
             href={"#checkout"}
-            className="cta-primary"
+            className="cta-primary w-full md:w-auto text-center"
             style={{
               background: "linear-gradient(135deg, #d97706 0%, #b45309 100%)",
               color: "#fff",
@@ -437,12 +445,15 @@ export default function HeroSection({ product }) {
           className="anim-6"
           style={{
             display: "inline-flex",
-            flexWrap: "wrap",
+            flexWrap: "nowrap",
+            justifyContent: "center",
             background: "rgba(5,46,22,0.5)",
             backdropFilter: "blur(16px)",
             border: "1px solid rgba(52,211,153,0.14)",
             borderRadius: "18px",
             overflow: "hidden",
+            width: "100%",
+            maxWidth: "500px",
           }}
         >
           {[
@@ -454,18 +465,19 @@ export default function HeroSection({ product }) {
               key={i}
               className="stat-card"
               style={{
-                padding: "10px 12px",
+                padding: "10px 8px",
                 textAlign: "center",
                 borderRight: i < 2 ? "1px solid rgba(52,211,153,0.1)" : "none",
-                minWidth: "126px",
+                flex: "1 1 0",
+                minWidth: 0,
               }}
             >
-              <div style={{ fontSize: "20px", marginBottom: "5px" }}>
+              <div style={{ fontSize: "16px", marginBottom: "3px" }}>
                 {s.icon}
               </div>
               <div
                 style={{
-                  fontSize: "clamp(22px,2.8vw,30px)",
+                  fontSize: "clamp(16px,2.8vw,24px)",
                   fontWeight: 900,
                   color: "#fbbf24",
                   lineHeight: 1,
@@ -475,9 +487,9 @@ export default function HeroSection({ product }) {
               </div>
               <div
                 style={{
-                  fontSize: "12px",
+                  fontSize: "10px",
                   color: "rgba(167,243,208,0.6)",
-                  marginTop: "6px",
+                  marginTop: "4px",
                   letterSpacing: "0.04em",
                 }}
               >
@@ -485,19 +497,6 @@ export default function HeroSection({ product }) {
               </div>
             </div>
           ))}
-        </div>
-        {/*Thumbnail Image*/}
-        <div className={"max-w-3xl mx-auto pt-10"}>
-          <ImageComponent
-            imageName={product?.thumbnailImage}
-            altName={product?.name}
-            className="w-full aspect-square object-cover"
-            skeletonHeight={"400px"}
-            width={1000}
-            height={1000}
-            loadingStrategy="eager"
-            fetchPriority="high"
-          />
         </div>
       </div>
 

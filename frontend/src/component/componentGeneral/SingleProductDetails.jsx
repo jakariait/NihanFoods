@@ -128,7 +128,7 @@ const ProductDetails = ({ slug }) => {
             <SolutionSection />
 
             <SectionBackground>
-              <div className={"max-w-4xl mx-auto"}>
+              <div className="max-w-4xl mx-auto p-4">
                 <ProductGallery
                   images={product.images}
                   discount={discountPercentage}
@@ -136,7 +136,7 @@ const ProductDetails = ({ slug }) => {
                 />
               </div>
               <BenefitsCTASection />
-              <ProductCarousel/>
+              <ProductCarousel />
               <CountDown />
               <SinglePageCheckout product={product} />
               <Footer />

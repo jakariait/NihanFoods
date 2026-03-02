@@ -467,60 +467,6 @@ export default function SolutionSection() {
               marginBottom: "48px",
             }}
           >
-            {/* Left: brand story card */}
-            <div
-              style={{
-                flex: "1 1 340px",
-                background: "rgba(5,46,22,0.5)",
-                backdropFilter: "blur(16px)",
-                border: "1px solid rgba(52,211,153,0.14)",
-                borderRadius: "20px",
-                padding: "28px 30px",
-              }}
-            >
-              <p
-                style={{
-                  fontSize: "13px",
-                  color: "white",
-                  letterSpacing: "0.08em",
-                  margin: "0 0 14px",
-                }}
-              >
-                আমাদের গল্প
-              </p>
-              <p
-                style={{
-                  fontSize: "clamp(14px,1.6vw,16px)",
-                  color: "white",
-                  lineHeight: 1.85,
-                  margin: "0 0 14px",
-                }}
-              >
-                নিহান সুপার ফুডস নিয়ে এসেছে বাংলাদেশের ঐতিহ্যবাহী হাতে তৈরি
-                আখের লাল চিনি।
-              </p>
-              <p
-                style={{
-                  fontSize: "clamp(13px,1.5vw,15px)",
-                  color: "white",
-                  lineHeight: 1.85,
-                  margin: 0,
-                }}
-              >
-                গ্রামের আখ সরাসরি সংগ্রহ করে, প্রাকৃতিক প্রক্রিয়ায়, হাতে তৈরি
-                পদ্ধতিতে তৈরি করা হয় আমাদের এই চিনি।
-              </p>
-              {/* mini divider */}
-              <div
-                style={{
-                  width: "48px",
-                  height: "2px",
-                  borderRadius: "100px",
-                  margin: "20px 0 0",
-                  background: "linear-gradient(90deg, #34d399, #fbbf24)",
-                }}
-              />
-            </div>
 
             {/* Right: checkpoints */}
             <div
@@ -540,11 +486,8 @@ export default function SolutionSection() {
                     display: "flex",
                     alignItems: "center",
                     gap: "14px",
-                    background: "rgba(5,150,105,0.14)",
-                    border: "1px solid rgba(52,211,153,0.22)",
                     backdropFilter: "blur(10px)",
                     borderRadius: "14px",
-                    padding: "16px 22px",
                   }}
                 >
                   <span
@@ -582,23 +525,15 @@ export default function SolutionSection() {
 
         {/* Benefit cards grid */}
         <AnimCard delay={350}>
-          <p
-            style={{
-              fontSize: "30px",
-              color: "white",
-              letterSpacing: "0.08em",
-              marginBottom: "16px",
-            }}
-          >
-            কেন লাল চিনি বেছে নেবেন
-          </p>
+
         </AnimCard>
         <div
+          className={"-mt-5"}
           style={{
             display: "grid",
             gridTemplateColumns: "repeat(auto-fill, minmax(280px,1fr))",
             gap: "16px",
-            marginBottom: "56px",
+            marginBottom: "36px",
           }}
         >
           {benefits.map((b, i) => (
@@ -668,12 +603,12 @@ export default function SolutionSection() {
         {/* CTA block */}
         <AnimCard delay={950}>
           <div
+            className={"p-4"}
             style={{
               background: "rgba(5,46,22,0.5)",
               backdropFilter: "blur(16px)",
               border: "1px solid rgba(52,211,153,0.18)",
               borderRadius: "22px",
-              padding: "48px 40px",
               textAlign: "center",
               position: "relative",
               overflow: "hidden",
@@ -706,7 +641,6 @@ export default function SolutionSection() {
               }}
             />
             <div style={{ position: "relative", zIndex: 1 }}>
-              <div style={{ fontSize: "40px", marginBottom: "16px" }}>🌾</div>
               <p
                 style={{
                   fontSize: "clamp(20px,3vw,34px)",

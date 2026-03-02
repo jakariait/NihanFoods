@@ -649,7 +649,7 @@ export default function ProblemSection() {
               backdropFilter: "blur(16px)",
               border: "1px solid rgba(239,68,68,0.22)",
               borderRadius: "22px",
-              padding: "48px 40px",
+              padding: "20px 40px",
               textAlign: "center",
               position: "relative",
               overflow: "hidden",
@@ -684,7 +684,6 @@ export default function ProblemSection() {
             />
 
             <div style={{ position: "relative", zIndex: 1 }}>
-              <div style={{ fontSize: "40px", marginBottom: "16px" }}>👨‍👩‍👧‍👦</div>
               <p
                 style={{
                   fontSize: "clamp(20px,3.5vw,38px)",

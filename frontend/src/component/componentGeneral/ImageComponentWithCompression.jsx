@@ -3,15 +3,15 @@ import Skeleton from "react-loading-skeleton";
 import useIsMobile from "../../utils/useIsMobile.js";
 
 const ImageComponentWithCompression = ({
-  imageName,
-  className = "",
-  altName,
-  skeletonHeight,
-  width,
-  height,
-  loadingStrategy = "lazy",
-  fetchPriority = "auto",
-}) => {
+                                         imageName,
+                                         className = "",
+                                         altName,
+                                         skeletonHeight,
+                                         width,
+                                         height,
+                                         loadingStrategy = "lazy",
+                                         fetchPriority = "auto",
+                                       }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
 

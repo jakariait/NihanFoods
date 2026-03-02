@@ -35,6 +35,32 @@ export default defineConfig(async () => {
         // See docs: https://github.com/jbaubree/vite-plugin-sitemap
       }),
     ],
+    build: {
+      chunkSizeWarningLimit: 600,
+      rollupOptions: {
+        output: {
+          manualChunks: (id) => {
+            if (id.includes("pagesAdmin")) {
+              return "vendor-admin";
+            }
+            if (id.includes("pagesUser")) {
+              return "vendor-user";
+            }
+            if (id.includes("node_modules")) {
+              if (id.includes("react")) {
+                return "vendor-react";
+              }
+              if (id.includes("@mui") || id.includes("@emotion")) {
+                return "vendor-ui";
+              }
+              if (id.includes("axios") || id.includes("lodash")) {
+                return "vendor-utils";
+              }
+            }
+          },
+        },
+      },
+    },
     server: {
       proxy: {
         "/api": {
