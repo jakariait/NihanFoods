@@ -1,10 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useLocation } from "react-router-dom";
 import useProductStore from "../../store/useProductStore.js";
-import GeneralInfoStore from "../../store/GeneralInfoStore.js";
 import ProductGallery from "./ProductGallery.jsx";
 import SinglePageCheckout from "./SinglePageCheckout.jsx";
-import CircularProgress from "@mui/material/CircularProgress";
 import HeroSection from "../HeroSection.jsx";
 import ProblemSection from "../ProblemSection.jsx";
 import SolutionSection from "../SolutionSection.jsx";
@@ -20,8 +17,6 @@ const ProductDetails = ({ slug }) => {
   const { fetchProductBySlug, product, loading, error, resetProduct } =
     useProductStore();
 
-  const { GeneralInfoList } = GeneralInfoStore();
-
   const [currentProductSlug, setCurrentProductSlug] = useState(null);
 
   useEffect(() => {
@@ -33,31 +28,7 @@ const ProductDetails = ({ slug }) => {
     }
   }, [slug, currentProductSlug, fetchProductBySlug, resetProduct]);
 
-  const calculateDiscountPercentage = (
-    priceBeforeDiscount,
-    priceAfterDiscount,
-  ) => {
-    if (
-      !priceBeforeDiscount ||
-      !priceAfterDiscount ||
-      priceBeforeDiscount <= priceAfterDiscount
-    )
-      return 0;
-    const discountAmount = priceBeforeDiscount - priceAfterDiscount;
-    return Math.ceil((discountAmount / priceBeforeDiscount) * 100);
-  };
-
-  const location = useLocation();
-  const url = `${window.location.origin}${location.pathname}`;
-  const title = product?.name;
-
-  const discountPercentage =
-    product?.finalPrice && product?.finalDiscount
-      ? calculateDiscountPercentage(product.finalPrice, product.finalDiscount)
-      : 0;
-
   // Data layer for View Content
-
   useEffect(() => {
     if (!product || hasPushedRef.current) return;
 
@@ -92,14 +63,6 @@ const ProductDetails = ({ slug }) => {
     hasPushedRef.current = true;
   }, [product]);
 
-  // if (loading || product?.slug !== slug) {
-  //   return (
-  //     <div className={"flex items-center justify-center min-h-screen"}>
-  //       <CircularProgress />
-  //     </div>
-  //   ); // Loading message while new product data is being fetched
-  // }
-
   return (
     <div className="">
       {error && (
@@ -110,7 +73,6 @@ const ProductDetails = ({ slug }) => {
 
       {product && (
         <div>
-
           <div>
             <HeroSection product={product} />
             <ProblemSection />
@@ -120,7 +82,6 @@ const ProductDetails = ({ slug }) => {
               <div className="max-w-4xl mx-auto p-4">
                 <ProductGallery
                   images={product.images}
-                  discount={discountPercentage}
                   productName={product.name}
                 />
               </div>

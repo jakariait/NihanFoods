@@ -33,7 +33,8 @@ export default function BenefitsCTASection() {
       {/* ══════════ CONTENT ══════════ */}
       <div className={"flex  items-center  justify-center px-10 py-10"}>
         <AnimCard>
-          <button
+          <a
+            href={"#checkout"}
             className="cta-primary"
             style={{
               background: "linear-gradient(135deg, #d97706 0%, #b45309 100%)",
@@ -50,7 +51,7 @@ export default function BenefitsCTASection() {
             }}
           >
             এখনই অর্ডার করুন →
-          </button>
+          </a>
         </AnimCard>
       </div>
     </section>
