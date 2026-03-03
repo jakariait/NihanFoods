@@ -1,7 +1,5 @@
 const User = require("../models/UserModel"); // Import the User model
 const orderService = require("../services/orderService");
-const sendEmailMessage = require("../utility/sendEmail");
-const generateOrderEmailHTML = require("../utility/orderEmailTemplate");
 
 const createOrder = async (req, res) => {
   try {
@@ -11,12 +9,10 @@ const createOrder = async (req, res) => {
 
     if (userId) {
       user = await User.findById(userId);
-
       if (!user) {
-        return res.status(404).json({
-          success: false,
-          message: "User not found",
-        });
+        return res
+          .status(404)
+          .json({ success: false, message: "User not found" });
       }
 
       const rewardPointsUsedNumber = Number(rewardPointsUsed);
@@ -25,61 +21,29 @@ const createOrder = async (req, res) => {
       if (rewardPointsUsedNumber > userRewardPoints) {
         return res.status(400).json({
           success: false,
-          message:
-            "You cannot use more reward points than you have available.",
+          message: "You cannot use more reward points than you have available.",
         });
       }
     }
 
-    // ✅ Create order first
+    // Proceed with creating the order (pass userId only if available)
     const order = await orderService.createOrder(
       { ...orderData, rewardPointsUsed },
-      userId || null
+      userId || null,
     );
 
-    // ✅ Update reward points
     if (user && rewardPointsUsed > 0) {
       user.rewardPoints -= Number(rewardPointsUsed);
       await user.save();
     }
 
-    // ✅ Populate products and shipping method
-    await order.populate([
-      { path: "items.productId", select: "name" },
-      { path: "shippingId", select: "name" },
-    ]);
-
-    // ✅ Respond to client immediately
     res.status(201).json({
       success: true,
       message: "Order created successfully",
       order,
     });
-
-    // ===============================
-    // 🔥 Background Email (Non-blocking)
-    // ===============================
-    process.nextTick(async () => {
-      try {
-        const emailHTML = generateOrderEmailHTML(order);
-
-        await sendEmailMessage(
-          emailHTML,
-          `New Order Received #${order.orderNo} `,
-          true
-        );
-
-      } catch (err) {
-        console.error(
-          "Email failed (non-blocking):",
-          err.message
-        );
-      }
-    });
-
   } catch (error) {
     console.error("Order Creation Error:", error);
-
     res.status(500).json({
       success: false,
       message: "Error creating order: " + error.message,
@@ -231,10 +195,12 @@ const trackOrderByOrderNoAndPhone = async (req, res) => {
     const { orderNo, phone } = req.body;
 
     if (!orderNo || !phone) {
-      return res.status(400).json({
-        success: false,
-        message: "Order number and phone are required",
-      });
+      return res
+        .status(400)
+        .json({
+          success: false,
+          message: "Order number and phone are required",
+        });
     }
 
     const order = await orderService.trackOrderByOrderNoAndPhone(
@@ -256,6 +222,67 @@ const trackOrderByOrderNoAndPhone = async (req, res) => {
   }
 };
 
+
+
+
+// Update multiple order statuses
+const updateMultipleOrderStatuses = async (req, res) => {
+  const { orderIds, orderStatus } = req.body;
+  if (!orderIds || !Array.isArray(orderIds) || orderIds.length === 0) {
+    return res
+      .status(400)
+      .json({
+        success: false,
+        message: "Order IDs are required and must be an array.",
+      });
+  }
+  if (!orderStatus) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Order status is required." });
+  }
+  try {
+    const result = await orderService.updateMultipleOrderStatuses(
+      orderIds,
+      orderStatus,
+    );
+    res
+      .status(200)
+      .json({
+        success: true,
+        message: `${result.totalUpdated} orders updated successfully.`,
+        ...result,
+      });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+// Bulk delete orders
+const bulkDeleteOrders = async (req, res) => {
+  const { orderIds } = req.body;
+  if (!orderIds || !Array.isArray(orderIds) || orderIds.length === 0) {
+    return res
+      .status(400)
+      .json({
+        success: false,
+        message: "Order IDs are required and must be an array.",
+      });
+  }
+  try {
+    const result = await orderService.bulkDeleteOrders(orderIds);
+    res
+      .status(200)
+      .json({
+        success: true,
+        message: `${result.totalDeleted} orders deleted successfully.`,
+        ...result,
+      });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
 // Exporting the controller functions
 module.exports = {
   createOrder,
@@ -266,4 +293,6 @@ module.exports = {
   getOrderByOrderNo,
   getOrdersForUser,
   trackOrderByOrderNoAndPhone,
+  updateMultipleOrderStatuses,
+  bulkDeleteOrders,
 };

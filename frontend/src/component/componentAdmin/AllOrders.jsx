@@ -25,6 +25,7 @@ import {
   InputAdornment,
   IconButton,
   CircularProgress,
+  Checkbox,
 } from "@mui/material";
 import { Skeleton } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
@@ -80,6 +81,17 @@ const AllOrders = ({ title, status = "" }) => {
   );
   const [localEndDate, setLocalEndDate] = useState(endDateFromStore || "");
 
+  // Bulk selection state
+  const [selectedOrders, setSelectedOrders] = useState([]);
+  const [bulkUpdateDialog, setBulkUpdateDialog] = useState(false);
+  const [bulkNewStatus, setBulkNewStatus] = useState("");
+  const [bulkUpdating, setBulkUpdating] = useState(false);
+  const [bulkDeleteDialog, setBulkDeleteDialog] = useState(false);
+  const [bulkDeleting, setBulkDeleting] = useState(false);
+  const [bulkCourierDialog, setBulkCourierDialog] = useState(false);
+  const [selectedCourier, setSelectedCourier] = useState("");
+  const [sendingToCourier, setSendingToCourier] = useState(false);
+
   const apiUrl = import.meta.env.VITE_API_URL;
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
@@ -92,6 +104,7 @@ const AllOrders = ({ title, status = "" }) => {
     setLocalStartDate("");
     setLocalEndDate("");
     setDateRange(null, null);
+    setSelectedOrders([]);
   }, [status, setSearchQuery, setDateRange]);
 
   // Fetch orders - memoized to prevent unnecessary recreations
@@ -278,6 +291,208 @@ const AllOrders = ({ title, status = "" }) => {
     fetchOrders();
   }, [fetchOrders]);
 
+  // Bulk selection handlers
+  const handleSelectAll = useCallback(
+    (event) => {
+      if (event.target.checked) {
+        setSelectedOrders(allOrders.map((order) => order._id));
+      } else {
+        setSelectedOrders([]);
+      }
+    },
+    [allOrders],
+  );
+
+  const handleSelectOrder = useCallback((orderId) => {
+    setSelectedOrders((prev) => {
+      if (prev.includes(orderId)) {
+        return prev.filter((id) => id !== orderId);
+      } else {
+        return [...prev, orderId];
+      }
+    });
+  }, []);
+
+  const handleBulkUpdateOpen = useCallback(() => {
+    setBulkNewStatus("");
+    setBulkUpdateDialog(true);
+  }, []);
+
+  const handleBulkUpdateClose = useCallback(() => {
+    setBulkUpdateDialog(false);
+    setBulkNewStatus("");
+  }, []);
+
+  const handleBulkUpdate = useCallback(async () => {
+    if (!bulkNewStatus || selectedOrders.length === 0) return;
+
+    setBulkUpdating(true);
+    try {
+      const response = await axios.put(
+        `${apiUrl}/orders/bulk-update-status`,
+        { orderIds: selectedOrders, orderStatus: bulkNewStatus },
+        { headers: { Authorization: `Bearer ${token}` } },
+      );
+
+      if (response.data.success) {
+        setSnackbarMessage(
+          `${response.data.totalUpdated} orders updated successfully`,
+        );
+        setSnackbarSeverity("success");
+        setOpenSnackbar(true);
+        setSelectedOrders([]);
+        fetchOrders();
+      } else {
+        setSnackbarMessage(response.data.message || "Failed to update orders");
+        setSnackbarSeverity("error");
+        setOpenSnackbar(true);
+      }
+    } catch (error) {
+      setSnackbarMessage(
+        error.response?.data?.message || "Error updating orders",
+      );
+      setSnackbarSeverity("error");
+      setOpenSnackbar(true);
+    } finally {
+      setBulkUpdating(false);
+      handleBulkUpdateClose();
+    }
+  }, [
+    bulkNewStatus,
+    selectedOrders,
+    apiUrl,
+    token,
+    fetchOrders,
+    handleBulkUpdateClose,
+  ]);
+
+  // Bulk delete handlers
+  const handleBulkDeleteOpen = useCallback(() => {
+    setBulkDeleteDialog(true);
+  }, []);
+
+  const handleBulkDeleteClose = useCallback(() => {
+    setBulkDeleteDialog(false);
+  }, []);
+
+  const handleBulkDelete = useCallback(async () => {
+    if (selectedOrders.length === 0) return;
+
+    setBulkDeleting(true);
+    try {
+      const response = await axios.delete(`${apiUrl}/orders/bulk-delete`, {
+        headers: { Authorization: `Bearer ${token}` },
+        data: { orderIds: selectedOrders },
+      });
+
+      if (response.data.success) {
+        setSnackbarMessage(
+          `${response.data.totalDeleted} orders deleted successfully`,
+        );
+        setSnackbarSeverity("success");
+        setOpenSnackbar(true);
+        setSelectedOrders([]);
+        fetchOrders();
+      } else {
+        setSnackbarMessage(response.data.message || "Failed to delete orders");
+        setSnackbarSeverity("error");
+        setOpenSnackbar(true);
+      }
+    } catch (error) {
+      setSnackbarMessage(
+        error.response?.data?.message || "Error deleting orders",
+      );
+      setSnackbarSeverity("error");
+      setOpenSnackbar(true);
+    } finally {
+      setBulkDeleting(false);
+      handleBulkDeleteClose();
+    }
+  }, [selectedOrders, apiUrl, token, fetchOrders, handleBulkDeleteClose]);
+
+  const handleBulkCourierOpen = useCallback(() => {
+    setSelectedCourier("");
+    setBulkCourierDialog(true);
+  }, []);
+
+  const handleBulkCourierClose = useCallback(() => {
+    setBulkCourierDialog(false);
+    setSelectedCourier("");
+  }, []);
+
+  const handleBulkSendToCourier = useCallback(async () => {
+    if (!selectedCourier || selectedOrders.length === 0) return;
+
+    setSendingToCourier(true);
+    try {
+      const ordersToSend = allOrders
+        .filter((order) => selectedOrders.includes(order._id))
+        .map((order) => ({
+          invoice: order.orderNo,
+          recipient_name: order.shippingInfo?.fullName || "N/A",
+          recipient_phone: order.shippingInfo?.mobileNo || "",
+          recipient_address: order.shippingInfo?.address || "N/A",
+          cod_amount: order.dueAmount?.toString() || "0",
+          note: order.note || "",
+        }));
+
+      let response;
+      if (selectedCourier === "steadfast") {
+        response = await axios.post(
+          `${apiUrl}/steadfast/bulk-order`,
+          { data: ordersToSend },
+          { headers: { Authorization: `Bearer ${token}` } },
+        );
+      } else if (selectedCourier === "pathao") {
+        response = await axios.post(
+          `${apiUrl}/pathao/orders/bulk`,
+          { data: ordersToSend },
+          { headers: { Authorization: `Bearer ${token}` } },
+        );
+      }
+
+      if (response.data.status === "success") {
+        const successCount = response.data.data.filter(
+          (r) => r.status === "success",
+        ).length;
+        const errorCount = response.data.data.filter(
+          (r) => r.status === "error",
+        ).length;
+
+        setSnackbarMessage(
+          `${successCount} orders sent to ${selectedCourier} successfully${errorCount > 0 ? `, ${errorCount} failed` : ""}`,
+        );
+        setSnackbarSeverity(errorCount > 0 ? "warning" : "success");
+        setOpenSnackbar(true);
+        setSelectedOrders([]);
+        fetchOrders();
+      } else {
+        setSnackbarMessage(
+          response.data.message || "Failed to send orders to courier",
+        );
+        setSnackbarSeverity("error");
+        setOpenSnackbar(true);
+      }
+    } catch (error) {
+      setSnackbarMessage(
+        error.response?.data?.message || "Error sending orders to courier",
+      );
+      setSnackbarSeverity("error");
+      setOpenSnackbar(true);
+    } finally {
+      setSendingToCourier(false);
+      handleBulkCourierClose();
+    }
+  }, [
+    selectedCourier,
+    selectedOrders,
+    allOrders,
+    apiUrl,
+    token,
+    fetchOrders,
+    handleBulkCourierClose,
+  ]);
+
   // Memoize the loading skeleton
   const LoadingSkeleton = useMemo(
     () => (
@@ -452,6 +667,50 @@ const AllOrders = ({ title, status = "" }) => {
             </Box>
           ) : (
             <Box sx={{ position: "relative" }}>
+              {selectedOrders.length > 0 && (
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 2,
+                    mb: 2,
+                    p: 2,
+                    bgcolor: "primary.light",
+                    borderRadius: 1,
+                  }}
+                >
+                  <Typography variant="body1">
+                    {selectedOrders.length} order(s) selected
+                  </Typography>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={handleBulkUpdateOpen}
+                  >
+                    Bulk Update Status
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="error"
+                    onClick={handleBulkDeleteOpen}
+                  >
+                    Bulk Delete
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    onClick={handleBulkCourierOpen}
+                  >
+                    Send to Courier
+                  </Button>
+                  <Button
+                    variant="outlined"
+                    onClick={() => setSelectedOrders([])}
+                  >
+                    Clear Selection
+                  </Button>
+                </Box>
+              )}
               <TableContainer
                 component={Paper}
                 sx={{
@@ -462,6 +721,19 @@ const AllOrders = ({ title, status = "" }) => {
                 <Table>
                   <TableHead>
                     <TableRow>
+                      <TableCell padding="checkbox">
+                        <Checkbox
+                          checked={
+                            allOrders.length > 0 &&
+                            selectedOrders.length === allOrders.length
+                          }
+                          indeterminate={
+                            selectedOrders.length > 0 &&
+                            selectedOrders.length < allOrders.length
+                          }
+                          onChange={handleSelectAll}
+                        />
+                      </TableCell>
                       <TableCell>
                         <TableSortLabel
                           active={orderBy === "orderNo"}
@@ -527,17 +799,7 @@ const AllOrders = ({ title, status = "" }) => {
                           Status
                         </TableSortLabel>
                       </TableCell>
-                      <TableCell>
-                        <TableSortLabel
-                          active={orderBy === "paymentStatus"}
-                          direction={
-                            orderBy === "paymentStatus" ? sortDirection : "asc"
-                          }
-                          onClick={() => handleSortRequest("paymentStatus")}
-                        >
-                          Payment Status
-                        </TableSortLabel>
-                      </TableCell>
+
                       <TableCell>
                         <TableSortLabel
                           active={orderBy === "totalAmount"}
@@ -555,6 +817,12 @@ const AllOrders = ({ title, status = "" }) => {
                   <TableBody>
                     {sortedOrders.map((order) => (
                       <TableRow key={order._id} hover>
+                        <TableCell padding="checkbox">
+                          <Checkbox
+                            checked={selectedOrders.includes(order._id)}
+                            onChange={() => handleSelectOrder(order._id)}
+                          />
+                        </TableCell>
                         <TableCell>{order.orderNo}</TableCell>
                         <TableCell>
                           {new Date(order.createdAt).toLocaleString()}
@@ -589,26 +857,7 @@ const AllOrders = ({ title, status = "" }) => {
                             refetchOrders={fetchOrders}
                           />
                         </TableCell>
-                        <TableCell>
-                          <Chip
-                            label={
-                              order.paymentStatus.charAt(0).toUpperCase() +
-                              order.paymentStatus.slice(1)
-                            }
-                            color={
-                              order.paymentStatus === "paid"
-                                ? "success"
-                                : "error"
-                            }
-                            variant="filled"
-                            sx={{
-                              fontWeight: "bold",
-                              minWidth: "100px",
-                              height: "32px",
-                              borderRadius: "4px",
-                            }}
-                          />
-                        </TableCell>
+
                         <TableCell>
                           Tk. {order.totalAmount?.toFixed(2)}
                         </TableCell>
@@ -680,6 +929,98 @@ const AllOrders = ({ title, status = "" }) => {
           <Button onClick={handleCloseDialog}>Cancel</Button>
           <Button onClick={handleConfirmDelete} color="error">
             Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog open={bulkUpdateDialog} onClose={handleBulkUpdateClose}>
+        <DialogTitle>Bulk Update Order Status</DialogTitle>
+        <DialogContent>
+          <DialogContentText sx={{ mb: 2 }}>
+            You are about to update {selectedOrders.length} order(s) to a new
+            status.
+          </DialogContentText>
+          <FormControl fullWidth>
+            <InputLabel>New Status</InputLabel>
+            <Select
+              value={bulkNewStatus}
+              label="New Status"
+              onChange={(e) => setBulkNewStatus(e.target.value)}
+            >
+              <MenuItem value="pending">Pending</MenuItem>
+              <MenuItem value="approved">Approved</MenuItem>
+              <MenuItem value="intransit">In Transit</MenuItem>
+              <MenuItem value="delivered">Delivered</MenuItem>
+              <MenuItem value="returned">Returned</MenuItem>
+              <MenuItem value="cancelled">Cancelled</MenuItem>
+            </Select>
+          </FormControl>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleBulkUpdateClose} disabled={bulkUpdating}>
+            Cancel
+          </Button>
+          <Button
+            onClick={handleBulkUpdate}
+            color="primary"
+            disabled={!bulkNewStatus || bulkUpdating}
+          >
+            {bulkUpdating ? "Updating..." : "Update"}
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog open={bulkDeleteDialog} onClose={handleBulkDeleteClose}>
+        <DialogTitle>Confirm Bulk Delete</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Are you sure you want to delete {selectedOrders.length} order(s)?
+            This action cannot be undone and will restore stock for each order.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleBulkDeleteClose} disabled={bulkDeleting}>
+            Cancel
+          </Button>
+          <Button
+            onClick={handleBulkDelete}
+            color="error"
+            disabled={bulkDeleting}
+          >
+            {bulkDeleting ? "Deleting..." : "Delete"}
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog open={bulkCourierDialog} onClose={handleBulkCourierClose}>
+        <DialogTitle>Send to Courier</DialogTitle>
+        <DialogContent>
+          <DialogContentText sx={{ mb: 2 }}>
+            You are about to send {selectedOrders.length} order(s) to a courier
+            service.
+          </DialogContentText>
+          <FormControl fullWidth>
+            <InputLabel>Select Courier</InputLabel>
+            <Select
+              value={selectedCourier}
+              label="Select Courier"
+              onChange={(e) => setSelectedCourier(e.target.value)}
+            >
+              <MenuItem value="steadfast">Steadfast</MenuItem>
+              <MenuItem value="pathao">Pathao</MenuItem>
+            </Select>
+          </FormControl>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleBulkCourierClose} disabled={sendingToCourier}>
+            Cancel
+          </Button>
+          <Button
+            onClick={handleBulkSendToCourier}
+            color="primary"
+            disabled={!selectedCourier || sendingToCourier}
+          >
+            {sendingToCourier ? "Sending..." : "Send"}
           </Button>
         </DialogActions>
       </Dialog>

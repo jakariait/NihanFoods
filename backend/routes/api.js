@@ -45,6 +45,7 @@ const cacheMiddleware = require("../middlewares/redisCacheMiddleware");
 const {
   createSteadfastOrder,
   getSteadfastOrderStatusByInvoice,
+  bulkCreateSteadfastOrder,
 } = require("../controllers/steadfastController");
 
 // Admin
@@ -568,6 +569,23 @@ router.get(
   checkPermission("view_orders"),
   orderController.getAllOrders,
 );
+
+// Bulk update status - must be BEFORE :orderId route
+router.put(
+  "/orders/bulk-update-status",
+  adminProtect,
+  checkPermission("edit_orders"),
+  orderController.updateMultipleOrderStatuses,
+);
+
+// Bulk delete orders
+router.delete(
+  "/orders/bulk-delete",
+  adminProtect,
+  checkPermission("delete_orders"),
+  orderController.bulkDeleteOrders,
+);
+
 router.get(
   "/orders/:orderId",
   adminProtect,
@@ -658,6 +676,7 @@ router.get("/courier/status/:orderId", adminProtect, getDynamicCourierStatus);
 
 // Steadfast Courier Routes
 router.post("/steadfast/create-order", createSteadfastOrder);
+router.post("/steadfast/bulk-order", bulkCreateSteadfastOrder);
 router.get(
   "/steadfast/get-order-status",
   adminProtect,
