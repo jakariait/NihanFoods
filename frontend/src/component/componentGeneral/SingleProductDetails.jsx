@@ -92,13 +92,13 @@ const ProductDetails = ({ slug }) => {
     hasPushedRef.current = true;
   }, [product]);
 
-  if (loading || product?.slug !== slug) {
-    return (
-      <div className={"flex items-center justify-center min-h-screen"}>
-        <CircularProgress />
-      </div>
-    ); // Loading message while new product data is being fetched
-  }
+  // if (loading || product?.slug !== slug) {
+  //   return (
+  //     <div className={"flex items-center justify-center min-h-screen"}>
+  //       <CircularProgress />
+  //     </div>
+  //   ); // Loading message while new product data is being fetched
+  // }
 
   return (
     <div className="">
