@@ -17,7 +17,6 @@ const ImageComponentWithCompression = ({
 
   const isMobile = useIsMobile();
 
-
   const apiUrl = import.meta.env.VITE_API_URL;
   const baseUrl = `${apiUrl.replace("/api", "")}/uploads/${imageName}`;
 
@@ -43,7 +42,6 @@ const ImageComponentWithCompression = ({
     : baseUrl;
 
   if (!imageName) return null;
-
 
   return (
     <div className="relative overflow-hidden">

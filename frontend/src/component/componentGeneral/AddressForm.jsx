@@ -72,6 +72,7 @@ const AddressForm = ({ user, onAddressChange }) => {
           type="tel"
           placeholder="ex 01234567890"
           maxLength={11}
+          minLength={11}
           className="py-2 px-4 w-full border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:primaryRingColor transition placeholder:text-sm"
           required
           value={formData.phone}
