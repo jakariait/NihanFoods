@@ -1,27 +1,17 @@
 import {
   FaHome,
-  FaPalette,
-  FaLink,
   FaSearch,
   FaCog,
   FaThLarge,
-  FaBoxes,
-  FaList,
   FaTags,
   FaCreditCard,
-  FaUsers,
-  FaEnvelope,
-  FaUserFriends,
   FaSlidersH,
-  FaFileAlt,
-  FaQuestionCircle,
   FaUserShield,
   FaSignOutAlt,
   FaShoppingBag,
-  FaInfo,
   FaClipboardList,
-  FaBlog,
 } from "react-icons/fa";
+
 import { Link } from "react-router-dom";
 import useAuthAdminStore from "../../store/AuthAdminStore.js";
 import { useNavigate } from "react-router-dom";
@@ -101,20 +91,6 @@ export default function SidebarMenu() {
             </li>
           </RequirePermission>
 
-          <RequirePermission permission="general_info" fallback={true}>
-            <Link to="/admin/color-updater/">
-              <li className="flex items-center space-x-2 p-2 rounded-md cursor-pointer">
-                <FaPalette /> <span>Website Theme Color</span>
-              </li>
-            </Link>
-          </RequirePermission>
-          <RequirePermission permission="website_theme_color" fallback={true}>
-            <Link to="/admin/social-link-updater">
-              <li className="flex items-center space-x-2 p-2 rounded-md cursor-pointer">
-                <FaLink /> <span>Social Media Links</span>
-              </li>
-            </Link>
-          </RequirePermission>
           <RequirePermission permission="home_page_seo" fallback={true}>
             <Link to="/admin/homepage-seo">
               <li className="flex items-center space-x-2 p-2 rounded-md cursor-pointer">
@@ -200,19 +176,7 @@ export default function SidebarMenu() {
                         </Link>
                       </li>
                     </RequirePermission>
-                    <RequirePermission
-                      permission="product_flag"
-                      fallback={true}
-                    >
-                      <li>
-                        <Link to="/admin/product-flags">Product Flags</Link>
-                      </li>
-                    </RequirePermission>
-                    <RequirePermission permission="scroll_text" fallback={true}>
-                      <li>
-                        <Link to="/admin/scroll-text">Scroll Text</Link>
-                      </li>
-                    </RequirePermission>
+
                     <RequirePermission
                       permission="delivery_charges"
                       fallback={true}
@@ -287,112 +251,7 @@ export default function SidebarMenu() {
               </Accordion>
             </li>
           </RequirePermission>
-          <RequirePermission permission="sub_category" fallback={true}>
-            <li className="space-x-2 px-2 rounded-md cursor-pointer">
-              <Accordion
-                style={{
-                  background: "transparent",
-                  boxShadow: "none",
-                  width: "100%",
-                }}
-                sx={{
-                  color: "white", // Ensures text color is white
-                  "& .MuiAccordionSummary-root": {
-                    backgroundColor: "transparent",
-                    minHeight: "auto", // Removes unnecessary padding
-                    padding: "0", // Removes default padding
-                  },
-                  "& .MuiAccordionDetails-root": {
-                    backgroundColor: "transparent",
-                    paddingLeft: "0", // Ensures no extra left padding
-                  },
-                  "& .MuiSvgIcon-root": {
-                    color: "white", // Ensures the dropdown icon is white
-                  },
-                }}
-              >
-                <AccordionSummary
-                  expandIcon={<ExpandMoreIcon />}
-                  aria-controls="panel1-content"
-                  id="panel1-header"
-                  className="p-2 flex items-center"
-                >
-                  <Typography component="span">
-                    <div className="flex items-center gap-2">
-                      <FaBoxes /> <span>Subcategory</span>
-                    </div>
-                  </Typography>
-                </AccordionSummary>
-                <AccordionDetails>
-                  <ul className={"space-y-2 pl-4"}>
-                    <li>
-                      <Link to="/admin/addnewsubcategory">
-                        Add New Sub Category
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="/admin/subcategorylist">
-                        View All SubCategories
-                      </Link>
-                    </li>
-                  </ul>
-                </AccordionDetails>
-              </Accordion>
-            </li>
-          </RequirePermission>
-          <RequirePermission permission="child_category" fallback={true}>
-            <li className="space-x-2 px-2 rounded-md cursor-pointer">
-              <Accordion
-                style={{
-                  background: "transparent",
-                  boxShadow: "none",
-                  width: "100%",
-                }}
-                sx={{
-                  color: "white", // Ensures text color is white
-                  "& .MuiAccordionSummary-root": {
-                    backgroundColor: "transparent",
-                    minHeight: "auto", // Removes unnecessary padding
-                    padding: "0", // Removes default padding
-                  },
-                  "& .MuiAccordionDetails-root": {
-                    backgroundColor: "transparent",
-                    paddingLeft: "0", // Ensures no extra left padding
-                  },
-                  "& .MuiSvgIcon-root": {
-                    color: "white", // Ensures the dropdown icon is white
-                  },
-                }}
-              >
-                <AccordionSummary
-                  expandIcon={<ExpandMoreIcon />}
-                  aria-controls="panel1-content"
-                  id="panel1-header"
-                  className="p-2 flex items-center"
-                >
-                  <Typography component="span">
-                    <div className="flex items-center gap-2">
-                      <FaList /> <span>Child Category</span>
-                    </div>
-                  </Typography>
-                </AccordionSummary>
-                <AccordionDetails>
-                  <ul className={"space-y-2 pl-4"}>
-                    <li>
-                      <Link to="/admin/addnewchildcategory">
-                        Add New Child Category
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="/admin/childcategorylist">
-                        View All Child Categories
-                      </Link>
-                    </li>
-                  </ul>
-                </AccordionDetails>
-              </Accordion>
-            </li>
-          </RequirePermission>
+
           <RequirePermission
             permission={[
               "add_products",
@@ -634,44 +493,6 @@ export default function SidebarMenu() {
               </Accordion>
             </li>
           </RequirePermission>
-
-          <RequirePermission permission="view_customers" fallback={true}>
-            <li>
-              <Link
-                to="/admin/customers"
-                className="flex items-center space-x-2 p-2 rounded-md cursor-pointer"
-              >
-                <FaUsers /> <span>Customers</span>
-              </Link>
-            </li>
-          </RequirePermission>
-        </ul>
-      </div>
-
-      {/* Other Sections */}
-      <div>
-        <ul>
-          <RequirePermission permission="contact_request" fallback={true}>
-            <Link to="/admin/contact-request">
-              <li className="flex items-center space-x-2 p-2 rounded-md cursor-pointer">
-                <FaEnvelope /> <span>Contact Request</span>
-              </li>
-            </Link>
-          </RequirePermission>
-          <RequirePermission permission="subscribed_users" fallback={true}>
-            <Link to="/admin/subscribed-users">
-              <li className="flex items-center space-x-2 p-2 rounded-md cursor-pointer">
-                <FaUserFriends /> <span>Subscribed Users</span>
-              </li>
-            </Link>
-          </RequirePermission>
-          <RequirePermission permission="blogs" fallback={true}>
-            <Link to="/admin/blogs">
-              <li className="flex items-center space-x-2 p-2 rounded-md cursor-pointer">
-                <FaBlog /> <span>Blogs</span>
-              </li>
-            </Link>
-          </RequirePermission>
         </ul>
       </div>
 
@@ -683,24 +504,6 @@ export default function SidebarMenu() {
               label: "Sliders & Banners",
               to: "/admin/sliders-banners",
               permission: "sliders-banners",
-            },
-            {
-              icon: <FaFileAlt />,
-              label: "Terms & Policies",
-              to: "/admin/terms-policies",
-              permission: "about_terms-policies",
-            },
-            {
-              icon: <FaQuestionCircle />,
-              label: "FAQs",
-              to: "/admin/faqs",
-              permission: "faqs",
-            },
-            {
-              icon: <FaInfo />,
-              label: "About Us",
-              to: "/admin/about-us",
-              permission: "about_terms-policies",
             },
           ].map((item, index) => (
             <RequirePermission

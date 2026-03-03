@@ -77,7 +77,7 @@ const CarouselUpload = () => {
   return (
     <div className="flex flex-col items-center justify-center p-6 shadow bg-white rounded-lg ">
       <h1 className="border-l-4 primaryBorderColor primaryTextColor mb-6 pl-2 text-lg font-semibold self-start">
-        Manage Sliders Images
+        Manage Feedback
       </h1>
       <label className="cursor-pointer inline-flex items-center bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg shadow transition duration-300">
         <Upload className="mr-2" size={18} />
