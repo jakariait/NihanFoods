@@ -1,4 +1,3 @@
-import SectionBackground from "./SectionBackground";
 import GeneralInfoStore from "../store/GeneralInfoStore.js";
 import ImageComponentWithCompression from "./componentGeneral/ImageComponentWithCompression.jsx";
 
@@ -6,20 +5,7 @@ export default function Footer() {
   const { GeneralInfoList } = GeneralInfoStore();
 
   return (
-    <SectionBackground style={{ padding: "60px 0 40px" }}>
-      <style>{`
-        @keyframes shimmerGold { 0%{background-position:200% center} 100%{background-position:-200% center} }
-        @keyframes dotPulse { 0%,100%{opacity:1;box-shadow:0 0 6px #34d399} 50%{opacity:0.5;box-shadow:0 0 14px #34d399} }
-        .gold-shimmer {
-          background: linear-gradient(90deg,#ca8a04,#fbbf24,#fde68a,#fbbf24,#ca8a04);
-          background-size: 200% auto;
-          -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-          animation: shimmerGold 2.5s linear infinite;
-        }
-        .social-btn { transition: all 0.25s ease; }
-        .social-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.3) !important; }
-      `}</style>
-
+    <div className="pt-10">
       <div style={{ textAlign: "center", padding: "0 28px" }}>
         {/* Logo / brand mark */}
         <div className={"flex items-center justify-center"}>
@@ -153,6 +139,6 @@ export default function Footer() {
           </p>
         </div>
       </div>
-    </SectionBackground>
+    </div>
   );
 }

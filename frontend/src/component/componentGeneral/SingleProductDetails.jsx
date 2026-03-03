@@ -73,25 +73,23 @@ const ProductDetails = ({ slug }) => {
 
       {product && (
         <div>
-          <div>
-            <HeroSection product={product} />
-            <ProblemSection />
-            <SolutionSection />
+          <HeroSection product={product} />
+          <ProblemSection />
+          <SolutionSection />
 
-            <SectionBackground>
-              <div className="max-w-4xl mx-auto p-4">
-                <ProductGallery
-                  images={product.images}
-                  productName={product.name}
-                />
-              </div>
-              <BenefitsCTASection />
-              <ProductCarousel />
-              <CountDown />
-              <SinglePageCheckout product={product} />
-              <Footer />
-            </SectionBackground>
-          </div>
+          <SectionBackground>
+            <div className="max-w-4xl mx-auto p-4">
+              <ProductGallery
+                images={product.images}
+                productName={product.name}
+              />
+            </div>
+            <BenefitsCTASection />
+            <ProductCarousel />
+            <CountDown />
+            <SinglePageCheckout product={product} />
+            <Footer />
+          </SectionBackground>
         </div>
       )}
     </div>
