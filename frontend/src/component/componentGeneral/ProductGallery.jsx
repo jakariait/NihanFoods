@@ -40,8 +40,8 @@ const ProductGallery = ({ images, discount, zoom = true, productName }) => {
                 skeletonHeight="100%"
                 width={800}
                 height={800}
-                loadingStrategy="eager"
-                fetchPriority="high"
+                loadingStrategy="lazy"
+                fetchPriority="auto"
               />
             </div>
 
@@ -90,6 +90,8 @@ const ProductGallery = ({ images, discount, zoom = true, productName }) => {
                       skeletonHeight="100%"
                       width={200}
                       height={200}
+                      loadingStrategy="lazy"
+                      fetchPriority="auto"
                     />
                   </button>
                 ))}
@@ -150,6 +152,8 @@ const ProductGallery = ({ images, discount, zoom = true, productName }) => {
             className="max-w-[90vw] max-h-[90vh] object-contain"
             width={1200}
             height={1200}
+            loadingStrategy="lazy"
+            fetchPriority="auto"
           />
         </div>
       )}

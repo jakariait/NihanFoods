@@ -15,8 +15,8 @@ export default function Footer() {
             height={100}
             altName={GeneralInfoList?.CompanyName}
             skeletonHeight={20}
-            loadingStrategy="eager"
-            fetchPriority="high"
+            loadingStrategy="lazy"
+            fetchPriority="auto"
           />
         </div>
 
