@@ -9,6 +9,22 @@ const createOrder = async (req, res) => {
 
     let user = null;
 
+    const phoneNumber = orderData?.shippingInfo?.mobileNo;
+    if (phoneNumber) {
+      const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000);
+      const existingOrder = await require("../models/OrderModel").findOne({
+        "shippingInfo.mobileNo": phoneNumber,
+        orderDate: { $gte: oneHourAgo },
+      });
+
+      if (existingOrder) {
+        return res.status(429).json({
+          success: false,
+          message: "আপনি ইতিমধ্যে একটি অর্ডার করেছেন। এক ঘণ্টার মধ্যে আবার অর্ডার করতে পারবেন না।",
+        });
+      }
+    }
+
     if (userId) {
       user = await User.findById(userId);
 
@@ -86,6 +102,7 @@ const createOrder = async (req, res) => {
     });
   }
 };
+
 
 const getAllOrders = async (req, res) => {
   try {

@@ -215,7 +215,8 @@ const SinglePageCheckout = ({ product }) => {
         showSnackbar(res.data.message || "Failed to place order.", "error");
       }
     } catch (err) {
-      showSnackbar("Something went wrong. Please try again later.", "error");
+      const errorMessage = err.response?.data?.message || "Something went wrong. Please try again later.";
+      showSnackbar(errorMessage, "error");
     } finally {
       setIsProcessingOrder(false);
     }
@@ -415,8 +416,16 @@ const SinglePageCheckout = ({ product }) => {
         open={snackbar.open}
         autoHideDuration={4000}
         onClose={handleCloseSnackbar}
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "right",
+        }}
       >
-        <Alert onClose={handleCloseSnackbar} severity={snackbar.severity}>
+        <Alert
+          onClose={handleCloseSnackbar}
+          severity={snackbar.severity}
+          sx={{ width: "100%" }}
+        >
           {snackbar.message}
         </Alert>
       </Snackbar>
