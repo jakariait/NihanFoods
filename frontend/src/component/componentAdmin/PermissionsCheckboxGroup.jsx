@@ -2,9 +2,9 @@ import React from "react";
 import { FormControlLabel, Checkbox, Button } from "@mui/material";
 
 const PermissionsCheckboxGroup = ({
-  selectedPermissions = [],
-  setSelectedPermissions,
-}) => {
+                                    selectedPermissions = [],
+                                    setSelectedPermissions,
+                                  }) => {
   const PERMISSION_OPTIONS = [
     { value: "dashboard", label: "Dashboard Access" },
     { value: "general_info", label: "General Info" },
@@ -34,6 +34,7 @@ const PermissionsCheckboxGroup = ({
 
     { value: "incomplete_orders", label: "Incomplete Orders" },
     { value: "delete_incomplete_orders", label: "Delete Incomplete Orders" },
+    { value: "edit_incomplete_orders", label: "Edit Incomplete Orders" },
 
     { value: "bkash_api", label: "bKash API" },
     { value: "steadfast_api", label: "Steadfast API" },
