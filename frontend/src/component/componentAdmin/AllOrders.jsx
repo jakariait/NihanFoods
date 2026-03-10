@@ -34,6 +34,7 @@ import ClearIcon from "@mui/icons-material/Clear";
 import { Box } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Tooltip } from "@mui/material";
+import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import axios from "axios";
 import { Snackbar, Alert } from "@mui/material";
 import { useNavigate } from "react-router-dom";
@@ -91,6 +92,7 @@ const AllOrders = ({ title, status = "" }) => {
   const [bulkCourierDialog, setBulkCourierDialog] = useState(false);
   const [selectedCourier, setSelectedCourier] = useState("");
   const [sendingToCourier, setSendingToCourier] = useState(false);
+  const [downloadingOrders, setDownloadingOrders] = useState(false);
 
   const apiUrl = import.meta.env.VITE_API_URL;
   const navigate = useNavigate();
@@ -290,6 +292,92 @@ const AllOrders = ({ title, status = "" }) => {
   const handleSuccess = useCallback(() => {
     fetchOrders();
   }, [fetchOrders]);
+
+  // Download orders as CSV
+  const handleDownloadOrders = useCallback(async () => {
+    setDownloadingOrders(true);
+    try {
+      // Fetch all orders from API
+      const response = await axios.get(`${apiUrl}/orders`, {
+        headers: { Authorization: `Bearer ${token}` },
+        params: {
+          limit: 10000, // Large number to get all orders
+          page: 1,
+          ...(status && { orderStatus: status }), // Include status filter if applied
+          ...(searchQuery && { search: searchQuery }), // Include search filter if applied
+        },
+      });
+
+      const ordersToDownload = response.data.orders || [];
+
+      if (ordersToDownload.length === 0) {
+        setSnackbarMessage("No orders to download");
+        setSnackbarSeverity("warning");
+        setOpenSnackbar(true);
+        setDownloadingOrders(false);
+        return;
+      }
+
+      // Prepare CSV headers
+      const headers = [
+        "Order No",
+        "Order Date",
+        "Customer Name",
+        "Mobile Number",
+        "Email",
+        "Address",
+        "Billed Amount",
+      ];
+
+      // Prepare CSV rows
+      const rows = ordersToDownload.map((order) => [
+        order.orderNo || "",
+        order.orderDate
+          ? new Date(order.orderDate).toLocaleDateString()
+          : new Date(order.createdAt).toLocaleDateString(),
+        order.shippingInfo?.fullName || "",
+        order.shippingInfo?.mobileNo || "",
+        order.shippingInfo?.email || "",
+        order.shippingInfo?.address || "",
+        order.totalAmount?.toFixed(2) || "0",
+      ]);
+
+      // Create CSV content
+      const csvContent = [
+        headers.map((h) => `"${h}"`).join(","),
+        ...rows.map((row) =>
+          row
+            .map((cell) => `"${cell?.toString().replace(/"/g, '""') || ""}"`)
+            .join(","),
+        ),
+      ].join("\n");
+
+      // Create blob and download
+      const blob = new Blob([csvContent], {
+        type: "text/csv;charset=utf-8;",
+      });
+      const link = document.createElement("a");
+      const url = URL.createObjectURL(blob);
+      link.href = url;
+      link.download = `Orders_${new Date().toISOString().slice(0, 10)}.csv`;
+      link.click();
+      URL.revokeObjectURL(url);
+
+      setSnackbarMessage(
+        `Downloaded ${ordersToDownload.length} orders successfully`,
+      );
+      setSnackbarSeverity("success");
+      setOpenSnackbar(true);
+    } catch (error) {
+      setSnackbarMessage(
+        error.response?.data?.message || "Error downloading orders",
+      );
+      setSnackbarSeverity("error");
+      setOpenSnackbar(true);
+    } finally {
+      setDownloadingOrders(false);
+    }
+  }, [apiUrl, token, status, searchQuery]);
 
   // Bulk selection handlers
   const handleSelectAll = useCallback(
@@ -543,6 +631,18 @@ const AllOrders = ({ title, status = "" }) => {
         {title}
       </h1>
 
+      <div className={"flex justify-center items-center"}>
+        <Button
+          variant="contained"
+          color="success"
+          startIcon={<FileDownloadIcon />}
+          onClick={handleDownloadOrders}
+          disabled={downloadingOrders}
+        >
+          {downloadingOrders ? "Downloading..." : "Download All Orders (CSV)"}
+        </Button>
+      </div>
+
       <div className="grid grid-cols-2 gap-4 shadow rounded-lg p-4 items-center mt-6 mb-6">
         <TextField
           label="Search Orders"
@@ -667,50 +767,51 @@ const AllOrders = ({ title, status = "" }) => {
             </Box>
           ) : (
             <Box sx={{ position: "relative" }}>
-              {selectedOrders.length > 0 && (
-                <Box
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 2,
-                    mb: 2,
-                    p: 2,
-                    bgcolor: "primary.light",
-                    borderRadius: 1,
-                  }}
-                >
-                  <Typography variant="body1">
-                    {selectedOrders.length} order(s) selected
-                  </Typography>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleBulkUpdateOpen}
-                  >
-                    Bulk Update Status
-                  </Button>
-                  <Button
-                    variant="contained"
-                    color="error"
-                    onClick={handleBulkDeleteOpen}
-                  >
-                    Bulk Delete
-                  </Button>
-                  <Button
-                    variant="contained"
-                    color="secondary"
-                    onClick={handleBulkCourierOpen}
-                  >
-                    Send to Courier
-                  </Button>
-                  <Button
-                    variant="outlined"
-                    onClick={() => setSelectedOrders([])}
-                  >
-                    Clear Selection
-                  </Button>
-                </Box>
-              )}
+               {selectedOrders.length > 0 && (
+                 <Box
+                   sx={{
+                     display: "flex",
+                     alignItems: "center",
+                     gap: 2,
+                     mb: 2,
+                     p: 2,
+                     bgcolor: "primary.light",
+                     borderRadius: 1,
+                   }}
+                 >
+                   <Typography variant="body1">
+                     {selectedOrders.length} order(s) selected
+                   </Typography>
+                   <Button
+                     variant="contained"
+                     color="primary"
+                     onClick={handleBulkUpdateOpen}
+                   >
+                     Bulk Update Status
+                   </Button>
+                   <Button
+                     variant="contained"
+                     color="error"
+                     onClick={handleBulkDeleteOpen}
+                   >
+                     Bulk Delete
+                   </Button>
+                   <Button
+                     variant="contained"
+                     color="secondary"
+                     onClick={handleBulkCourierOpen}
+                   >
+                     Send to Courier
+                   </Button>
+                   <Button
+                     variant="outlined"
+                     onClick={() => setSelectedOrders([])}
+                   >
+                     Clear Selection
+                   </Button>
+                 </Box>
+               )}
+
               <TableContainer
                 component={Paper}
                 sx={{
