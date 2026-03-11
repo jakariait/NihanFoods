@@ -676,7 +676,11 @@ router.get("/courier/status/:orderId", adminProtect, getDynamicCourierStatus);
 
 // Steadfast Courier Routes
 router.post("/steadfast/create-order", createSteadfastOrder);
-router.post("/steadfast/bulk-order", bulkCreateSteadfastOrder);
+router.post(
+  "/steadfast/bulk-order",
+  adminProtect,
+  bulkCreateSteadfastOrder,
+);
 router.get(
   "/steadfast/get-order-status",
   adminProtect,

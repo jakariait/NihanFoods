@@ -508,78 +508,141 @@ const AllOrders = ({ title, status = "" }) => {
     setSelectedCourier("");
   }, []);
 
-  const handleBulkSendToCourier = useCallback(async () => {
-    if (!selectedCourier || selectedOrders.length === 0) return;
+   const handleBulkSendToCourier = useCallback(async () => {
+     if (!selectedCourier || selectedOrders.length === 0) return;
 
-    setSendingToCourier(true);
-    try {
-      const ordersToSend = allOrders
-        .filter((order) => selectedOrders.includes(order._id))
-        .map((order) => ({
-          invoice: order.orderNo,
-          recipient_name: order.shippingInfo?.fullName || "N/A",
-          recipient_phone: order.shippingInfo?.mobileNo || "",
-          recipient_address: order.shippingInfo?.address || "N/A",
-          cod_amount: order.dueAmount?.toString() || "0",
-          note: order.note || "",
-        }));
+     setSendingToCourier(true);
+     try {
+       const ordersToSend = allOrders
+         .filter((order) => selectedOrders.includes(order._id))
+         .map((order) => ({
+           invoice: order.orderNo,
+           recipient_name: order.shippingInfo?.fullName || "N/A",
+           recipient_phone: order.shippingInfo?.mobileNo || "",
+           recipient_address: order.shippingInfo?.address || "N/A",
+           cod_amount: String(order.dueAmount || 0), // Send as string for Steadfast
+           note: order.note || "",
+         }));
 
-      let response;
-      if (selectedCourier === "steadfast") {
-        response = await axios.post(
-          `${apiUrl}/steadfast/bulk-order`,
-          { data: ordersToSend },
-          { headers: { Authorization: `Bearer ${token}` } },
-        );
-      } else if (selectedCourier === "pathao") {
-        response = await axios.post(
-          `${apiUrl}/pathao/orders/bulk`,
-          { data: ordersToSend },
-          { headers: { Authorization: `Bearer ${token}` } },
-        );
-      }
+       console.log("Sending to Steadfast:", ordersToSend);
 
-      if (response.data.status === "success") {
-        const successCount = response.data.data.filter(
-          (r) => r.status === "success",
-        ).length;
-        const errorCount = response.data.data.filter(
-          (r) => r.status === "error",
-        ).length;
+       let response;
+       if (selectedCourier === "steadfast") {
+         response = await axios.post(
+           `${apiUrl}/steadfast/bulk-order`,
+           { data: ordersToSend },
+           { headers: { Authorization: `Bearer ${token}` } },
+         );
+       } else if (selectedCourier === "pathao") {
+         response = await axios.post(
+           `${apiUrl}/pathao/orders/bulk`,
+           { data: ordersToSend },
+           { headers: { Authorization: `Bearer ${token}` } },
+         );
+       }
 
-        setSnackbarMessage(
-          `${successCount} orders sent to ${selectedCourier} successfully${errorCount > 0 ? `, ${errorCount} failed` : ""}`,
-        );
-        setSnackbarSeverity(errorCount > 0 ? "warning" : "success");
-        setOpenSnackbar(true);
-        setSelectedOrders([]);
-        fetchOrders();
-      } else {
-        setSnackbarMessage(
-          response.data.message || "Failed to send orders to courier",
-        );
-        setSnackbarSeverity("error");
-        setOpenSnackbar(true);
-      }
-    } catch (error) {
-      setSnackbarMessage(
-        error.response?.data?.message || "Error sending orders to courier",
-      );
-      setSnackbarSeverity("error");
-      setOpenSnackbar(true);
-    } finally {
-      setSendingToCourier(false);
-      handleBulkCourierClose();
-    }
-  }, [
-    selectedCourier,
-    selectedOrders,
-    allOrders,
-    apiUrl,
-    token,
-    fetchOrders,
-    handleBulkCourierClose,
-  ]);
+       console.log("Courier response:", response.data);
+
+       if (response.data.status === "success") {
+          // Ensure data is an array before filtering
+          const responseData = Array.isArray(response.data.data) ? response.data.data : [];
+          
+          console.log("Response data array:", responseData);
+          
+          const successCount = responseData.filter(
+            (r) => r.status === "success",
+          ).length;
+          const errorCount = responseData.filter(
+            (r) => r.status === "error",
+          ).length;
+
+          // Update successfully sent orders with courier details
+          if (successCount > 0) {
+            const updatePromises = responseData
+              .filter((r) => r.status === "success")
+              .map((result) => {
+                // Find the order by invoice number
+                const order = allOrders.find((o) => o.orderNo === result.invoice);
+                if (!order) return null;
+
+                // Prepare update payload based on courier type
+                let updatePayload = {
+                  sentToCourier: true,
+                  orderStatus: "intransit",
+                  courierProvider: selectedCourier,
+                };
+
+                if (selectedCourier === "steadfast") {
+                  updatePayload.courierConsignmentId = result.consignment_id;
+                } else if (selectedCourier === "pathao") {
+                  updatePayload.courierConsignmentId = result.consignment_id;
+                }
+
+                return axios.put(
+                  `${apiUrl}/orders/${order._id}`,
+                  updatePayload,
+                  { headers: { Authorization: `Bearer ${token}` } },
+                );
+              })
+              .filter((p) => p !== null);
+
+            // Wait for all updates to complete
+            try {
+              await Promise.all(updatePromises);
+              console.log("All orders updated successfully");
+            } catch (updateError) {
+              console.error("Error updating orders:", updateError);
+            }
+          }
+
+          // If all orders failed, show detailed error
+          if (successCount === 0 && errorCount === 0 && responseData.length === 0) {
+            setSnackbarMessage(
+              "All orders were rejected by Steadfast. Check console logs and your Steadfast dashboard for details.",
+            );
+            setSnackbarSeverity("error");
+          } else {
+            setSnackbarMessage(
+              `${successCount} orders sent to ${selectedCourier} successfully${errorCount > 0 ? `, ${errorCount} failed` : ""}`,
+            );
+            setSnackbarSeverity(errorCount > 0 ? "warning" : "success");
+          }
+          setOpenSnackbar(true);
+          setSelectedOrders([]);
+          fetchOrders();
+       } else {
+         setSnackbarMessage(
+           response.data.message || "Failed to send orders to courier",
+         );
+         setSnackbarSeverity("error");
+         setOpenSnackbar(true);
+       }
+     } catch (error) {
+       const errorMsg = error.response?.data?.message || 
+         error.message || 
+         "Error sending orders to courier";
+       console.error("Bulk courier error:", error);
+       console.error("Error details:", {
+         status: error.response?.status,
+         data: error.response?.data,
+         message: error.message
+       });
+       setSnackbarMessage(errorMsg);
+       setSnackbarSeverity("error");
+       setOpenSnackbar(true);
+     } finally {
+       setSendingToCourier(false);
+       handleBulkCourierClose();
+     }
+   }, [
+     selectedCourier,
+     selectedOrders,
+     allOrders,
+     apiUrl,
+     token,
+     fetchOrders,
+     handleBulkCourierClose,
+   ]);
 
   // Memoize the loading skeleton
   const LoadingSkeleton = useMemo(
