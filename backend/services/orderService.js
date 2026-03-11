@@ -116,9 +116,10 @@ const createOrder = async (orderData, userId) => {
       promoDiscount = Math.min(promoDiscount, subtotal);
     }
 
-    // Reward points
+    // Reward points and special discount
     const rewardPointsUsed = orderData.rewardPointsUsed || 0;
-    const finalSubtotal = subtotal - promoDiscount - rewardPointsUsed;
+    const specialDiscount = Number(orderData.specialDiscount || 0);
+    const finalSubtotal = Math.max(0, subtotal - promoDiscount - rewardPointsUsed - specialDiscount);
 
     const vat = (finalSubtotal * vatPercent) / 100;
     const totalAmount = finalSubtotal + vat + deliveryCharge;
@@ -136,9 +137,9 @@ const createOrder = async (orderData, userId) => {
       promoCode: appliedCouponCode,
       promoDiscount,
       rewardPointsUsed,
-      specialDiscount: 0,
+      specialDiscount,
       rewardPointsEarned: 0,
-      adminNote: "",
+      adminNote: orderData.adminNote || "",
     });
 
     const savedOrder = await newOrder.save();

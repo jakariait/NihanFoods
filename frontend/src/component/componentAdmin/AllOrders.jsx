@@ -229,6 +229,10 @@ const AllOrders = ({ title, status = "" }) => {
           aVal = a.orderStatus;
           bVal = b.orderStatus;
           break;
+        case "orderSource":
+          aVal = a.orderSource;
+          bVal = b.orderSource;
+          break;
         case "paymentStatus":
           aVal = a.paymentStatus;
           bVal = b.paymentStatus;
@@ -321,6 +325,7 @@ const AllOrders = ({ title, status = "" }) => {
       // Prepare CSV headers
       const headers = [
         "Order No",
+        "Source",
         "Order Date",
         "Customer Name",
         "Mobile Number",
@@ -332,6 +337,7 @@ const AllOrders = ({ title, status = "" }) => {
       // Prepare CSV rows
       const rows = ordersToDownload.map((order) => [
         order.orderNo || "",
+        order.orderSource || "web",
         order.orderDate
           ? new Date(order.orderDate).toLocaleDateString()
           : new Date(order.createdAt).toLocaleDateString(),
@@ -661,6 +667,7 @@ const AllOrders = ({ title, status = "" }) => {
                 "Status",
                 "Payment Status",
                 "Total Amount",
+                "Source",
                 "Actions",
               ].map((header, i) => (
                 <TableCell key={i}>
@@ -672,7 +679,7 @@ const AllOrders = ({ title, status = "" }) => {
           <TableBody>
             {[...Array(itemsPerPage)].map((_, index) => (
               <TableRow key={index}>
-                {Array(10)
+                {Array(11)
                   .fill()
                   .map((_, cellIndex) => (
                     <TableCell key={cellIndex}>
@@ -966,6 +973,17 @@ const AllOrders = ({ title, status = "" }) => {
 
                       <TableCell>
                         <TableSortLabel
+                          active={orderBy === "orderSource"}
+                          direction={
+                            orderBy === "orderSource" ? sortDirection : "asc"
+                          }
+                          onClick={() => handleSortRequest("orderSource")}
+                        >
+                          Source
+                        </TableSortLabel>
+                      </TableCell>
+                      <TableCell>
+                        <TableSortLabel
                           active={orderBy === "totalAmount"}
                           direction={
                             orderBy === "totalAmount" ? sortDirection : "asc"
@@ -974,8 +992,7 @@ const AllOrders = ({ title, status = "" }) => {
                         >
                           Total Amount
                         </TableSortLabel>
-                      </TableCell>
-                      <TableCell>Actions</TableCell>
+                      </TableCell>                      <TableCell>Actions</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -1019,6 +1036,14 @@ const AllOrders = ({ title, status = "" }) => {
                           <OrderStatusSelector
                             orderId={order._id}
                             refetchOrders={fetchOrders}
+                          />
+                        </TableCell>
+
+                        <TableCell>
+                          <Chip
+                            label={order.orderSource === "admin" ? "Admin" : "Web"}
+                            color={order.orderSource === "admin" ? "primary" : "success"}
+                            size="small"
                           />
                         </TableCell>
 

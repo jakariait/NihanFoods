@@ -37,6 +37,13 @@ const orderSchema = new mongoose.Schema(
       default: "pending",
     },
 
+    orderSource: {
+      type: String,
+      enum: ["web", "admin"],
+      default: "web",
+      required: true,
+    },
+
     deliveryMethod: {
       type: String,
       enum: ["home_delivery"],
@@ -68,7 +75,7 @@ const orderSchema = new mongoose.Schema(
       fullName: { type: String },
       address: { type: String },
     },
-    
+
     paymentId: {
       type: String,
     },
@@ -181,10 +188,13 @@ orderSchema.pre("save", function (next) {
     return next(new Error("Subtotal amount cannot be less than 0"));
   }
 
+  const rewardPointsUsed = this.rewardPointsUsed || 0;
+
   this.totalAmount =
     this.subtotalAmount -
     this.promoDiscount -
-    this.specialDiscount +
+    this.specialDiscount -
+    rewardPointsUsed +
     this.deliveryCharge +
     this.vat;
 
@@ -215,6 +225,10 @@ orderSchema.pre("findOneAndUpdate", async function (next) {
       update.specialDiscount !== undefined
         ? update.specialDiscount
         : order.specialDiscount;
+    const rewardPointsUsed =
+      update.rewardPointsUsed !== undefined
+        ? update.rewardPointsUsed
+        : order.rewardPointsUsed || 0;
     const deliveryCharge =
       update.deliveryCharge !== undefined
         ? update.deliveryCharge
@@ -226,7 +240,12 @@ orderSchema.pre("findOneAndUpdate", async function (next) {
         : order.advanceAmount || 0;
 
     const totalAmount =
-      subtotalAmount - promoDiscount - specialDiscount + deliveryCharge + vat;
+      subtotalAmount -
+      promoDiscount -
+      specialDiscount -
+      rewardPointsUsed +
+      deliveryCharge +
+      vat;
     const dueAmount = totalAmount - advanceAmount;
 
     update.totalAmount = totalAmount;
