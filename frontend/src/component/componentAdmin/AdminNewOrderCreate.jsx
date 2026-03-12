@@ -232,7 +232,7 @@ const AdminNewOrderCreate = () => {
     let price, variantId, variantName;
 
     if (hasVariants) {
-      price = selectedVariant.price || selectedVariant.discount || 0;
+      price = selectedVariant.discount > 0 ? selectedVariant.discount : selectedVariant.price || 0;
       variantId = selectedVariant._id;
       variantName = getVariantName(selectedVariant);
     } else {
@@ -636,7 +636,7 @@ const AdminNewOrderCreate = () => {
                             {selectedProduct.variants &&
                             selectedProduct.variants.length > 0 ? (
                               selectedProduct.variants.map((variant) => {
-                                const variantPrice = variant.price || variant.discount || 0;
+                                const variantPrice = variant.discount > 0 ? variant.discount : variant.price || 0;
                                 const variantName = getVariantName(variant);
                                 return (
                                   <MenuItem key={variant._id} value={variant._id}>
