@@ -16,12 +16,12 @@ const SendToCourierButton = ({ orderData, onSuccess }) => {
   const [open, setOpen] = useState(false);
   const [note, setNote] = useState(orderData.note || "");
   const [sent, setSent] = useState(orderData.courier_status || false);
-  const [showDeliveryStatus, setShowDeliveryStatus] = useState(false); // New state variable
+  const [showDeliveryStatus, setShowDeliveryStatus] = useState(orderData.courier_status || false);
   const {
     status: deliveryStatus,
     loading: statusLoading,
     refetch,
-  } = useCourierStatus(orderData, sent, !sent);
+  } = useCourierStatus(orderData, sent, true);
   const [selectedCourier, setSelectedCourier] = useState("steadfast");
   const [pathaoStoreId, setPathaoStoreId] = useState(null);
 
@@ -52,10 +52,7 @@ const SendToCourierButton = ({ orderData, onSuccess }) => {
   }, [apiURL, token]);
 
   const handleButtonClick = () => {
-    if (sent) {
-      setShowDeliveryStatus(true); // Set to true on click
-      refetch();
-    } else {
+    if (!sent) {
       setOpen(true);
     }
   };
@@ -253,7 +250,7 @@ const SendToCourierButton = ({ orderData, onSuccess }) => {
           <>
             {statusLoading ? (
               <span className="flex items-center justify-center">
-                <span className="w-4 h-4 cursor-pointer border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
               </span>
             ) : (
               <>
@@ -265,7 +262,7 @@ const SendToCourierButton = ({ orderData, onSuccess }) => {
                     </span>
                   </>
                 ) : (
-                  "Sent | Click to show status"
+                  "Sent to Courier"
                 )}
               </>
             )}

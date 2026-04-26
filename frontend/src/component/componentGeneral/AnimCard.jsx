@@ -1,7 +1,8 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 
-export default function AnimCard({ children, delay = 0, once = true }) {
+export default function AnimCard({ children, once = true }) {
+  const delay = 700;
   const ref = useRef(null);
   const isInView = useInView(ref, { once, amount: 0.12 });
 
