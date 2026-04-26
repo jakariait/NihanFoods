@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useRef } from "react";
+import { motion, useInView } from "framer-motion";
 import CarouselStore from "../../store/CarouselStore.js";
 import GeneralInfoStore from "../../store/GeneralInfoStore.js";
 import ImageComponentWithCompression from "./ImageComponentWithCompression.jsx";
+import AnimCard from "./AnimCard.jsx";
 
 // Swiper Imports
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -130,7 +132,7 @@ const ProductCarousel = () => {
           }}
         >
           {/* Section header */}
-          <div className={"flex flex-col justify-center items-center py-10"}>
+          <AnimCard delay={0}>
             <h2
               className="gold-shimmer-carousel"
               style={{
@@ -140,11 +142,13 @@ const ProductCarousel = () => {
                 fontWeight: 900,
                 lineHeight: 1.3,
                 display: "block",
+                textAlign: "center",
+                marginBottom: "40px",
               }}
             >
               আপনাদের ভালোবাসার জন্য ধন্যবাদ!
             </h2>
-          </div>
+          </AnimCard>
 
           {/* Swiper */}
           <div className="product-carousel-wrap">

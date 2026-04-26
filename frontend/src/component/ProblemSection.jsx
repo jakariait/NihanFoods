@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import AnimCard from "./componentGeneral/AnimCard.jsx";
 
 const painPoints = [
   {
@@ -60,33 +60,6 @@ const processSteps = [
   { label: "→", arrow: true },
   { label: "সাদা চিনি ☠️", good: false },
 ];
-
-function AnimCard({ children, delay = 0, once = true }) {
-  const ref = useRef(null);
-  const [vis, setVis] = useState(false);
-  useEffect(() => {
-    const obs = new IntersectionObserver(
-      ([e]) => {
-        if (e.isIntersecting) setVis(true);
-      },
-      { threshold: 0.12 },
-    );
-    if (ref.current) obs.observe(ref.current);
-    return () => obs.disconnect();
-  }, []);
-  return (
-    <div
-      ref={ref}
-      style={{
-        opacity: vis ? 1 : 0,
-        transform: vis ? "translateY(0)" : "translateY(30px)",
-        transition: `opacity 0.7s ease ${delay}ms, transform 0.7s ease ${delay}ms`,
-      }}
-    >
-      {children}
-    </div>
-  );
-}
 
 export default function ProblemSection() {
   return (

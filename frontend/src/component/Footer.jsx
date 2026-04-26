@@ -1,11 +1,13 @@
 import GeneralInfoStore from "../store/GeneralInfoStore.js";
 import ImageComponentWithCompression from "./componentGeneral/ImageComponentWithCompression.jsx";
+import AnimCard from "./componentGeneral/AnimCard.jsx";
 
 export default function Footer() {
   const { GeneralInfoList } = GeneralInfoStore();
 
   return (
     <div className="pt-10">
+      <AnimCard delay={0}>
       <div style={{ textAlign: "center", padding: "0 28px" }}>
         {/* Logo / brand mark */}
         <div className={"flex items-center justify-center"}>
@@ -139,6 +141,7 @@ export default function Footer() {
           </p>
         </div>
       </div>
+    </AnimCard>
     </div>
   );
 }

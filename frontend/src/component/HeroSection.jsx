@@ -1,5 +1,5 @@
-import React from "react";
 import ImageComponent from "./componentGeneral/ImageComponentWithCompression.jsx";
+import AnimCard from "./componentGeneral/AnimCard.jsx";
 
 export default function HeroSection({ product }) {
   const features = [{ text: "কেমিক্যাল বিহীন" }, { text: "নিজস্ব আখ ক্ষেত" }];
@@ -24,7 +24,6 @@ export default function HeroSection({ product }) {
 
       <style>{`
         @keyframes floatUp { 0%,100%{transform:rotate(45deg) translateY(0)} 50%{transform:rotate(45deg) translateY(-12px)} }
-        @keyframes fadeSlideUp { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:translateY(0)} }
         @keyframes shimmerGold {
           0%{background-position:200% center}
           100%{background-position:-200% center}
@@ -32,13 +31,6 @@ export default function HeroSection({ product }) {
         @keyframes pulseGlow { 0%,100%{opacity:0.5;transform:scale(1)} 50%{opacity:0.85;transform:scale(1.08)} }
         @keyframes leafSway { 0%,100%{transform:rotate(-3deg)} 50%{transform:rotate(3deg)} }
         @keyframes dotPulse { 0%,100%{opacity:1;box-shadow:0 0 6px #34d399} 50%{opacity:0.5;box-shadow:0 0 14px #34d399} }
-
-        .anim-1{animation:fadeSlideUp 0.7s ease forwards;animation-delay:0.1s;opacity:0}
-        .anim-2{animation:fadeSlideUp 0.7s ease forwards;animation-delay:0.3s;opacity:0}
-        .anim-3{animation:fadeSlideUp 0.7s ease forwards;animation-delay:0.5s;opacity:0}
-        .anim-4{animation:fadeSlideUp 0.7s ease forwards;animation-delay:0.7s;opacity:0}
-        .anim-5{animation:fadeSlideUp 0.7s ease forwards;animation-delay:0.9s;opacity:0}
-        .anim-6{animation:fadeSlideUp 0.7s ease forwards;animation-delay:1.1s;opacity:0}
 
         .gold-shimmer {
           background: linear-gradient(90deg, #ca8a04, #fbbf24, #fde68a, #fbbf24, #ca8a04);
@@ -275,210 +267,215 @@ export default function HeroSection({ product }) {
         }}
       >
         {/* Origin badge */}
-        <div className="anim-1" style={{ marginBottom: "28px" }}>
-          <span
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: "8px",
-              background: "rgba(16,185,129,0.12)",
-              border: "1px solid rgba(52,211,153,0.25)",
-              backdropFilter: "blur(8px)",
-              padding: "8px 20px",
-              borderRadius: "100px",
-              fontSize: "13px",
-              color: "#6ee7b7",
-              letterSpacing: "0.06em",
-            }}
-          >
+        <AnimCard delay={100}>
+          <div style={{ marginBottom: "28px" }}>
             <span
               style={{
-                width: "7px",
-                height: "7px",
-                borderRadius: "50%",
-                background: "#34d399",
-                display: "inline-block",
-                animation: "dotPulse 2s infinite",
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "8px",
+                background: "rgba(16,185,129,0.12)",
+                border: "1px solid rgba(52,211,153,0.25)",
+                backdropFilter: "blur(8px)",
+                padding: "8px 20px",
+                borderRadius: "100px",
+                fontSize: "13px",
+                color: "#6ee7b7",
+                letterSpacing: "0.06em",
               }}
-            />
-            ফুলবাড়িয়া, ময়মনসিংহ &nbsp;·&nbsp; সরাসরি উৎপাদক থেকে
-          </span>
-        </div>
+            >
+              <span
+                style={{
+                  width: "7px",
+                  height: "7px",
+                  borderRadius: "50%",
+                  background: "#34d399",
+                  display: "inline-block",
+                  animation: "dotPulse 2s infinite",
+                }}
+              />
+              ফুলবাড়িয়া, ময়মনসিংহ &nbsp;·&nbsp; সরাসরি উৎপাদক থেকে
+            </span>
+          </div>
+        </AnimCard>
 
         {/* Hero Headline */}
-        <div
-          className="anim-2"
-          style={{ maxWidth: "800px", marginBottom: "22px" }}
-        >
-          <h1
-            style={{
-              fontSize: "clamp(28px,5.5vw,64px)",
-              fontWeight: 900,
-              lineHeight: 1.25,
-              color: "#fff",
-              margin: 0,
-            }}
-          >
-            আপনার পরিবার কি এখনও <br />
-              <span className={"text-red-600"}>কেমিক্যালযুক্ত সাদা চিনি</span>{" "}
-              <span style={{ color: "rgba(255,255,255,0.75)" }}>খাচ্ছে?</span>
-          </h1>
-        </div>
-
-        {/*Thumbnail Image*/}
-        <div className={"max-w-3xl mx-auto pb-5"}>
-          <ImageComponent
-            imageName={product?.thumbnailImage}
-            altName={product?.name}
-            className="w-full aspect-square object-cover"
-            skeletonHeight={"400px"}
-            width={1000}
-            height={1000}
-            loadingStrategy="eager"
-            fetchPriority="high"
-          />
-        </div>
-
-        {/* Subheading */}
-        <div
-          className="anim-3"
-          style={{ maxWidth: "660px", marginBottom: "36px" }}
-        >
-          <p
-            style={{
-              fontSize: "clamp(17px,2.3vw,24px)",
-              fontWeight: 700,
-              lineHeight: 1.5,
-              margin: "0 0 10px",
-            }}
-          >
-            <span className="gold-shimmer">
-              ফুলবাড়িয়ার ঐতিহ্যবাহী হাতে তৈরি আখের লাল চিনি
-            </span>
-          </p>
-          <p
-            style={{
-              fontSize: "clamp(14px,1.6vw,17px)",
-              color: "white",
-              margin: 0,
-              lineHeight: 1.65,
-            }}
-          >
-            ফুলবাড়িয়ার ঐতিহ্যবাহী পদ্ধতিতে তৈরি — কোনো ব্লিচিং নেই, কোনো
-            কেমিক্যাল নেই। শুধু আখের রসের আসল মিষ্টতা, সরাসরি আপনার ঘরে।
-          </p>
-        </div>
-
-        {/* Feature Pills */}
-        <div className="anim-4 grid grid-cols-2 gap-3 mb-11 md:max-w-3xl ">
-          {features.map((f, i) => (
-            <div
-              key={i}
-              className="
-        flex items-center gap-2
-        bg-emerald-500/15
-        border border-emerald-300/20
-        backdrop-blur-md
-        rounded-xl
-        px-4 py-3
-      "
-            >
-              {/* Text */}
-              <span className={"font-bold  text-white"}>{f.text}</span>
-            </div>
-          ))}
-        </div>
-
-        {/* CTA Buttons */}
-        <div
-          className="anim-5"
-          style={{
-            display: "flex",
-            flexWrap: "wrap",
-            gap: "14px",
-            marginBottom: "52px",
-            alignItems: "center",
-          }}
-        >
-          <a
-            href={"#checkout"}
-            className="cta-primary w-full md:w-auto text-center"
-            style={{
-              background: "linear-gradient(135deg, #d97706 0%, #b45309 100%)",
-              color: "#fff",
-              border: "none",
-              borderRadius: "14px",
-              padding: "17px 42px",
-              fontSize: "clamp(15px,1.9vw,18px)",
-              fontFamily: "inherit",
-              fontWeight: 700,
-              cursor: "pointer",
-              boxShadow: "0 10px 35px rgba(180,83,9,0.4)",
-              letterSpacing: "0.02em",
-            }}
-          >
-            এখনই অর্ডার করুন →
-          </a>
-        </div>
-
-        {/* Trust Stats */}
-        <div
-          className="anim-6"
-          style={{
-            display: "inline-flex",
-            flexWrap: "nowrap",
-            justifyContent: "center",
-            background: "rgba(5,46,22,0.5)",
-            backdropFilter: "blur(16px)",
-            border: "1px solid rgba(52,211,153,0.14)",
-            borderRadius: "18px",
-            overflow: "hidden",
-            width: "100%",
-            maxWidth: "500px",
-          }}
-        >
-          {[
-            { num: "৩০,০০০+", label: "সন্তুষ্ট পরিবার", icon: "👨‍👩‍👧‍👦" },
-            { num: "১০০%", label: "ক্যামিকেল মুক্ত", icon: "✅" },
-            { num: "২০১৯", label: "সাল থেকে", icon: "🏆" },
-          ].map((s, i) => (
-            <div
-              key={i}
-              className="stat-card"
+        <AnimCard delay={300}>
+          <div style={{ maxWidth: "800px", marginBottom: "22px" }}>
+            <h1
               style={{
-                padding: "10px 8px",
-                textAlign: "center",
-                borderRight: i < 2 ? "1px solid rgba(52,211,153,0.1)" : "none",
-                flex: "1 1 0",
-                minWidth: 0,
+                fontSize: "clamp(28px,5.5vw,64px)",
+                fontWeight: 900,
+                lineHeight: 1.25,
+                color: "#fff",
+                margin: 0,
               }}
             >
-              <div style={{ fontSize: "16px", marginBottom: "3px" }}>
-                {s.icon}
-              </div>
+              আপনার পরিবার কি এখনও <br />
+              <span className={"text-red-600"}>কেমিক্যালযুক্ত সাদা চিনি</span>{" "}
+              <span style={{ color: "rgba(255,255,255,0.75)" }}>খাচ্ছে?</span>
+            </h1>
+          </div>
+        </AnimCard>
+
+        {/*Thumbnail Image*/}
+        <AnimCard delay={500}>
+          <div className={"max-w-3xl mx-auto pb-5"}>
+            <ImageComponent
+              imageName={product?.thumbnailImage}
+              altName={product?.name}
+              className="w-full aspect-square object-cover"
+              skeletonHeight={"400px"}
+              width={1000}
+              height={1000}
+              loadingStrategy="eager"
+              fetchPriority="high"
+            />
+          </div>
+        </AnimCard>
+
+        {/* Subheading */}
+        <AnimCard delay={700}>
+          <div style={{ maxWidth: "660px", marginBottom: "36px" }}>
+            <p
+              style={{
+                fontSize: "clamp(17px,2.3vw,24px)",
+                fontWeight: 700,
+                lineHeight: 1.5,
+                margin: "0 0 10px",
+              }}
+            >
+              <span className="gold-shimmer">
+                ফুলবাড়িয়ার ঐতিহ্যবাহী হাতে তৈরি আখের লাল চিনি
+              </span>
+            </p>
+            <p
+              style={{
+                fontSize: "clamp(14px,1.6vw,17px)",
+                color: "white",
+                margin: 0,
+                lineHeight: 1.65,
+              }}
+            >
+              ফুলবাড়িয়ার ঐতিহ্যবাহী পদ্ধতিতে তৈরি — কোনো ব্লিচিং নেই, কোনো
+              কেমিক্যাল নেই। শুধু আখের রসের আসল মিষ্টতা, সরাসরি আপনার ঘরে।
+            </p>
+          </div>
+        </AnimCard>
+
+        {/* Feature Pills */}
+        <AnimCard delay={900}>
+          <div className="grid grid-cols-2 gap-3 mb-11 md:max-w-3xl ">
+            {features.map((f, i) => (
               <div
+                key={i}
+                className="
+                flex items-center gap-2
+                bg-emerald-500/15
+                border border-emerald-300/20
+                backdrop-blur-md
+                rounded-xl
+                px-4 py-3
+              "
+              >
+                <span className={"font-bold  text-white"}>{f.text}</span>
+              </div>
+            ))}
+          </div>
+        </AnimCard>
+
+        {/* CTA Buttons */}
+        <AnimCard delay={1100}>
+          <div
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              gap: "14px",
+              marginBottom: "52px",
+              alignItems: "center",
+            }}
+          >
+            <a
+              href={"#checkout"}
+              className="cta-primary w-full md:w-auto text-center"
+              style={{
+                background: "linear-gradient(135deg, #d97706 0%, #b45309 100%)",
+                color: "#fff",
+                border: "none",
+                borderRadius: "14px",
+                padding: "17px 42px",
+                fontSize: "clamp(15px,1.9vw,18px)",
+                fontFamily: "inherit",
+                fontWeight: 700,
+                cursor: "pointer",
+                boxShadow: "0 10px 35px rgba(180,83,9,0.4)",
+                letterSpacing: "0.02em",
+              }}
+            >
+              এখনই অর্ডার করুন →
+            </a>
+          </div>
+        </AnimCard>
+
+        {/* Trust Stats */}
+        <AnimCard delay={1300}>
+          <div
+            style={{
+              display: "inline-flex",
+              flexWrap: "nowrap",
+              justifyContent: "center",
+              background: "rgba(5,46,22,0.5)",
+              backdropFilter: "blur(16px)",
+              border: "1px solid rgba(52,211,153,0.14)",
+              borderRadius: "18px",
+              overflow: "hidden",
+              width: "100%",
+              maxWidth: "500px",
+            }}
+          >
+            {[
+              { num: "৩০,০০০+", label: "সন্তুষ্ট পরিবার", icon: "👨‍👩‍👧‍👦" },
+              { num: "১০০%", label: "ক্যামিকেল মুক্ত", icon: "✅" },
+              { num: "২০১৯", label: "সাল থেকে", icon: "🏆" },
+            ].map((s, i) => (
+              <div
+                key={i}
+                className="stat-card"
                 style={{
-                  fontSize: "clamp(16px,2.8vw,24px)",
-                  fontWeight: 900,
-                  color: "#fbbf24",
-                  lineHeight: 1,
+                  padding: "10px 8px",
+                  textAlign: "center",
+                  borderRight: i < 2 ? "1px solid rgba(52,211,153,0.1)" : "none",
+                  flex: "1 1 0",
+                  minWidth: 0,
                 }}
               >
-                {s.num}
+                <div style={{ fontSize: "16px", marginBottom: "3px" }}>
+                  {s.icon}
+                </div>
+                <div
+                  style={{
+                    fontSize: "clamp(16px,2.8vw,24px)",
+                    fontWeight: 900,
+                    color: "#fbbf24",
+                    lineHeight: 1,
+                  }}
+                >
+                  {s.num}
+                </div>
+                <div
+                  style={{
+                    fontSize: "10px",
+                    color: "rgba(167,243,208,0.6)",
+                    marginTop: "4px",
+                    letterSpacing: "0.04em",
+                  }}
+                >
+                  {s.label}
+                </div>
               </div>
-              <div
-                style={{
-                  fontSize: "10px",
-                  color: "rgba(167,243,208,0.6)",
-                  marginTop: "4px",
-                  letterSpacing: "0.04em",
-                }}
-              >
-                {s.label}
-              </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        </AnimCard>
       </div>
 
       {/* Floating particles */}

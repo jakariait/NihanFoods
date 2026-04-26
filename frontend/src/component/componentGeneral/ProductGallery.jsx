@@ -1,4 +1,5 @@
 import React, { useState, useRef } from "react";
+import { motion, useInView } from "framer-motion";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { BsArrowsFullscreen } from "react-icons/bs";
 import { FaTimes } from "react-icons/fa";
