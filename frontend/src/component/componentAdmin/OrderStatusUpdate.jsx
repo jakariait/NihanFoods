@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import useAuthAdminStore from "../../store/AuthAdminStore.js";
+import useOrderStore from "../../store/useOrderStore.js";
 import { Snackbar, Alert } from "@mui/material";
 import Skeleton from "react-loading-skeleton";
 
-const OrderStatusUpdate = ({ orderId, onUpdate }) => {
+const OrderStatusUpdate = ({ orderId, onUpdate, onStatusChange }) => {
   const { token } = useAuthAdminStore();
+  const { fetchAllStatusCounts } = useOrderStore();
   const apiUrl = import.meta.env.VITE_API_URL;
 
   const [loading, setLoading] = useState(true);
@@ -89,7 +91,9 @@ const OrderStatusUpdate = ({ orderId, onUpdate }) => {
         setSnackbarMessage("Order updated successfully!");
         setSnackbarSeverity("success");
         setOpenSnackbar(true);
+        await fetchAllStatusCounts();
         if (onUpdate) onUpdate(data.order);
+        if (onStatusChange) onStatusChange(orderStatus);
       } else {
         setSnackbarMessage(data.message || "Failed to update order");
         setSnackbarSeverity("error");

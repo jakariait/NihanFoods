@@ -22,20 +22,28 @@ import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import useProductStore from "../../store/useProductStore.js";
 import useOrderStore from "../../store/useOrderStore.js";
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import RequirePermission from "./RequirePermission.jsx";
 
 import { CircularProgress } from "@mui/material";
 
 export default function SidebarMenu() {
   const { totalProductsAdmin } = useProductStore();
-  const { logout } = useAuthAdminStore();
+  const { logout, token } = useAuthAdminStore();
   const { totalByStatus, fetchAllStatusCounts } = useOrderStore();
   const { loading } = useAuthAdminStore();
+  const fetchCounts = useRef(fetchAllStatusCounts);
+  fetchCounts.current = fetchAllStatusCounts;
 
   useEffect(() => {
-    fetchAllStatusCounts();
-  }, [fetchAllStatusCounts]);
+    if (!token) return;
+    fetchCounts.current();
+  }, [token]);
+
+  useEffect(() => {
+    const interval = setInterval(() => fetchCounts.current(), 5000);
+    return () => clearInterval(interval);
+  }, []);
   // To access delivered count
   const pendingCount = totalByStatus.pending;
   const approvedCount = totalByStatus.approved;

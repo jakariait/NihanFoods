@@ -22,6 +22,7 @@ import { useRef } from "react";
 import OrderStatusUpdate from "./OrderStatusUpdate.jsx";
 import CourierStats from "./CourierStats.jsx";
 import RequirePermission from "./RequirePermission.jsx";
+import useOrderStore from "../../store/useOrderStore.js";
 import { debounce } from "lodash";
 
 const apiUrl = import.meta.env.VITE_API_URL;
@@ -31,6 +32,7 @@ const ViewOrder = () => {
 
   const { GeneralInfoList } = useGeneralInfoStore();
   const { orderId } = useParams();
+  const { fetchAllStatusCounts } = useOrderStore();
 
   const [order, setOrder] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -586,7 +588,7 @@ const ViewOrder = () => {
 
       <div className="mt-6">
         <RequirePermission permission="edit_orders">
-          <OrderStatusUpdate orderId={order._id} onUpdate={fetchOrder} />
+          <OrderStatusUpdate orderId={order._id} onUpdate={fetchOrder} onStatusChange={fetchAllStatusCounts} />
         </RequirePermission>
       </div>
       <div className="mt-6">
