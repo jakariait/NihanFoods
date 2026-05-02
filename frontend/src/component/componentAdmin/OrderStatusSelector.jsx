@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import useAuthAdminStore from "../../store/AuthAdminStore.js";
 import { Snackbar, Alert } from "@mui/material";
-import Skeleton from "react-loading-skeleton";
 import Select from "react-select";
 
 const statusOptions = [
@@ -37,49 +36,16 @@ const customStyles = {
   }),
 };
 
-const OrderStatusSelector = ({ orderId, refetchOrders }) => {
+const OrderStatusSelector = ({ orderId, initialStatus, refetchOrders }) => {
   const { token } = useAuthAdminStore();
   const apiUrl = import.meta.env.VITE_API_URL;
 
-  const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
-  const [orderStatus, setOrderStatus] = useState("pending");
+  const [orderStatus, setOrderStatus] = useState(initialStatus || "pending");
 
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarSeverity, setSnackbarSeverity] = useState("success");
-
-  useEffect(() => {
-    if (!orderId) return;
-
-    const fetchOrderStatus = async () => {
-      setLoading(true);
-      try {
-        const res = await fetch(`${apiUrl}/orders/${orderId}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-
-        const data = await res.json();
-
-        if (res.ok && data.success) {
-          setOrderStatus(data.order.orderStatus || "pending");
-        } else {
-          setSnackbarMessage(data.message || "Failed to load order status");
-          setSnackbarSeverity("error");
-          setOpenSnackbar(true);
-        }
-      } catch (err) {
-        console.error(err);
-        setSnackbarMessage("Error fetching order status.");
-        setSnackbarSeverity("error");
-        setOpenSnackbar(true);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchOrderStatus();
-  }, [orderId, apiUrl, token]);
 
   const handleSubmit = async () => {
     setSubmitting(true);
@@ -115,10 +81,6 @@ const OrderStatusSelector = ({ orderId, refetchOrders }) => {
       setSubmitting(false);
     }
   };
-
-  if (loading) {
-    return <Skeleton height={40} width={180} />;
-  }
 
   // Find the selected option object for react-select
   const selectedOption = statusOptions.find(

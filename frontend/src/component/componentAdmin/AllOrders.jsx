@@ -1038,13 +1038,20 @@ const AllOrders = ({ title, status = "" }) => {
                           />
                         </TableCell>
                         <TableCell>
-                          <CourierSummery
-                            phone={order.shippingInfo?.mobileNo}
-                          />
+                          {order.sentToCourier ? (
+                            <CourierSummery
+                              phone={order.shippingInfo?.mobileNo}
+                            />
+                          ) : (
+                            <Typography variant="caption" color="textSecondary">
+                              Not sent
+                            </Typography>
+                          )}
                         </TableCell>
                         <TableCell>
                           <OrderStatusSelector
                             orderId={order._id}
+                            initialStatus={order.orderStatus}
                             refetchOrders={fetchOrders}
                           />
                         </TableCell>

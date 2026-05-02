@@ -5,7 +5,7 @@ import useOrderStore from "../../store/useOrderStore";
 import dayjs from "dayjs";
 
 const MonthlyRevenueChart = () => {
-  const { fetchAllOrdersWithoutPagination, allOrders } = useOrderStore();
+  const { fetchAllOrdersWithoutPagination, chartOrders: allOrders } = useOrderStore();
   const [monthlyRevenue, setMonthlyRevenue] = useState([]);
 
   useEffect(() => {

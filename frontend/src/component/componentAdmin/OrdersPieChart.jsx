@@ -14,7 +14,7 @@ const statusLabels = {
 };
 
 const OrdersPieChart = () => {
-  const { fetchAllOrdersWithoutPagination, allOrders } = useOrderStore();
+  const { fetchAllOrdersWithoutPagination, chartOrders: allOrders } = useOrderStore();
   const [timeframe, setTimeframe] = useState("monthly");
   const [statusCounts, setStatusCounts] = useState({});
 

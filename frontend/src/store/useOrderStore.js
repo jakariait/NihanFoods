@@ -23,8 +23,10 @@ const useOrderStore = create((set, get) => ({
     cancelled: 0,
   },
 
-  // All orders regardless of status
+  // All orders regardless of status (paginated — used by AllOrders list)
   allOrders: [],
+  // All orders for charts/analytics (never overwrites paginated allOrders)
+  chartOrders: [],
   totalOrders: 0,
   totalPages: 1,
   currentPage: 1,
@@ -176,34 +178,11 @@ const useOrderStore = create((set, get) => ({
       });
 
       if (res.data.success) {
-        const { orders, totalOrders, totalPages, currentPage } = res.data;
-
-        if (status) {
-          set((state) => ({
-            orderListByStatus: {
-              ...state.orderListByStatus,
-              [status]: orders || [],
-            },
-            totalByStatus: {
-              ...state.totalByStatus,
-              [status]: totalOrders || 0,
-            },
-            totalOrders: totalOrders || 0,
-            totalPages: totalPages || 1,
-            currentPage: currentPage || 1,
-            itemsPerPage: limit || 10,
-            orderListLoading: false,
-          }));
-        } else {
-          set({
-            allOrders: orders || [],
-            totalOrders: totalOrders || 0,
-            totalPages: totalPages || 1,
-            currentPage: currentPage || 1,
-            itemsPerPage: limit || 10,
-            orderListLoading: false,
-          });
-        }
+        const { orders } = res.data;
+        set({
+          chartOrders: orders || [],
+          orderListLoading: false,
+        });
       } else {
         set({
           orderListError: "Failed to fetch orders",

@@ -16,14 +16,14 @@ const SendToCourierButton = ({ orderData, onSuccess }) => {
   const [open, setOpen] = useState(false);
   const [note, setNote] = useState(orderData.note || "");
   const [sent, setSent] = useState(orderData.courier_status || false);
-  const [showDeliveryStatus, setShowDeliveryStatus] = useState(orderData.courier_status || false);
   const {
     status: deliveryStatus,
     loading: statusLoading,
     refetch,
-  } = useCourierStatus(orderData, sent, true);
+  } = useCourierStatus(orderData, sent, sent);
   const [selectedCourier, setSelectedCourier] = useState("steadfast");
   const [pathaoStoreId, setPathaoStoreId] = useState(null);
+  const [pathaoConfigLoaded, setPathaoConfigLoaded] = useState(false);
 
   const [snackbar, setSnackbar] = useState({
     open: false,
@@ -34,22 +34,26 @@ const SendToCourierButton = ({ orderData, onSuccess }) => {
   const apiURL = import.meta.env.VITE_API_URL;
   const { token } = useAuthAdminStore();
 
-  useEffect(() => {
-    const fetchPathaoConfig = async () => {
-      if (!token) return;
-      try {
-        const response = await axios.get(`${apiURL}/pathao-config`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        if (response.data && response.data.data) {
-          setPathaoStoreId(response.data.data.storeId);
-        }
-      } catch (error) {
-        console.error("Failed to fetch Pathao config:", error);
+  const fetchPathaoConfig = async () => {
+    if (!token || pathaoConfigLoaded) return;
+    try {
+      const response = await axios.get(`${apiURL}/pathao-config`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (response.data && response.data.data) {
+        setPathaoStoreId(response.data.data.storeId);
+        setPathaoConfigLoaded(true);
       }
-    };
-    fetchPathaoConfig();
-  }, [apiURL, token]);
+    } catch (error) {
+      console.error("Failed to fetch Pathao config:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (open && !pathaoConfigLoaded && token) {
+      fetchPathaoConfig();
+    }
+  }, [open, pathaoConfigLoaded, token]);
 
   const handleButtonClick = () => {
     if (!sent) {
@@ -254,15 +258,13 @@ const SendToCourierButton = ({ orderData, onSuccess }) => {
               </span>
             ) : (
               <>
-                {showDeliveryStatus && deliveryStatus ? (
+                {deliveryStatus ? (
                   <>
-                    <span className="font-semibold">{deliveryStatus} {" "}</span>
-                    <span className="font-semibold">
-                      | {orderData.courierProvider}
-                    </span>
+                    <span className="font-semibold">{deliveryStatus}</span>
+                    <span className="font-semibold"> | {orderData.courierProvider}</span>
                   </>
                 ) : (
-                  "Sent to Courier"
+                  <span>Sent to Courier{orderData.courierProvider ? ` | ${orderData.courierProvider}` : ""}</span>
                 )}
               </>
             )}

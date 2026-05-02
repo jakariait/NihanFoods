@@ -1,16 +1,17 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import axios from "axios";
-import useAuthAdminStore from "./AuthAdminStore.js";
 
 const useCourierStatus = (orderData, sent, initialFetch = true) => {
   const [deliveryStatus, setDeliveryStatus] = useState(null);
   const [loading, setLoading] = useState(false);
 
   const apiURL = import.meta.env.VITE_API_URL;
-  const { token } = useAuthAdminStore();
+  const hasFetchedRef = useRef(false);
+  const tokenRef = useRef(localStorage.getItem("token"));
 
   const fetchOrderStatus = useCallback(async () => {
-    if (!orderData?.order_id || !sent) {
+    const token = tokenRef.current;
+    if (!orderData?.order_id || !sent || !token) {
       setDeliveryStatus(null);
       return;
     }
@@ -44,13 +45,14 @@ const useCourierStatus = (orderData, sent, initialFetch = true) => {
     } finally {
       setLoading(false);
     }
-  }, [sent, orderData, apiURL, token]);
+  }, [sent, orderData, apiURL]);
 
   useEffect(() => {
-    if (initialFetch) {
+    if (initialFetch && sent && !hasFetchedRef.current) {
+      hasFetchedRef.current = true;
       fetchOrderStatus();
     }
-  }, [fetchOrderStatus, initialFetch]);
+  }, [initialFetch, sent, fetchOrderStatus]);
 
   return { status: deliveryStatus, loading, refetch: fetchOrderStatus };
 };

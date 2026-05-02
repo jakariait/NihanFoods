@@ -5,7 +5,7 @@ import useOrderStore from "../../store/useOrderStore.js";
 import dayjs from "dayjs";
 
 const MostSoldProductsPieChart = () => {
-  const { fetchAllOrdersWithoutPagination, allOrders } = useOrderStore();
+  const { fetchAllOrdersWithoutPagination, chartOrders: allOrders } = useOrderStore();
   const [productSales, setProductSales] = useState([]);
   const [totalSold, setTotalSold] = useState(0);
   const [hoveredSlice, setHoveredSlice] = useState(null);

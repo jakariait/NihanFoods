@@ -121,14 +121,11 @@ const AdminNewOrderCreate = () => {
         },
       });
       if (res.data?.success) {
-        console.log("Products fetched:", res.data.products); // Debug log
         setProducts(res.data.products || []);
       } else {
-        console.error("Product fetch failed:", res.data);
-        showSnackbar("Failed to fetch products", "error");
+          showSnackbar("Failed to fetch products", "error");
       }
     } catch (err) {
-      console.error("Product fetch error:", err);
       showSnackbar(
         err.response?.data?.message || "Failed to fetch products",
         "error",
@@ -167,14 +164,11 @@ const AdminNewOrderCreate = () => {
       const res = await axios.get(`${apiUrl}/getVatPercentage`);
       if (res.data?.success && res.data.data) {
         const vatValue = res.data.data.percentage || res.data.data.value || 0;
-        console.log("VAT fetched:", vatValue); // Debug log
         setVatPercentage(parseFloat(vatValue) || 0);
       } else {
-        console.error("VAT fetch failed:", res.data);
         setVatPercentage(0);
       }
     } catch (err) {
-      console.error("Failed to fetch VAT percentage", err);
       setVatPercentage(0);
     }
   };
@@ -190,9 +184,6 @@ const AdminNewOrderCreate = () => {
    // Helper function to build variant name from size
    const getVariantName = (variant) => {
      if (!variant) return "Unknown";
-
-     // Debug log
-     console.log("Variant data:", { _id: variant._id, size: variant.size, price: variant.price, discount: variant.discount });
 
      // If variant has size reference populated, use it
      if (variant.size) {
@@ -283,18 +274,6 @@ const AdminNewOrderCreate = () => {
 
     // Total = subtotal - discount + vat + delivery
     const total = subtotal + deliveryCharge + vat - discount;
-
-    // Debug logging
-    console.log("Calculate Totals Debug:", {
-      selectedShipping,
-      deliveryCharge,
-      subtotal,
-      discount,
-      amountAfterDiscount,
-      vatPercent,
-      vat,
-      total,
-    });
 
     setCalculatedTotals({
       subtotal: Math.round(subtotal * 100) / 100,
