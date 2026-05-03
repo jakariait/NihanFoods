@@ -1038,15 +1038,9 @@ const AllOrders = ({ title, status = "" }) => {
                           />
                         </TableCell>
                         <TableCell>
-                          {order.sentToCourier ? (
-                            <CourierSummery
-                              phone={order.shippingInfo?.mobileNo}
-                            />
-                          ) : (
-                            <Typography variant="caption" color="textSecondary">
-                              Not sent
-                            </Typography>
-                          )}
+                          <CourierSummery
+                            phone={order.shippingInfo?.mobileNo}
+                          />
                         </TableCell>
                         <TableCell>
                           <OrderStatusSelector
