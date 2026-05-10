@@ -24,7 +24,6 @@ import {
   Chip,
   InputAdornment,
   IconButton,
-  CircularProgress,
   Checkbox,
 } from "@mui/material";
 import { Skeleton } from "@mui/material";
@@ -41,7 +40,6 @@ import { useNavigate } from "react-router-dom";
 import useOrderStore from "../../store/useOrderStore.js";
 import RequirePermission from "./RequirePermission.jsx";
 import SendToCourierButton from "./SendToCourierButton.jsx";
-import CourierStats from "./CourierStats.jsx";
 import OrderStatusSelector from "./OrderStatusSelector.jsx";
 import CourierSummery from "./CourierSummery.jsx";
 
@@ -1035,6 +1033,7 @@ const AllOrders = ({ title, status = "" }) => {
                               courierProvider: order.courierProvider,
                             }}
                             onSuccess={handleSuccess}
+                            refetchOrders={fetchOrders}
                           />
                         </TableCell>
                         <TableCell>

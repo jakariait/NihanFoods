@@ -11,7 +11,7 @@ import {
 import useCourierStatus from "../../store/useCourierStatus.js";
 import useAuthAdminStore from "../../store/AuthAdminStore.js";
 
-const SendToCourierButton = ({ orderData, onSuccess }) => {
+const SendToCourierButton = ({ orderData, onSuccess, refetchOrders }) => {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [note, setNote] = useState(orderData.note || "");
@@ -20,7 +20,7 @@ const SendToCourierButton = ({ orderData, onSuccess }) => {
     status: deliveryStatus,
     loading: statusLoading,
     refetch,
-  } = useCourierStatus(orderData, sent, sent);
+  } = useCourierStatus(orderData, sent, sent, refetchOrders);
   const [selectedCourier, setSelectedCourier] = useState("steadfast");
   const [pathaoStoreId, setPathaoStoreId] = useState(null);
   const [pathaoConfigLoaded, setPathaoConfigLoaded] = useState(false);
