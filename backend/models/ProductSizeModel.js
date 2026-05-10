@@ -3,6 +3,7 @@ const dataSchema = new mongoose.Schema(
   {
     name: { type: String, trim: true, required: true, unique: true },
     isActive: { type: Boolean, default: true, required: true },
+    showOnPublic: { type: Boolean, default: true, required: true },
   },
   {
     timestamps: true,

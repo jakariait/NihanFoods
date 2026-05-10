@@ -238,7 +238,9 @@ const SinglePageCheckout = ({ product }) => {
           <div className="bg-green-100 rounded-2xl p-4">
             <h2 className="text-xl font-bold mb-4">পণ্য নির্বাচন করুন</h2>
             <div className="flex flex-col gap-3 sm:gap-4">
-              {product.variants?.map((variant) => {
+              {product.variants
+                ?.filter((variant) => variant.size?.showOnPublic !== false)
+                .map((variant) => {
                 const isSelected =
                   selectedVariant?.size?.name === variant.size.name;
 

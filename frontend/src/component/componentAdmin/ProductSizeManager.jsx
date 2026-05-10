@@ -77,6 +77,9 @@ const ProductSizeManager = () => {
                     <b>Name</b>
                   </TableCell>
                   <TableCell>
+                    <b>Show on Public</b>
+                  </TableCell>
+                  <TableCell>
                     <b>Active</b>
                   </TableCell>
                   <TableCell>
@@ -90,6 +93,7 @@ const ProductSizeManager = () => {
                   .map((size) => (
                     <TableRow key={size._id}>
                       <TableCell>{size.name}</TableCell>
+                      <TableCell>{size.showOnPublic ? "Yes" : "No"}</TableCell>
                       <TableCell>{size.isActive ? "Yes" : "No"}</TableCell>
                       <TableCell>
                         <IconButton

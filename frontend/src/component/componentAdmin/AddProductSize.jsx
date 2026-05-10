@@ -6,16 +6,21 @@ import {
   Button,
   Snackbar,
   CircularProgress,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
 } from "@mui/material";
 
 const AddProductSize = () => {
   const { createProductSize, loading, error } = useProductSizeStore();
   const [name, setName] = useState("");
+  const [showOnPublic, setShowOnPublic] = useState(true);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const navigate = useNavigate();
 
-  const data = { name }; // Only sending 'name'
+  const data = { name, showOnPublic };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -27,10 +32,10 @@ const AddProductSize = () => {
     }
 
     try {
-      await createProductSize(data); // Call to the store method
+      await createProductSize(data);
       setSnackbarMessage("Product size added successfully!");
       setOpenSnackbar(true);
-      setTimeout(() => navigate("/admin/product-sizes"), 2000); // Redirect after success
+      setTimeout(() => navigate("/admin/product-sizes"), 2000);
     } catch (err) {
       setSnackbarMessage(error || "Failed to add product size");
       setOpenSnackbar(true);
@@ -53,6 +58,18 @@ const AddProductSize = () => {
           error={!name}
           helperText={!name ? "Product size name is required" : ""}
         />
+
+        <FormControl fullWidth>
+          <InputLabel>Show on Public</InputLabel>
+          <Select
+            value={showOnPublic ? "true" : "false"}
+            onChange={(e) => setShowOnPublic(e.target.value === "true")}
+            label="Show on Public"
+          >
+            <MenuItem value="true">Yes</MenuItem>
+            <MenuItem value="false">No</MenuItem>
+          </Select>
+        </FormControl>
 
         <div className="flex justify-center">
           <Button

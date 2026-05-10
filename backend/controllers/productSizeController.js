@@ -1,13 +1,12 @@
 const productSizeService = require('../services/ProductSizeService');
 
-// Create Product Size
 const createProductSize = async (req, res) => {
   try {
-    const { name, isActive } = req.body; // Added isActive field
+    const { name, isActive, showOnPublic } = req.body;
     if (!name) {
       return res.status(400).json({ message: "Product Size name is required" });
     }
-    const newProductSize = await productSizeService.createProductSize(name, isActive); // Passing isActive to service
+    const newProductSize = await productSizeService.createProductSize(name, isActive, showOnPublic);
     return res.status(201).json({
       message: "Product Size created successfully",
       productSize: newProductSize
@@ -18,15 +17,14 @@ const createProductSize = async (req, res) => {
   }
 };
 
-// Update Product Size by ID
 const updateProductSize = async (req, res) => {
   try {
     const { id } = req.params;
-    const { name, isActive } = req.body; // Added isActive field
+    const { name, isActive, showOnPublic } = req.body;
     if (!name) {
       return res.status(400).json({ message: "Product Size name is required" });
     }
-    const updatedProductSize = await productSizeService.updateProductSize(id, name, isActive); // Passing isActive to service
+    const updatedProductSize = await productSizeService.updateProductSize(id, name, isActive, showOnPublic);
     if (!updatedProductSize) {
       return res.status(404).json({ message: 'Product Size not found' });
     }
@@ -40,7 +38,6 @@ const updateProductSize = async (req, res) => {
   }
 };
 
-// Get All Product Sizes
 const getAllProductSizes = async (req, res) => {
   try {
     const productSizes = await productSizeService.getAllProductSizes();
@@ -54,7 +51,6 @@ const getAllProductSizes = async (req, res) => {
   }
 };
 
-// Get Product Size by ID
 const getProductSizeById = async (req, res) => {
   try {
     const { id } = req.params;
@@ -72,7 +68,6 @@ const getProductSizeById = async (req, res) => {
   }
 };
 
-// Delete Product Size by ID
 const deleteProductSize = async (req, res) => {
   try {
     const { id } = req.params;

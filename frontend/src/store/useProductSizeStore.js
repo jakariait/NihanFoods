@@ -60,7 +60,7 @@ const useProductSizeStore = create((set) => ({
         headers: { Authorization: `Bearer ${token}` },
       });
       set((state) => ({
-        productSizes: [...state.productSizes, response.data],
+        productSizes: [...state.productSizes, response.data.productSize],
         loading: false,
       }));
     } catch (error) {

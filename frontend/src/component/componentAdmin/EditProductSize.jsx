@@ -17,29 +17,27 @@ const EditProductSize = () => {
   const navigate = useNavigate();
   const { selectedProductSize, fetchProductSizeById, updateProductSize, loading, error } = useProductSizeStore();
 
-  // Local state to handle form input values
   const [name, setName] = useState('');
-  const [isActive, setIsActive] = useState(true); // Default to active status
+  const [isActive, setIsActive] = useState(true);
+  const [showOnPublic, setShowOnPublic] = useState(true);
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [openSnackbar, setOpenSnackbar] = useState(false);
 
-  // Fetch product size by ID when the component is mounted
   useEffect(() => {
     const fetchData = async () => {
-      await fetchProductSizeById(id); // Fetch the product size data
+      await fetchProductSizeById(id);
     };
     fetchData();
   }, [fetchProductSizeById, id]);
 
-  // Set initial values for name and isActive when selectedProductSize changes
   useEffect(() => {
     if (selectedProductSize) {
       setName(selectedProductSize.name);
-      setIsActive(selectedProductSize.isActive); // Ensure isActive is a boolean
+      setIsActive(selectedProductSize.isActive);
+      setShowOnPublic(selectedProductSize.showOnPublic);
     }
   }, [selectedProductSize]);
 
-  // Handle form submission to update the product size
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -49,13 +47,12 @@ const EditProductSize = () => {
       return;
     }
 
-    const data = { name, isActive }; // Data to be sent to the backend
+    const data = { name, isActive, showOnPublic };
     try {
-      await updateProductSize(id, data); // Update product size
+      await updateProductSize(id, data);
       setSnackbarMessage('Product size updated successfully!');
       setOpenSnackbar(true);
 
-      // Delay the redirect to show Snackbar
       setTimeout(() => {
         navigate('/admin/product-sizes');
       }, 3000);
@@ -83,7 +80,6 @@ const EditProductSize = () => {
         Edit Product Size
       </h1>
       <form onSubmit={handleSubmit} className="space-y-6 flex flex-col gap-5">
-        {/* Product Size Name */}
         <TextField
           label="Product Size Name"
           value={name}
@@ -95,12 +91,11 @@ const EditProductSize = () => {
           helperText={!name ? 'Product size name is required' : ''}
         />
 
-        {/* Status Select */}
         <FormControl fullWidth>
           <InputLabel>Status</InputLabel>
           <Select
-            value={isActive ? 'true' : 'false'} // Convert boolean to string for Select component
-            onChange={(e) => setIsActive(e.target.value === 'true')} // Ensure it's boolean
+            value={isActive ? 'true' : 'false'}
+            onChange={(e) => setIsActive(e.target.value === 'true')}
             label="Status"
           >
             <MenuItem value="true">Active</MenuItem>
@@ -108,7 +103,18 @@ const EditProductSize = () => {
           </Select>
         </FormControl>
 
-        {/* Submit Button */}
+        <FormControl fullWidth>
+          <InputLabel>Show on Public</InputLabel>
+          <Select
+            value={showOnPublic ? 'true' : 'false'}
+            onChange={(e) => setShowOnPublic(e.target.value === 'true')}
+            label="Show on Public"
+          >
+            <MenuItem value="true">Yes</MenuItem>
+            <MenuItem value="false">No</MenuItem>
+          </Select>
+        </FormControl>
+
         <div className="flex justify-center">
           <Button
             type="submit"
@@ -122,7 +128,6 @@ const EditProductSize = () => {
         </div>
       </form>
 
-      {/* Snackbar for showing messages */}
       <Snackbar
         open={openSnackbar}
         autoHideDuration={3000}
